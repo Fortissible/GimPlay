@@ -14,8 +14,8 @@ class GameUseCase {
         self.repository = repository
     }
     
-    func getGameList(query: String, genreId: String?) async throws -> [GameModel] {
-        return try await repository.getGamesRemote(query: query, genreId: genreId)
+    func getGameList(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel] {
+        return try await repository.getGamesRemote(query: query, genreId: genreId, searchQuery: searchQuery)
     }
     
     func getGenres() async throws -> [GenreModel] {

@@ -8,7 +8,7 @@
 import Foundation
 
 class RemoteDataSource {
-    let API_KEYS = "PUT_YOUR_API_KEY_HERE"
+    let API_KEYS = "INSERT_YOUR_API_KEY_HERE"
     let BASE_URL = "https://api.rawg.io/api"
     
     lazy var queryItems: [URLQueryItem] = [
@@ -28,29 +28,20 @@ class RemoteDataSource {
         
         let decoder = JSONDecoder()
         
-        do {
-            let decodedData = try JSONDecoder().decode(T.self, from: data)
-            print("Decoded Data:", decodedData)
-        } catch let DecodingError.dataCorrupted(context) {
-            print("Data Corrupted Error: \(context)")
-        } catch let DecodingError.keyNotFound(key, context) {
-            print("Key '\(key.stringValue)' not found: \(context.debugDescription)")
-        } catch let DecodingError.typeMismatch(type, context) {
-            print("Type mismatch for type \(type): \(context.debugDescription)")
-        } catch let DecodingError.valueNotFound(type, context) {
-            print("Value not found for type \(type): \(context.debugDescription)")
-        } catch {
-            print("Decoding Error: \(error)")
-        }
+//        JSONParsingChecker(classes: T.self, data: data) // USE FOR CHECK DATA JSON PARSING ERROR
         
         let result = try decoder.decode(T.self, from: data)
         
         return result
     }
     
-    func getGamesFromApi(query: String, genreId: String?) async throws -> GamesRes {
+    func getGamesFromApi(query: String, genreId: String?, searchQuery: String?) async throws -> GamesRes {
         let endpoints = "/games"
         var components = URLComponents(string: "\(BASE_URL)\(endpoints)")!
+        
+        if searchQuery != nil {
+            queryItems.append(URLQueryItem(name: "search", value: searchQuery))
+        }
         
         if query == "released" {
             queryItems.append(URLQueryItem(name: "ordering", value: "-released"))

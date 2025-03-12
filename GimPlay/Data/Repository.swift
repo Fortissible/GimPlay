@@ -14,8 +14,8 @@ class Repository : IRepository {
         self.remoteDataSource = remoteDS
     }
     
-    func getGamesRemote(query: String, genreId: String?) async throws -> [GameModel] {
-        let result = try await remoteDataSource.getGamesFromApi(query: query, genreId: genreId)
+    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel] {
+        let result = try await remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery)
         
         return mapGameResToGameModel(res: result)
     }

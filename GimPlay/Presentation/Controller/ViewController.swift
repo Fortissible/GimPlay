@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var gamesTableView: UITableView!
     @IBOutlet weak var filterList: UIStackView!
     
+    private var searchBarQuery: String? = nil
     private var selectedFilter: Int = 0
     private var filterButtons: [UIButton] = []
     
@@ -29,7 +30,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        createSearchBar()
+        
         filterList.spacing = 4
         filterList.distribution = .fillEqually
         for (idx, _) in GameFilterList.allCases.enumerated() {
@@ -95,6 +97,8 @@ class ViewController: UIViewController {
             case "moveToGenre":
                 if let genreViewController = segue.destination as? GenreViewController {
                     genreViewController.genreData = sender as? (Int, String)
+                    genreViewController.searchQueryData =
+                        sender as? String
 
                 }
                 break
@@ -103,6 +107,12 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func openSteamWebsite(_ sender: Any) {
+        let shopUrl = "https://store.steampowered.com"
+        if let url = URL(string: shopUrl), UIApplication.shared.canOpenURL(url) {
+          UIApplication.shared.open(url)
+        }
+    }
     @objc fileprivate func filterBtnTapped(_ sender: UIButton) {
         let filterValue = GameFilterList.fromIndex(sender.tag)
         for btn in filterButtons {
@@ -122,9 +132,18 @@ class ViewController: UIViewController {
         }
     }
     
+    func createSearchBar() {
+        let searchBar = UISearchBar()
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "Search some fun games..."
+        searchBar.delegate = self
+        
+        self.navigationItem.titleView = searchBar
+    }
+    
     func getGames(_ query: String) async {
         do {
-            games = try await gameUseCase.getGameList(query: query, genreId: nil)
+            games = try await gameUseCase.getGameList(query: query, genreId: nil, searchQuery: nil)
             
             gameTableIndicator.stopAnimating()
             gameTableIndicator.isHidden = true
@@ -185,6 +204,7 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: - Games Table View Data & UI Utils
 extension ViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return games.count
@@ -231,6 +251,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Genres Collection Data & UI Utils
 extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return genres.count
@@ -270,6 +291,24 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
         performSegue(
             withIdentifier: "moveToGenre",
             sender: (genres[indexPath.row].id, genres[indexPath.row].name)
+        )
+    }
+}
+
+// MARK: - Searchbar UI Utils
+extension ViewController : UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBarQuery = searchText
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBarQuery = nil
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSegue(
+            withIdentifier: "moveToGenre",
+            sender: searchBarQuery
         )
     }
 }

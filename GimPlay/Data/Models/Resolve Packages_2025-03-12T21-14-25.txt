@@ -1,0 +1,24 @@
+
+Showing Recent Issues
+PackageIndex.findPackages failed: featureDisabled
+
+PackageIndex.findPackages failed: featureDisabled
+
+PackageIndex.findPackages failed: featureDisabled
+
+
+SwiftLint
+
+github.com: https://github.com/realm/SwiftLint: An unknown error occurred. http parser error: stream ended at an unexpected time (-1)
+
+Fetching from https://github.com/realm/SwiftLint
+skipping cache due to an error: https://github.com/realm/SwiftLint: An unknown error occurred. http parser error: stream ended at an unexpected time (-1)
+skipping cache due to an error: https://github.com/realm/SwiftLint: An unknown error occurred. http parser error: stream ended at an unexpected time (-1)
+
+Fetching from https://github.com/realm/SwiftLint
+skipping cache due to an error: https://github.com/realm/SwiftLint: An unknown error occurred. http parser error: stream ended at an unexpected time (-1)
+skipping cache due to an error: https://github.com/realm/SwiftLint: An unknown error occurred. http parser error: stream ended at an unexpected time (-1)
+
+
+
+Resolving Package Graph Failed    12/03/25 21.24    598.2 seconds

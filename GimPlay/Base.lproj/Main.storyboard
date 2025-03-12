@@ -124,8 +124,18 @@
                             <constraint firstItem="PsA-A6-ShE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vFJ-kM-z1d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="1UZ-yp-7ps">
-                        <barButtonItem key="backBarButtonItem" title="Store" id="Uhb-bf-GPj"/>
+                    <navigationItem key="navigationItem" title="Title" id="aMQ-Pl-aUP">
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="h4l-7k-XjA">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hF0-WQ-wuh">
+                                <rect key="frame" x="331" y="5.6666666666666679" width="46" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="globe" catalog="system" buttonSize="mini"/>
+                                <connections>
+                                    <action selector="openSteamWebsite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ygo-oh-VpU"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="categoriesTitle" destination="x4o-q9-NL4" id="bkk-gV-bUQ"/>
@@ -150,90 +160,108 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="dZ3-Kc-fbG">
-                                <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
-                            </activityIndicatorView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="UcR-Ym-dhr">
-                                <rect key="frame" x="16" y="103" width="361" height="666"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PxA-98-4VL">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="afY-Hd-DKs" userLabel="Contents View">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="602"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="UcR-Ym-dhr">
+                                        <rect key="frame" x="16" y="0.0" width="361" height="1287.3333333333333"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="7Ja-bP-mnF">
-                                                <rect key="frame" x="0.0" y="0.0" width="361" height="250"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="tcJ-8J-dqx"/>
-                                                </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Publisher Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTp-9Q-cVX">
-                                                <rect key="frame" x="0.0" y="266" width="361" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="32" id="GvN-AI-IgA"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.65/5 ★ - Metacritic: 94 - Reviews: 64 - Playtime: 102 Hour" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iga-kK-Z8D">
-                                                <rect key="frame" x="0.0" y="314" width="361" height="54"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="54" id="K8m-2Q-vCc"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ebc-QW-peF" userLabel="Tag Cards">
-                                                <rect key="frame" x="0.0" y="384" width="361" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="32" id="fEF-w6-j8c"/>
-                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="361" id="iFr-E4-z17"/>
-                                                </constraints>
-                                            </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lLf-Te-Wfk">
-                                                <rect key="frame" x="0.0" y="432" width="361" height="170"/>
-                                                <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ipsum dolor, blandit at tincidunt ac, viverra a urna. Integer consequat lorem in arcu dictum, vitae lobortis dui efficitur. Sed dignissim accumsan nulla, eu ultrices dui mattis quis. Mauris interdum, nunc sollicitudin tempor bibendum, risus lorem porttitor lorem, sed imperdiet quam nisi ornare velit. Duis tristique lorem a ligula volutpat malesuada. Nulla accumsan ultrices lorem lobortis elementum. Proin faucibus, est et ultricies sagittis, purus diam tristique elit, eget dictum elit massa non eros. Aenean lobortis interdum venenatis. Integer augue odio, fermentum at elit sit amet, hendrerit aliquet orci. Morbi in neque a lacus imperdiet elementum. Integer porta laoreet dictum. Aenean ultrices sem lectus, quis porttitor sapien aliquam sed. Donec vel faucibus felis, ut viverra ex. Duis eget ullamcorper lectus, sit amet condimentum elit. Praesent est erat, egestas ac turpis at, dignissim laoreet magna.
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="afY-Hd-DKs" userLabel="Contents View">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="1223.3333333333333"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="7Ja-bP-mnF">
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="250"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="250" id="tcJ-8J-dqx"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Publisher Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTp-9Q-cVX">
+                                                        <rect key="frame" x="0.0" y="266" width="361" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="32" id="GvN-AI-IgA"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.65/5 ★ - Metacritic: 94 - Reviews: 64 - Playtime: 102 Hour" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iga-kK-Z8D">
+                                                        <rect key="frame" x="0.0" y="314" width="361" height="54"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="54" id="K8m-2Q-vCc"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ebc-QW-peF" userLabel="Tag Cards">
+                                                        <rect key="frame" x="0.0" y="384" width="361" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="32" id="fEF-w6-j8c"/>
+                                                            <constraint firstAttribute="width" constant="361" id="iFr-E4-z17"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lLf-Te-Wfk">
+                                                        <rect key="frame" x="0.0" y="432.00000000000006" width="361" height="791.33333333333348"/>
+                                                        <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ipsum dolor, blandit at tincidunt ac, viverra a urna. Integer consequat lorem in arcu dictum, vitae lobortis dui efficitur. Sed dignissim accumsan nulla, eu ultrices dui mattis quis. Mauris interdum, nunc sollicitudin tempor bibendum, risus lorem porttitor lorem, sed imperdiet quam nisi ornare velit. Duis tristique lorem a ligula volutpat malesuada. Nulla accumsan ultrices lorem lobortis elementum. Proin faucibus, est et ultricies sagittis, purus diam tristique elit, eget dictum elit massa non eros. Aenean lobortis interdum venenatis. Integer augue odio, fermentum at elit sit amet, hendrerit aliquet orci. Morbi in neque a lacus imperdiet elementum. Integer porta laoreet dictum. Aenean ultrices sem lectus, quis porttitor sapien aliquam sed. Donec vel faucibus felis, ut viverra ex. Duis eget ullamcorper lectus, sit amet condimentum elit. Praesent est erat, egestas ac turpis at, dignissim laoreet magna.
 
 Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum vehicula sem eget felis efficitur sollicitudin. Phasellus blandit neque sem, in vehicula mauris rutrum ut. Nam vitae massa ut metus tristique facilisis. Nam nec nibh finibus, vulputate elit tempor, interdum neque. Sed efficitur sem malesuada felis ullamcorper dictum. Sed ut quam eu nibh fringilla iaculis. Curabitur sed viverra purus. Quisque tempus ipsum ex, sed laoreet ante elementum in. Sed ullamcorper pellentesque mi, ac ornare eros consequat quis. Nam et tempus justo. Pellentesque at mattis sem, a semper quam. Maecenas maximus mi justo, nec mollis diam tristique at. In hac habitasse platea dictumst.</string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="PTp-9Q-cVX" secondAttribute="trailing" id="LsA-PA-WId"/>
+                                                    <constraint firstItem="PTp-9Q-cVX" firstAttribute="leading" secondItem="afY-Hd-DKs" secondAttribute="leading" id="M48-b9-g6z"/>
+                                                    <constraint firstItem="Iga-kK-Z8D" firstAttribute="leading" secondItem="afY-Hd-DKs" secondAttribute="leading" id="UMU-nD-YOb"/>
+                                                    <constraint firstAttribute="trailing" secondItem="7Ja-bP-mnF" secondAttribute="trailing" id="dEi-mT-E2a"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Iga-kK-Z8D" secondAttribute="trailing" id="f07-Bd-g3h"/>
+                                                    <constraint firstItem="7Ja-bP-mnF" firstAttribute="leading" secondItem="afY-Hd-DKs" secondAttribute="leading" id="flm-Gv-ACw"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="F98-dk-9Oi" userLabel="Action Buttons">
+                                                <rect key="frame" x="0.0" y="1239.3333333333333" width="361" height="48"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNb-xM-AWC">
+                                                        <rect key="frame" x="0.0" y="0.0" width="291.33333333333331" height="48"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="filled" title="On Steam, XBOX, Epic, Etc" cornerStyle="large"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKd-zP-9ea">
+                                                        <rect key="frame" x="307.33333333333331" y="0.0" width="53.666666666666686" height="48"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="filled" image="cart.fill" catalog="system" cornerStyle="large"/>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="48" id="phh-B9-6EF"/>
+                                                </constraints>
+                                            </stackView>
                                         </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="F98-dk-9Oi" userLabel="Action Buttons">
-                                        <rect key="frame" x="0.0" y="618" width="361" height="48"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNb-xM-AWC">
-                                                <rect key="frame" x="0.0" y="0.0" width="291.33333333333331" height="48"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" title="On Steam, XBOX, Epic, Etc" cornerStyle="large"/>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKd-zP-9ea">
-                                                <rect key="frame" x="307.33333333333331" y="0.0" width="53.666666666666686" height="48"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" image="cart.fill" catalog="system" cornerStyle="large"/>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="phh-B9-6EF"/>
-                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="afY-Hd-DKs" firstAttribute="top" secondItem="UcR-Ym-dhr" secondAttribute="top" id="MKF-Kt-DkR"/>
+                                    <constraint firstAttribute="bottom" secondItem="UcR-Ym-dhr" secondAttribute="bottom" id="4uN-tR-J8r"/>
+                                    <constraint firstItem="UcR-Ym-dhr" firstAttribute="top" secondItem="PxA-98-4VL" secondAttribute="top" id="m6L-uU-dxC"/>
+                                    <constraint firstItem="UcR-Ym-dhr" firstAttribute="leading" secondItem="PxA-98-4VL" secondAttribute="leading" constant="16" id="qhX-ez-nXR"/>
+                                    <constraint firstAttribute="trailing" secondItem="UcR-Ym-dhr" secondAttribute="trailing" constant="16" id="zzX-zp-kPx"/>
                                 </constraints>
-                            </stackView>
+                                <viewLayoutGuide key="contentLayoutGuide" id="RcA-YQ-ZLI"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="kZS-Ga-65W"/>
+                            </scrollView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="dZ3-Kc-fbG">
+                                <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="au2-tT-7qG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="UcR-Ym-dhr" firstAttribute="top" secondItem="au2-tT-7qG" secondAttribute="top" id="IWP-Kz-5gp"/>
+                            <constraint firstItem="au2-tT-7qG" firstAttribute="bottom" secondItem="PxA-98-4VL" secondAttribute="bottom" id="3Ks-SK-2zP"/>
                             <constraint firstItem="dZ3-Kc-fbG" firstAttribute="centerX" secondItem="xM0-li-Vf6" secondAttribute="centerX" id="TjX-bD-P1B"/>
+                            <constraint firstItem="PxA-98-4VL" firstAttribute="leading" secondItem="au2-tT-7qG" secondAttribute="leading" id="Zpa-gL-pf0"/>
+                            <constraint firstItem="au2-tT-7qG" firstAttribute="trailing" secondItem="PxA-98-4VL" secondAttribute="trailing" id="bHo-JC-crs"/>
+                            <constraint firstItem="PxA-98-4VL" firstAttribute="top" secondItem="au2-tT-7qG" secondAttribute="top" id="eKK-Yb-vIr"/>
                             <constraint firstItem="dZ3-Kc-fbG" firstAttribute="centerY" secondItem="xM0-li-Vf6" secondAttribute="centerY" id="lDM-jx-B2g"/>
-                            <constraint firstItem="UcR-Ym-dhr" firstAttribute="leading" secondItem="au2-tT-7qG" secondAttribute="leading" constant="16" id="mzN-le-p4j"/>
-                            <constraint firstItem="au2-tT-7qG" firstAttribute="bottom" secondItem="UcR-Ym-dhr" secondAttribute="bottom" id="u4l-ir-auo"/>
-                            <constraint firstAttribute="trailing" secondItem="UcR-Ym-dhr" secondAttribute="trailing" constant="16" id="vdf-7g-zZn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WC2-5G-vZj"/>
@@ -414,12 +442,13 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Y55-zm-nGv"/>
+        <segue reference="a3f-ju-l7N"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="aboutme" width="1080" height="720"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="gamecontroller.fill" catalog="system" width="128" height="79"/>
+        <image name="globe" catalog="system" width="128" height="123"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="placeholder" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">

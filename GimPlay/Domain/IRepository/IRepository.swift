@@ -8,7 +8,7 @@
 import Foundation
 
 protocol IRepository {
-    func getGamesRemote(query: String, genreId: String?) async throws -> [GameModel]
+    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel]
     func getGenresRemote() async throws -> [GenreModel]
     func getGameDetailRemote(id: String) async throws -> GameDetailModel
 }

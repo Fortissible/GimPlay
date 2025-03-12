@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         if let (gameId, gameTitle) = gameData {
             self.title = String(gameTitle)
             
@@ -40,8 +40,10 @@ class DetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        gameDetailStackView.isHidden = true
-        gameIndicator.startAnimating()
+        if gameData == nil {
+            gameDetailStackView.isHidden = true
+            gameIndicator.startAnimating()
+        }
     }
     
     func getGameDetail(_ id: String) async {

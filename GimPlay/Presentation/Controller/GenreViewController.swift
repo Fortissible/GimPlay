@@ -12,6 +12,7 @@ class GenreViewController: UIViewController {
     @IBOutlet weak var gameByGenreIndicator: UIActivityIndicatorView!
     @IBOutlet weak var gameByGenreTableView: UITableView!
     
+    var searchQueryData: String? = nil
     var genreData: (Int, String)? = nil
     var games: [GameModel] = []
     
@@ -22,7 +23,6 @@ class GenreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         gameByGenreTableView.dataSource = self
         gameByGenreTableView.register(
             UINib(nibName: "GameCardViewCell", bundle: nil),
@@ -37,6 +37,22 @@ class GenreViewController: UIViewController {
             Task {
                 if games.isEmpty {
                     await getGamesByGenre(String(genreId))
+                } else {
+                    DispatchQueue.main.async {
+                        self.gameByGenreIndicator.stopAnimating()
+                        self.gameByGenreIndicator.isHidden = true
+                    }
+                }
+            }
+        }
+        
+        if let searchQueryResult = searchQueryData {
+            
+            self.title = "Search: \(searchQueryResult)"
+            
+            Task {
+                if games.isEmpty {
+                    await getGamesBySearchQuery(searchQueryResult)
                 } else {
                     DispatchQueue.main.async {
                         self.gameByGenreIndicator.stopAnimating()
@@ -61,7 +77,20 @@ class GenreViewController: UIViewController {
     
     func getGamesByGenre(_ genreId: String) async {
         do {
-            games = try await gameUseCase.getGameList(query: "lucky", genreId: genreId)
+            games = try await gameUseCase.getGameList(query: "lucky", genreId: genreId, searchQuery: nil)
+            
+            gameByGenreIndicator.stopAnimating()
+            gameByGenreIndicator.isHidden = true
+            
+            gameByGenreTableView.reloadData()
+        } catch {
+            fatalError("Error while fetch game from genres: \(error.localizedDescription)")
+        }
+    }
+    
+    func getGamesBySearchQuery(_ searchQuery: String?) async {
+        do {
+            games = try await gameUseCase.getGameList(query: "lucky", genreId: nil, searchQuery: searchQuery)
             
             gameByGenreIndicator.stopAnimating()
             gameByGenreIndicator.isHidden = true
@@ -73,6 +102,7 @@ class GenreViewController: UIViewController {
     }
 }
 
+// MARK: - Games By Genres & Search Query Table View Data & UI Utils
 extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return games.count
