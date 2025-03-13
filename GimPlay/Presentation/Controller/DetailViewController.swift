@@ -10,7 +10,10 @@ import UIKit
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var gameDetailStackView: UIStackView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var gameReleasePlaytime: UILabel!
     @IBOutlet weak var gameIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorText: UILabel!
     @IBOutlet weak var gameImage: UIImageView!
     @IBOutlet weak var gameGenreList: UIStackView!
     @IBOutlet weak var gameDesc: UILabel!
@@ -40,10 +43,10 @@ class DetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if gameData == nil {
-            gameDetailStackView.isHidden = true
-            gameIndicator.startAnimating()
-        }
+        errorText.isHidden = true
+        scrollView.isHidden = true
+        gameDetailStackView.isHidden = true
+        gameIndicator.startAnimating()
     }
     
     func getGameDetail(_ id: String) async {
@@ -53,13 +56,20 @@ class DetailViewController: UIViewController {
                 self.updateUI(detail: gameDetails)
             }
         } catch {
-            fatalError("Error while fetching game detail \(error.localizedDescription)")
+            gameIndicator.stopAnimating()
+            gameIndicator.isHidden = true
+            
+            errorText.text = error.localizedDescription
+            errorText.isHidden = false
+            
+            self.view.showToast(message: error.localizedDescription)
         }
     }
     
     fileprivate func updateUI(detail: GameDetailModel) {
         gamePublisher.text = detail.publisher
-        gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - Reviews: \(detail.reviewsCount) - Playtime: \(detail.playtime) Hours"
+        gameReleasePlaytime.text = "Released: \(detail.released), Total playtime: \(detail.playtime) Hours"
+        gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - Reviews: \(detail.reviewsCount)"
         gameDesc.text = detail.description
         var gameStores = ""
         for (idx, storeName) in
@@ -97,7 +107,9 @@ class DetailViewController: UIViewController {
         
         gameIndicator.stopAnimating()
         gameIndicator.isHidden = true
+        
         gameDetailStackView.isHidden = false
+        scrollView.isHidden = false
     }
     
     fileprivate func startDownloadImage(

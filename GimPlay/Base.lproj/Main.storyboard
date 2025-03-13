@@ -110,14 +110,25 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="PsA-A6-ShE">
                                 <rect key="frame" x="186.66666666666666" y="183" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J7N-Tj-dE2">
+                                <rect key="frame" x="159.66666666666666" y="405" width="73.666666666666657" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="Bih-FR-PTh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="enJ-4E-LCy" firstAttribute="centerY" secondItem="f8y-zh-hCw" secondAttribute="centerY" id="06q-4d-LQq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3z8-M0-RUW" secondAttribute="trailing" constant="16" id="0ij-Cr-C9Y"/>
+                            <constraint firstItem="J7N-Tj-dE2" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="GeM-Wy-5Di"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3z8-M0-RUW" secondAttribute="bottom" id="KZQ-E6-kr3"/>
                             <constraint firstItem="PsA-A6-ShE" firstAttribute="centerY" secondItem="RFj-au-H3w" secondAttribute="centerY" id="LHN-WE-9E0"/>
+                            <constraint firstItem="J7N-Tj-dE2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bty-6g-sJv"/>
                             <constraint firstItem="3z8-M0-RUW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="hd1-Ic-rxv"/>
                             <constraint firstItem="3z8-M0-RUW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="raa-5T-6Fn"/>
                             <constraint firstItem="enJ-4E-LCy" firstAttribute="centerX" secondItem="f8y-zh-hCw" secondAttribute="centerX" id="uaK-zp-qym"/>
@@ -126,7 +137,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="aMQ-Pl-aUP">
                         <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="h4l-7k-XjA">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hF0-WQ-wuh">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hF0-WQ-wuh">
                                 <rect key="frame" x="331" y="5.6666666666666679" width="46" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -139,6 +150,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="categoriesTitle" destination="x4o-q9-NL4" id="bkk-gV-bUQ"/>
+                        <outlet property="errorText" destination="J7N-Tj-dE2" id="8tA-bW-rgB"/>
                         <outlet property="filterList" destination="HZT-Is-NOT" id="CTq-N5-4KW"/>
                         <outlet property="gameTableIndicator" destination="enJ-4E-LCy" id="cPU-J1-2ua"/>
                         <outlet property="gamesTableView" destination="f8y-zh-hCw" id="7mH-Ug-ZiE"/>
@@ -164,10 +176,10 @@
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="UcR-Ym-dhr">
-                                        <rect key="frame" x="16" y="0.0" width="361" height="1287.3333333333333"/>
+                                        <rect key="frame" x="16" y="0.0" width="361" height="1335.3333333333333"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="afY-Hd-DKs" userLabel="Contents View">
-                                                <rect key="frame" x="0.0" y="0.0" width="361" height="1223.3333333333333"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="1271.3333333333333"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="7Ja-bP-mnF">
                                                         <rect key="frame" x="0.0" y="0.0" width="361" height="250"/>
@@ -184,8 +196,17 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.65/5 ★ - Metacritic: 94 - Reviews: 64 - Playtime: 102 Hour" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iga-kK-Z8D">
-                                                        <rect key="frame" x="0.0" y="314" width="361" height="54"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Released: 12/7/2025, Total Playtime: 105 Hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XmG-hZ-z0C">
+                                                        <rect key="frame" x="0.0" y="314" width="361" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="32" id="HYU-cm-J3h"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.65/5 ★ - Metacritic: 94 - Reviews: 64" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iga-kK-Z8D">
+                                                        <rect key="frame" x="0.0" y="362" width="361" height="54"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="54" id="K8m-2Q-vCc"/>
                                                         </constraints>
@@ -194,14 +215,14 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ebc-QW-peF" userLabel="Tag Cards">
-                                                        <rect key="frame" x="0.0" y="384" width="361" height="32"/>
+                                                        <rect key="frame" x="0.0" y="432" width="361" height="32"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="fEF-w6-j8c"/>
                                                             <constraint firstAttribute="width" constant="361" id="iFr-E4-z17"/>
                                                         </constraints>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lLf-Te-Wfk">
-                                                        <rect key="frame" x="0.0" y="432.00000000000006" width="361" height="791.33333333333348"/>
+                                                        <rect key="frame" x="0.0" y="480.00000000000006" width="361" height="791.33333333333348"/>
                                                         <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ipsum dolor, blandit at tincidunt ac, viverra a urna. Integer consequat lorem in arcu dictum, vitae lobortis dui efficitur. Sed dignissim accumsan nulla, eu ultrices dui mattis quis. Mauris interdum, nunc sollicitudin tempor bibendum, risus lorem porttitor lorem, sed imperdiet quam nisi ornare velit. Duis tristique lorem a ligula volutpat malesuada. Nulla accumsan ultrices lorem lobortis elementum. Proin faucibus, est et ultricies sagittis, purus diam tristique elit, eget dictum elit massa non eros. Aenean lobortis interdum venenatis. Integer augue odio, fermentum at elit sit amet, hendrerit aliquet orci. Morbi in neque a lacus imperdiet elementum. Integer porta laoreet dictum. Aenean ultrices sem lectus, quis porttitor sapien aliquam sed. Donec vel faucibus felis, ut viverra ex. Duis eget ullamcorper lectus, sit amet condimentum elit. Praesent est erat, egestas ac turpis at, dignissim laoreet magna.
 
 Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum vehicula sem eget felis efficitur sollicitudin. Phasellus blandit neque sem, in vehicula mauris rutrum ut. Nam vitae massa ut metus tristique facilisis. Nam nec nibh finibus, vulputate elit tempor, interdum neque. Sed efficitur sem malesuada felis ullamcorper dictum. Sed ut quam eu nibh fringilla iaculis. Curabitur sed viverra purus. Quisque tempus ipsum ex, sed laoreet ante elementum in. Sed ullamcorper pellentesque mi, ac ornare eros consequat quis. Nam et tempus justo. Pellentesque at mattis sem, a semper quam. Maecenas maximus mi justo, nec mollis diam tristique at. In hac habitasse platea dictumst.</string>
@@ -220,7 +241,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="F98-dk-9Oi" userLabel="Action Buttons">
-                                                <rect key="frame" x="0.0" y="1239.3333333333333" width="361" height="48"/>
+                                                <rect key="frame" x="0.0" y="1287.3333333333333" width="361" height="48"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNb-xM-AWC">
                                                         <rect key="frame" x="0.0" y="0.0" width="291.33333333333331" height="48"/>
@@ -252,20 +273,32 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="dZ3-Kc-fbG">
                                 <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hnx-hL-MOc">
+                                <rect key="frame" x="161.33333333333334" y="405" width="70.666666666666657" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="8hj-nO-gnt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="au2-tT-7qG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="au2-tT-7qG" firstAttribute="bottom" secondItem="PxA-98-4VL" secondAttribute="bottom" id="3Ks-SK-2zP"/>
+                            <constraint firstItem="hnx-hL-MOc" firstAttribute="centerX" secondItem="xM0-li-Vf6" secondAttribute="centerX" id="AH0-1r-rQr"/>
                             <constraint firstItem="dZ3-Kc-fbG" firstAttribute="centerX" secondItem="xM0-li-Vf6" secondAttribute="centerX" id="TjX-bD-P1B"/>
                             <constraint firstItem="PxA-98-4VL" firstAttribute="leading" secondItem="au2-tT-7qG" secondAttribute="leading" id="Zpa-gL-pf0"/>
                             <constraint firstItem="au2-tT-7qG" firstAttribute="trailing" secondItem="PxA-98-4VL" secondAttribute="trailing" id="bHo-JC-crs"/>
+                            <constraint firstItem="hnx-hL-MOc" firstAttribute="centerY" secondItem="xM0-li-Vf6" secondAttribute="centerY" id="e1H-Gc-Cvh"/>
                             <constraint firstItem="PxA-98-4VL" firstAttribute="top" secondItem="au2-tT-7qG" secondAttribute="top" id="eKK-Yb-vIr"/>
                             <constraint firstItem="dZ3-Kc-fbG" firstAttribute="centerY" secondItem="xM0-li-Vf6" secondAttribute="centerY" id="lDM-jx-B2g"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WC2-5G-vZj"/>
                     <connections>
+                        <outlet property="errorText" destination="hnx-hL-MOc" id="oDC-Ih-B1Z"/>
                         <outlet property="gameCartBtn" destination="TKd-zP-9ea" id="Lht-dE-rnt"/>
                         <outlet property="gameDesc" destination="lLf-Te-Wfk" id="gD9-5f-rMw"/>
                         <outlet property="gameDetailStackView" destination="UcR-Ym-dhr" id="PwF-Jz-n7E"/>
@@ -273,8 +306,10 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <outlet property="gameImage" destination="7Ja-bP-mnF" id="pee-Sh-wJv"/>
                         <outlet property="gameIndicator" destination="dZ3-Kc-fbG" id="vNH-rl-ZoJ"/>
                         <outlet property="gamePublisher" destination="PTp-9Q-cVX" id="jmc-oJ-dNW"/>
+                        <outlet property="gameReleasePlaytime" destination="XmG-hZ-z0C" id="F3o-Rk-DuX"/>
                         <outlet property="gameReviews" destination="Iga-kK-Z8D" id="yNI-Dy-SHE"/>
                         <outlet property="gameStoreList" destination="aNb-xM-AWC" id="xV7-fI-LaR"/>
+                        <outlet property="scrollView" destination="PxA-98-4VL" id="l2D-Hl-dPK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hje-pF-ExZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -414,6 +449,15 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODD-zD-mdd">
+                                <rect key="frame" x="161.33333333333334" y="405" width="70.666666666666657" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="K3H-8Y-czl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="IYf-yy-MGo">
                                 <rect key="frame" x="186.66666666666666" y="426" width="20" height="20"/>
                             </activityIndicatorView>
@@ -421,8 +465,10 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <viewLayoutGuide key="safeArea" id="0uN-gc-stB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ODD-zD-mdd" firstAttribute="centerY" secondItem="oJv-vJ-UhH" secondAttribute="centerY" id="01g-cm-Yqj"/>
                             <constraint firstItem="0uN-gc-stB" firstAttribute="trailing" secondItem="PJt-ws-fA4" secondAttribute="trailing" id="30S-fA-cfz"/>
                             <constraint firstItem="IYf-yy-MGo" firstAttribute="centerX" secondItem="PJt-ws-fA4" secondAttribute="centerX" id="7Ze-GR-TZK"/>
+                            <constraint firstItem="ODD-zD-mdd" firstAttribute="centerX" secondItem="oJv-vJ-UhH" secondAttribute="centerX" id="8m9-UA-z7K"/>
                             <constraint firstItem="IYf-yy-MGo" firstAttribute="centerY" secondItem="PJt-ws-fA4" secondAttribute="centerY" id="BmO-sf-JcI"/>
                             <constraint firstItem="0uN-gc-stB" firstAttribute="bottom" secondItem="PJt-ws-fA4" secondAttribute="bottom" id="YCE-lu-8Bz"/>
                             <constraint firstItem="PJt-ws-fA4" firstAttribute="leading" secondItem="0uN-gc-stB" secondAttribute="leading" id="gBS-6Q-FPL"/>
@@ -433,6 +479,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                     <connections>
                         <outlet property="gameByGenreIndicator" destination="IYf-yy-MGo" id="8P2-fg-Ton"/>
                         <outlet property="gameByGenreTableView" destination="PJt-ws-fA4" id="rbZ-K3-Mr0"/>
+                        <outlet property="textError" destination="ODD-zD-mdd" id="WMZ-r4-uGe"/>
                         <segue destination="uLO-ky-rri" kind="show" identifier="moveToDetailFromGenre" id="Y55-zm-nGv"/>
                     </connections>
                 </viewController>
@@ -459,6 +506,9 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

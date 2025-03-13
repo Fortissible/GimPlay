@@ -9,6 +9,7 @@ import UIKit
 
 class GenreViewController: UIViewController {
     
+    @IBOutlet weak var textError: UILabel!
     @IBOutlet weak var gameByGenreIndicator: UIActivityIndicatorView!
     @IBOutlet weak var gameByGenreTableView: UITableView!
     
@@ -64,6 +65,7 @@ class GenreViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        textError.isHidden = true
         gameByGenreIndicator.startAnimating()
     }
     
@@ -84,7 +86,13 @@ class GenreViewController: UIViewController {
             
             gameByGenreTableView.reloadData()
         } catch {
-            fatalError("Error while fetch game from genres: \(error.localizedDescription)")
+            gameByGenreIndicator.stopAnimating()
+            gameByGenreIndicator.isHidden = true
+            
+            textError.text = error.localizedDescription
+            textError.isHidden = false
+            
+            self.view.showToast(message: error.localizedDescription)
         }
     }
     
@@ -97,7 +105,13 @@ class GenreViewController: UIViewController {
             
             gameByGenreTableView.reloadData()
         } catch {
-            fatalError("Error while fetch game from genres: \(error.localizedDescription)")
+            gameByGenreIndicator.stopAnimating()
+            gameByGenreIndicator.isHidden = true
+            
+            textError.text = error.localizedDescription
+            textError.isHidden = false
+            
+            self.view.showToast(message: error.localizedDescription)
         }
     }
 }

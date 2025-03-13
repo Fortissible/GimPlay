@@ -11,6 +11,8 @@
 		A0253DA52D7EC219001D29F5 /* GenreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0253DA42D7EC219001D29F5 /* GenreCollectionViewCell.swift */; };
 		A02ECFF52D7E7DA80023320F /* NetworkState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02ECFF42D7E7DA80023320F /* NetworkState.swift */; };
 		A02ECFF72D7E7F5E0023320F /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02ECFF62D7E7F5E0023320F /* ImageDownloader.swift */; };
+		A03E5C6F2D8395CA00CFFA3E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03E5C6E2D8395CA00CFFA3E /* NetworkError.swift */; };
+		A03E5C712D8398BA00CFFA3E /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03E5C702D8398BA00CFFA3E /* Toast.swift */; };
 		A0409EF52D7F4EE700FC4DF6 /* GameFilterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0409EF42D7F4EE700FC4DF6 /* GameFilterList.swift */; };
 		A05358362D79A171003A31DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05358352D79A171003A31DF /* AppDelegate.swift */; };
 		A05358382D79A171003A31DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05358372D79A171003A31DF /* SceneDelegate.swift */; };
@@ -41,6 +43,8 @@
 		A0253DA42D7EC219001D29F5 /* GenreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreCollectionViewCell.swift; sourceTree = "<group>"; };
 		A02ECFF42D7E7DA80023320F /* NetworkState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkState.swift; sourceTree = "<group>"; };
 		A02ECFF62D7E7F5E0023320F /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		A03E5C6E2D8395CA00CFFA3E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		A03E5C702D8398BA00CFFA3E /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		A0409EF42D7F4EE700FC4DF6 /* GameFilterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFilterList.swift; sourceTree = "<group>"; };
 		A05358322D79A171003A31DF /* GimPlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GimPlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A05358352D79A171003A31DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 				A05358532D7AC4EA003A31DF /* GameCardViewCell.swift */,
 				A05358542D7AC4EA003A31DF /* GameCardViewCell.xib */,
 				A0253DA42D7EC219001D29F5 /* GenreCollectionViewCell.swift */,
+				A03E5C702D8398BA00CFFA3E /* Toast.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				A02ECFF42D7E7DA80023320F /* NetworkState.swift */,
 				A02ECFF62D7E7F5E0023320F /* ImageDownloader.swift */,
 				A0A6A3972D81DF8E00BC8BCD /* JSONParsingChecker.swift */,
+				A03E5C6E2D8395CA00CFFA3E /* NetworkError.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -310,6 +316,7 @@
 				A0409EF52D7F4EE700FC4DF6 /* GameFilterList.swift in Sources */,
 				A05358652D7AF986003A31DF /* GameUseCase.swift in Sources */,
 				A02ECFF72D7E7F5E0023320F /* ImageDownloader.swift in Sources */,
+				A03E5C6F2D8395CA00CFFA3E /* NetworkError.swift in Sources */,
 				A01EBA1B2D7E9AFF002C36AD /* DownloadableImage.swift in Sources */,
 				A05358582D7AE6FA003A31DF /* RemoteDataSource.swift in Sources */,
 				A055FB6B2D80EFBD0000294F /* DetailViewController.swift in Sources */,
@@ -322,6 +329,7 @@
 				A0D8403F2D7DA8480079689D /* GenreResModel.swift in Sources */,
 				A053585C2D7AF31B003A31DF /* GameModel.swift in Sources */,
 				A05358672D7AFA0C003A31DF /* GameDetailResModel.swift in Sources */,
+				A03E5C712D8398BA00CFFA3E /* Toast.swift in Sources */,
 				A0A6A3982D81DF8E00BC8BCD /* JSONParsingChecker.swift in Sources */,
 				A05358382D79A171003A31DF /* SceneDelegate.swift in Sources */,
 			);

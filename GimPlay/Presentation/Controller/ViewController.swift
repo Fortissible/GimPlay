@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var genreIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorText: UILabel!
     @IBOutlet weak var gameTableIndicator: UIActivityIndicatorView!
     @IBOutlet weak var genresCollectionView: UICollectionView!
     @IBOutlet weak var categoriesTitle: UILabel!
@@ -64,6 +65,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        errorText.isHidden = true
         gameTableIndicator.startAnimating()
         genreIndicator.startAnimating()
         
@@ -150,7 +152,15 @@ class ViewController: UIViewController {
             
             gamesTableView.reloadData()
         } catch {
-            fatalError("Error while fetching games \(error.localizedDescription)")
+            gameTableIndicator.stopAnimating()
+            genreIndicator.stopAnimating()
+            gameTableIndicator.isHidden = true
+            genreIndicator.isHidden = true
+            
+            errorText.text = error.localizedDescription
+            errorText.isHidden = false
+            
+            self.view.showToast(message: error.localizedDescription)
         }
     }
     
@@ -163,7 +173,15 @@ class ViewController: UIViewController {
             
             genresCollectionView.reloadData()
         } catch {
-            fatalError("Error while fetching genres: \(error.localizedDescription)")
+            gameTableIndicator.stopAnimating()
+            genreIndicator.stopAnimating()
+            gameTableIndicator.isHidden = true
+            genreIndicator.isHidden = true
+            
+            errorText.text = error.localizedDescription
+            errorText.isHidden = false
+            
+            self.view.showToast(message: error.localizedDescription)
         }
     }
     

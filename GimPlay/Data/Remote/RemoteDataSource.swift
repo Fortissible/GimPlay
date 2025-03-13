@@ -8,7 +8,7 @@
 import Foundation
 
 class RemoteDataSource {
-    let API_KEYS = "INSERT_YOUR_API_KEY_HERE"
+    let API_KEYS = "INSERT_YOUR_TOKEN_HERE"
     let BASE_URL = "https://api.rawg.io/api"
     
     lazy var queryItems: [URLQueryItem] = [
@@ -23,16 +23,19 @@ class RemoteDataSource {
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error when fetching data!")
+            throw NetworkError.connectionFailed
         }
         
         let decoder = JSONDecoder()
         
 //        JSONParsingChecker(classes: T.self, data: data) // USE FOR CHECK DATA JSON PARSING ERROR
         
-        let result = try decoder.decode(T.self, from: data)
-        
-        return result
+        do {
+            let result = try decoder.decode(T.self, from: data)
+            return result
+        } catch {
+            throw NetworkError.decodingError
+        }
     }
     
     func getGamesFromApi(query: String, genreId: String?, searchQuery: String?) async throws -> GamesRes {
