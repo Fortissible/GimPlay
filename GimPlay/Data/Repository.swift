@@ -8,12 +8,15 @@
 import Foundation
 
 class Repository : IRepository {
-    private let remoteDataSource: RemoteDataSource // Inject
+    private let remoteDataSource: RemoteDataSource // Inject remote
+    private let localDataSource: LocalDataSource // Inject local
     
-    init(remoteDS: RemoteDataSource) {
+    init(remoteDS: RemoteDataSource, localDS: LocalDataSource) {
         self.remoteDataSource = remoteDS
+        self.localDataSource = localDS
     }
     
+    // MARK: - REMOTE REGION
     func getGamesRemote(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel] {
         let result = try await remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery)
         
@@ -31,8 +34,59 @@ class Repository : IRepository {
         
         return mapDetailResToDetailModel(res: result)
     }
+    
+    // MARK: - LOCAL REGION
+    func getGamesLocal(filterByGenreId: Int? = nil) async throws -> [GameModel] {
+        var gameList: [GameModel] = []
+        await localDataSource.getAllFavouriteGames(filterByGenreId: filterByGenreId) { games in
+            gameList = games
+        }
+        return gameList
+    }
+    
+    func isGameInLocal(id: Int) async -> Bool {
+        return await localDataSource.isGameInLocal(id: id)
+    }
+    
+    
+    func getGameDetailLocal(id: Int) async throws -> GameDetailModel? {
+        var gameDetail: GameDetailModel?
+        await localDataSource.getFavouriteGame(id) { game in
+            gameDetail = game
+        }
+        return gameDetail
+    }
+    
+    func getGenresLocal() async throws -> [GenreModel] {
+        var genreList: [GenreModel] = []
+        await localDataSource.getAllFavouriteGenres { genres in
+            genreList = genres
+        }
+        return genreList
+    }
+    
+    func addGameToFavourites(
+        _ gameDetailModel: GameDetailModel
+    ) async throws {
+        await withCheckedContinuation { continuation in
+            localDataSource.addFavouriteGame(gameDetailModel) {
+                continuation.resume()
+            }
+        }
+    }
+    
+    func removeGameFromFavourites(id: Int) async throws {
+        await withCheckedContinuation { continuation in
+            Task {
+                await localDataSource.removeFavouriteGame(id) {
+                    continuation.resume()
+                }
+            }
+        }
+    }
 }
 
+// MARK: - MAPPING API RESPONSE MODEL TO DOMAIN MODEL UTILS
 extension Repository {
     fileprivate func mapDetailResToDetailModel(res: GameDetailRes) -> GameDetailModel {
         return GameDetailModel(

@@ -25,7 +25,8 @@ class DetailViewController: UIViewController {
     var gameData: (Int, String)? = nil
     
     private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS)
+    private let localDS: LocalDataSource = LocalDataSource()
+    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
     private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
 
     override func viewDidLoad() {

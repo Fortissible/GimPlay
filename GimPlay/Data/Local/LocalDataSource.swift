@@ -34,12 +34,16 @@ class LocalDataSource {
         return taskContext
     }
     
-    func getAllFavouriteGames(completion: @escaping(_ games: [GameModel]) -> Void) async {
+    func getAllFavouriteGames(filterByGenreId: Int? = nil, completion: @escaping(_ games: [GameModel]) -> Void) async {
         let taskContext = newTaskContext()
         
         do {
             try await taskContext.perform {
                 let fetchReq = NSFetchRequest<NSManagedObject>(entityName: "GameDetailEntities")
+                
+                if filterByGenreId != nil {
+                    fetchReq.predicate = NSPredicate(format: "genres.id == \(filterByGenreId!)")
+                }
                 
                 let results = try taskContext.fetch(fetchReq)
                 
@@ -111,6 +115,27 @@ class LocalDataSource {
         }
     }
     
+    func isGameInLocal(id: Int) async -> Bool {
+        let taskContext = newTaskContext()
+        var exists = false
+        
+        do {
+            try await taskContext.perform {
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "GameEntities")
+                fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+                fetchRequest.fetchLimit = 1
+                
+                let count = try taskContext.count(for: fetchRequest)
+                exists = count > 0
+            }
+        } catch let error as NSError{
+            print("Error checking game existence: \(error.localizedDescription), \(error.userInfo)")
+        }
+        
+        return exists
+    }
+
+    
     func getAllFavouriteGenres(completion: @escaping(_ genres: [GenreModel]) -> Void) async {
         let taskContext = newTaskContext()
         do {
@@ -141,5 +166,93 @@ class LocalDataSource {
         }
     }
     
-    // DO THE CREATE & DELETE FAV TO COREDATA
+    func addFavouriteGame(
+        _ gameDetailModel: GameDetailModel,
+        completion: @escaping() -> Void
+    ) {
+        let taskContext = newTaskContext()
+        
+        do {
+            try taskContext.performAndWait {
+                if let entity = NSEntityDescription.entity(
+                    forEntityName: "GameDetailEntities",
+                    in: taskContext
+                ) {
+                    let gameDetail = NSManagedObject(
+                        entity: entity,
+                        insertInto: taskContext
+                    )
+                    
+                    gameDetail.setValue(
+                        gameDetailModel.id, forKeyPath: "id")
+                    gameDetail.setValue(
+                        gameDetailModel.name, forKeyPath: "name")
+                    gameDetail.setValue(
+                        gameDetailModel.released, forKeyPath: "released")
+                    gameDetail.setValue(
+                        gameDetailModel.description, forKeyPath: "descriptions")
+                    gameDetail.setValue(
+                        gameDetailModel.publisher, forKeyPath: "publisher")
+                    gameDetail.setValue(
+                        gameDetailModel.stores, forKeyPath: "stores")
+                    gameDetail.setValue(
+                        gameDetailModel.backgroundImage, forKeyPath: "imageUrl")
+                    gameDetail.setValue(
+                        gameDetailModel.image, forKeyPath: "image")
+                    gameDetail.setValue(
+                        gameDetailModel.metacritic, forKeyPath: "metacritic")
+                    gameDetail.setValue(
+                        gameDetailModel.playtime, forKeyPath: "playtime")
+                    gameDetail.setValue(
+                        gameDetailModel.rating, forKeyPath: "rating")
+                    gameDetail.setValue(
+                        gameDetailModel.ratingTop, forKeyPath: "ratingTop")
+                    gameDetail.setValue(
+                        gameDetailModel.reviewsCount, forKeyPath: "reviewsCount")
+                    
+                    var genreEntities: Set<NSManagedObject> = []
+                    
+                    for genre in gameDetailModel.genres {
+                        let genreEntity = NSEntityDescription.insertNewObject(forEntityName: "GenreEntities", into: taskContext)
+                        
+                        genreEntity.setValue(genre.id, forKey: "id")
+                        genreEntity.setValue(genre.name, forKey: "name")
+                        genreEntity.setValue(genre.image?.jpegData(compressionQuality: 1.0), forKey: "image")
+                        genreEntity.setValue(genre.imageBackground, forKey: "imageUrl")
+                        
+                        genreEntities.insert(genreEntity)
+                    }
+                    
+                    gameDetail.setValue(genreEntities, forKey: "genres")
+                    
+                    try taskContext.save()
+                    completion()
+                }
+            }
+        } catch let error as NSError {
+            print("Error while creating fav game: \(error.localizedDescription), \(error.userInfo)")
+        }
+    }
+    
+    func removeFavouriteGame(
+        _ id: Int, completion: @escaping () -> Void
+    ) async {
+        let taskContext = newTaskContext()
+        await taskContext.perform {
+            let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "GameDetailEntities")
+            fetchReq.fetchLimit = 1
+            fetchReq.predicate = NSPredicate(format: "id == \(id)")
+            
+            let batchDelReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
+            batchDelReq.resultType = .resultTypeCount
+            
+            if let batchDelRes = try? taskContext.execute(batchDelReq) as? NSBatchDeleteResult {
+                if batchDelRes.result != nil {
+                    completion()
+                }
+            } else {
+                print("Error while deleting fav game with id \(id)")
+            }
+        }
+    }
 }
