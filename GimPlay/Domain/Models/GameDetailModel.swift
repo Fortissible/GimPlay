@@ -20,6 +20,7 @@ class GameDetailModel: DownloadableImage {
     let genres: [GenreModel]
     let stores: [String]
     let publisher: String
+    let isFavourite: Bool
     
     init(
         id: Int,
@@ -34,7 +35,8 @@ class GameDetailModel: DownloadableImage {
         stores: [String],
         playtime: Int,
         reviewsCount: Int,
-        publisher: String
+        publisher: String,
+        isFavourite: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -49,5 +51,6 @@ class GameDetailModel: DownloadableImage {
         self.stores = stores
         self.reviewsCount = reviewsCount
         self.publisher = publisher
+        self.isFavourite = isFavourite
     }
 }

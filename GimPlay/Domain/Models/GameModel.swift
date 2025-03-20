@@ -19,6 +19,7 @@ class GameModel: DownloadableImage {
     let metacritic: Int?
     let backgroundImage: String?
     let genres: [GenreModel]
+    let isFavourite: Bool
 
     init(
         id: Int,
@@ -28,7 +29,8 @@ class GameModel: DownloadableImage {
         ratingTop: Int,
         metacritic: Int?,
         backgroundImage: String?,
-        genres: [GenreModel]
+        genres: [GenreModel],
+        isFavourite: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -38,5 +40,8 @@ class GameModel: DownloadableImage {
         self.metacritic = metacritic
         self.backgroundImage = backgroundImage
         self.genres = genres
+        self.isFavourite = isFavourite
+        
+        super.init()
     }
 }

@@ -35,18 +35,21 @@ class GameUseCase {
         try await repository.addGameToFavourites(game)
     }
     
-    func removeFavouriteGame(_ id: String) async throws {
-        try await repository.removeGameFromFavourites(id: Int(id) ?? 0)
+    func removeFavouriteGame(_ id: Int) async throws {
+        try await repository.removeGameFromFavourites(id: id)
     }
     
     // MARK: - OFFLINE FIRST REGION
-    func getGameDetail(id: String) async throws -> GameDetailModel {
-        var isExistInLocal = await repository.isGameInLocal(id: Int(id) ?? 0)
-        
-        if isExistInLocal {
-            return try await repository.getGameDetailLocal(id: Int(id) ?? 0)!
+    func getGameDetail(id: String) async throws -> (GameDetailModel, Bool) {
+        let isFavourite: Bool = await repository.isGameInLocal(id: Int(id) ?? 0)
+        if isFavourite {
+            print("DATA GAME \(id) RETRIEVED FROM LOCAL")
+            let localGameDetail: GameDetailModel = try await repository.getGameDetailLocal(id: Int(id) ?? 0)!
+            return (localGameDetail, isFavourite)
         } else {
-            return try await repository.getGameDetailRemote(id: id)
+            print("DATA GAME \(id) RETRIEVED FROM REMOTE API")
+            let remoteGameDetail: GameDetailModel = try await repository.getGameDetailRemote(id: id)
+            return (remoteGameDetail, isFavourite)
         }
     }
 }

@@ -41,9 +41,9 @@ class LocalDataSource {
             try await taskContext.perform {
                 let fetchReq = NSFetchRequest<NSManagedObject>(entityName: "GameDetailEntities")
                 
-                if filterByGenreId != nil {
-                    fetchReq.predicate = NSPredicate(format: "genres.id == \(filterByGenreId!)")
-                }
+//                if filterByGenreId != nil {
+//                    fetchReq.predicate = NSPredicate(format: "genres.id == \(filterByGenreId!)")
+//                }
                 
                 let results = try taskContext.fetch(fetchReq)
                 
@@ -60,8 +60,9 @@ class LocalDataSource {
                         rating: result.value(forKeyPath: "rating") as? Double ?? 0.0,
                         ratingTop: result.value(forKeyPath: "ratingTop") as? Int ?? 5,
                         metacritic: result.value(forKeyPath: "metacritic") as? Int,
-                        backgroundImage: result.value(forKeyPath: "url") as? String,
-                        genres: self.getGameGenres(gameEntity: gameEntity)
+                        backgroundImage: result.value(forKeyPath: "imageUrl") as? String,
+                        genres: self.getGameGenres(gameEntity: gameEntity),
+                        isFavourite: true
                     )
                     
                     games.append(game)
@@ -91,7 +92,7 @@ class LocalDataSource {
                         id: Int(gameEntity.id),
                         name: gameEntity.name ?? "",
                         released: gameEntity.released ?? "",
-                        description: gameEntity.description,
+                        description: gameEntity.descriptions ?? "",
                         rating: gameEntity.rating,
                         ratingTop: Int(gameEntity.ratingTop),
                         metacritic: Int(gameEntity.metacritic),
@@ -100,7 +101,8 @@ class LocalDataSource {
                         stores: gameDetailStores,
                         playtime: Int(gameEntity.playtime),
                         reviewsCount: Int(gameEntity.playtime),
-                        publisher: gameEntity.publisher ?? ""
+                        publisher: gameEntity.publisher ?? "",
+                        isFavourite: true
                     )
                     
                     let downloadableImage = self.mapImageData(result)
@@ -121,8 +123,8 @@ class LocalDataSource {
         
         do {
             try await taskContext.perform {
-                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "GameEntities")
-                fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "GameDetailEntities")
+                fetchRequest.predicate = NSPredicate(format: "id == \(id)")
                 fetchRequest.fetchLimit = 1
                 
                 let count = try taskContext.count(for: fetchRequest)
@@ -146,7 +148,7 @@ class LocalDataSource {
                 
                 var genres: [GenreModel] = []
                 for result in results {
-                    var genre = GenreModel(
+                    let genre = GenreModel(
                         id: result.value(forKeyPath: "id") as? Int ?? 0,
                         name: result.value(forKeyPath: "name") as? String ?? "",
                         imageBackground: result.value(forKeyPath: "imageUrl") as? String ?? ""
@@ -166,6 +168,41 @@ class LocalDataSource {
         }
     }
     
+    func deleteUnusedGenres() async {
+        let taskContext = newTaskContext()
+
+        await taskContext.perform {
+            let fetchRequest = NSFetchRequest<GenreEntities>(entityName: "GenreEntities")
+
+            do {
+                let genres = try taskContext.fetch(fetchRequest)
+
+                for genre in genres {
+                    if genre.games?.count == 0 {
+                        taskContext.delete(genre)
+                    }
+                }
+
+                try taskContext.save()
+            } catch {
+                print("Error deleting unused genres: \(error)")
+            }
+        }
+    }
+    
+    func fetchGenreById(genreId: Int, context: NSManagedObjectContext) -> GenreEntities? {
+        let fetchRequest = NSFetchRequest<GenreEntities>(entityName: "GenreEntities")
+        fetchRequest.predicate = NSPredicate(format: "id == \(genreId)")
+        fetchRequest.fetchLimit = 1
+
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            print("Error fetching genre by ID: \(error)")
+            return nil
+        }
+    }
+    
     func addFavouriteGame(
         _ gameDetailModel: GameDetailModel,
         completion: @escaping() -> Void
@@ -182,6 +219,7 @@ class LocalDataSource {
                         entity: entity,
                         insertInto: taskContext
                     )
+                    let storesString = gameDetailModel.stores.joined(separator: ", ")
                     
                     gameDetail.setValue(
                         gameDetailModel.id, forKeyPath: "id")
@@ -194,7 +232,7 @@ class LocalDataSource {
                     gameDetail.setValue(
                         gameDetailModel.publisher, forKeyPath: "publisher")
                     gameDetail.setValue(
-                        gameDetailModel.stores, forKeyPath: "stores")
+                        storesString, forKeyPath: "stores")
                     gameDetail.setValue(
                         gameDetailModel.backgroundImage, forKeyPath: "imageUrl")
                     gameDetail.setValue(
@@ -213,6 +251,10 @@ class LocalDataSource {
                     var genreEntities: Set<NSManagedObject> = []
                     
                     for genre in gameDetailModel.genres {
+                        if let existingGenre = fetchGenreById(genreId: genre.id, context: taskContext) {
+                            genreEntities.insert(existingGenre)
+                            continue
+                        }
                         let genreEntity = NSEntityDescription.insertNewObject(forEntityName: "GenreEntities", into: taskContext)
                         
                         genreEntity.setValue(genre.id, forKey: "id")

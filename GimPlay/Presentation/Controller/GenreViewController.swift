@@ -158,7 +158,11 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(
             withIdentifier: "moveToDetailFromGenre",
-            sender: (games[indexPath.row].id, games[indexPath.row].name))
+            sender: (
+                games[indexPath.row].id,
+                games[indexPath.row].name
+                )
+        )
     }
     
     fileprivate func startDownloadImage(

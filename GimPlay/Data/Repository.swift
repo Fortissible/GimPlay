@@ -70,6 +70,7 @@ class Repository : IRepository {
     ) async throws {
         await withCheckedContinuation { continuation in
             localDataSource.addFavouriteGame(gameDetailModel) {
+                print("DATA GAME \(gameDetailModel.id) SUCCESSFULY SAVED TO LOCAL")
                 continuation.resume()
             }
         }
@@ -81,6 +82,8 @@ class Repository : IRepository {
                 await localDataSource.removeFavouriteGame(id) {
                     continuation.resume()
                 }
+                await localDataSource.deleteUnusedGenres()
+                print("DATA GAME \(id) SUCCESSFULY REMOVED FROM LOCAL")
             }
         }
     }
@@ -110,7 +113,8 @@ extension Repository {
             },
             playtime: res.playtime,
             reviewsCount: res.reviewsCount,
-            publisher: res.publishers.first?.name ?? "No Name"
+            publisher: res.publishers.first?.name ?? "No Name",
+            isFavourite: false
         )
     }
     fileprivate func mapGameResToGameModel(
@@ -132,7 +136,8 @@ extension Repository {
                 ratingTop: game.ratingTop,
                 metacritic: game.metacritic,
                 backgroundImage: game.backgroundImage,
-                genres: genres
+                genres: genres,
+                isFavourite: false
             )
         }
     }

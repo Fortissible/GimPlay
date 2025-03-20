@@ -23,6 +23,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var gameCartBtn: UIButton!
     
     var gameData: (Int, String)? = nil
+    var gameDetails: GameDetailModel? = nil
+    var isFavourite: Bool = false
     
     private let remoteDS: RemoteDataSource = RemoteDataSource()
     private let localDS: LocalDataSource = LocalDataSource()
@@ -34,6 +36,7 @@ class DetailViewController: UIViewController {
         
         if let (gameId, gameTitle) = gameData {
             self.title = String(gameTitle)
+            self.navigationItem.backButtonTitle = ""
             
             Task {
                 await getGameDetail(
@@ -52,9 +55,11 @@ class DetailViewController: UIViewController {
     
     func getGameDetail(_ id: String) async {
         do {
-            let gameDetails = try await gameUseCase.getGameDetail(id: id)
-            DispatchQueue.main.async {
-                self.updateUI(detail: gameDetails)
+            (self.gameDetails, self.isFavourite) = try await gameUseCase.getGameDetail(id: id)
+            if self.gameDetails != nil {
+                DispatchQueue.main.async {
+                    self.updateUI(detail: self.gameDetails!)
+                }
             }
         } catch {
             gameIndicator.stopAnimating()
@@ -72,6 +77,11 @@ class DetailViewController: UIViewController {
         gameReleasePlaytime.text = "Released: \(detail.released), Total playtime: \(detail.playtime) Hours"
         gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - Reviews: \(detail.reviewsCount)"
         gameDesc.text = detail.description
+        gameCartBtn.setImage(
+            isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"),
+            for: .normal
+        )
+        
         var gameStores = ""
         for (idx, storeName) in
             detail.stores.enumerated() {
@@ -85,6 +95,10 @@ class DetailViewController: UIViewController {
         }
         gameStoreList.setTitle("On \(gameStores)", for: .normal)
         
+        gameGenreList.arrangedSubviews.forEach { subview in
+            gameGenreList.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
         gameGenreList.spacing = 8
         for genre in detail.genres {
             let genreCard = UILabel()
@@ -136,6 +150,26 @@ class DetailViewController: UIViewController {
                 } catch {
                     downloadableImage.state = .failed
                     downloadableImage.image = UIImage(named: "placeholder")
+                }
+            }
+        }
+    }
+    
+    @IBAction func onClickFavourite(_ sender: Any) {
+        if gameDetails != nil && !isFavourite {
+            Task {
+                try await gameUseCase.addFavouriteGame(gameDetails!)
+                self.isFavourite = !isFavourite
+                DispatchQueue.main.async {
+                    self.updateUI(detail: self.gameDetails!)
+                }
+            }
+        } else {
+            Task {
+                try await gameUseCase.removeFavouriteGame(gameDetails!.id)
+                self.isFavourite = !isFavourite
+                DispatchQueue.main.async {
+                    self.updateUI(detail: self.gameDetails!)
                 }
             }
         }

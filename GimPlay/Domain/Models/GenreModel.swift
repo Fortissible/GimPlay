@@ -22,5 +22,7 @@ class GenreModel : DownloadableImage {
         self.id = id
         self.name = name
         self.imageBackground = imageBackground
+        
+        super.init()
     }
 }
