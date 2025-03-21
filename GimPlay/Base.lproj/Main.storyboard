@@ -323,7 +323,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         <scene sceneID="1pE-0H-m2Q">
             <objects>
                 <viewController id="iz4-SC-Vgl" customClass="FavouriteViewController" customModule="GimPlay" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="XNO-Wj-hfc">
+                    <view key="view" contentMode="scaleToFill" id="XNO-Wj-hfc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -487,8 +487,8 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                 <viewLayoutGuide key="contentLayoutGuide" id="HYZ-Mk-tx0"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="ijQ-1x-QIV"/>
                             </scrollView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZR-bh-qFO">
-                                <rect key="frame" x="196.66666666666666" y="470" width="0.0" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Placeholder Text" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZR-bh-qFO">
+                                <rect key="frame" x="133.33333333333334" y="449.66666666666669" width="126.33333333333334" height="20.333333333333314"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="kfx-C3-zUP"/>
                                 </constraints>
@@ -501,9 +501,9 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ZZR-bh-qFO" firstAttribute="centerY" secondItem="HJ4-if-r33" secondAttribute="centerY" constant="12" id="4wo-P1-bYX"/>
+                            <constraint firstAttribute="bottom" secondItem="ZZR-bh-qFO" secondAttribute="bottom" constant="382" id="UXh-wX-Rne"/>
                             <constraint firstItem="HJ4-if-r33" firstAttribute="top" secondItem="ZaD-gZ-wdo" secondAttribute="top" id="gAK-jM-IZu"/>
                             <constraint firstItem="ZaD-gZ-wdo" firstAttribute="trailing" secondItem="HJ4-if-r33" secondAttribute="trailing" id="nHC-ZI-aAS"/>
-                            <constraint firstItem="ZaD-gZ-wdo" firstAttribute="bottom" secondItem="HJ4-if-r33" secondAttribute="bottom" id="odk-mx-Rwu"/>
                             <constraint firstItem="HJ4-if-r33" firstAttribute="leading" secondItem="ZaD-gZ-wdo" secondAttribute="leading" id="onh-cB-7N0"/>
                             <constraint firstItem="ZZR-bh-qFO" firstAttribute="centerX" secondItem="XNO-Wj-hfc" secondAttribute="centerX" id="zlN-eK-FPN"/>
                         </constraints>
@@ -561,6 +561,152 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
             </objects>
             <point key="canvasLocation" x="84.732824427480907" y="3.5211267605633805"/>
         </scene>
+        <!--Edit Profile View Controller-->
+        <scene sceneID="pSE-Y6-ddm">
+            <objects>
+                <viewController id="uOE-WZ-bDV" customClass="EditProfileViewController" customModule="GimPlay" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BhY-D8-vrp">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="K15-Ac-fcF">
+                                <rect key="frame" x="16" y="64" width="361" height="670.66666666666663"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello there, can you see me? right below here!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dM-ts-uZG">
+                                        <rect key="frame" x="33.333333333333343" y="0.0" width="294.66666666666663" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="a6I-JX-jse"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="OQk-By-ZeV">
+                                        <rect key="frame" x="80.666666666666686" y="32.000000000000014" width="200" height="234.33333333333337"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Qgf-Bb-3dU">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="200" id="Kgs-B0-MMY"/>
+                                                    <constraint firstAttribute="height" constant="200" id="ZuU-Zy-j2x"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bF-kT-97Y">
+                                                <rect key="frame" x="0.0" y="200" width="200" height="34.333333333333343"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Select profile picture"/>
+                                                <connections>
+                                                    <action selector="onSelectImageBtnTap:" destination="uOE-WZ-bDV" eventType="touchUpInside" id="3bG-jn-knr"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0aW-A6-2rG">
+                                        <rect key="frame" x="32" y="282.33333333333331" width="297" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="z2p-je-bXW">
+                                        <rect key="frame" x="52.333333333333343" y="332.33333333333331" width="256.33333333333326" height="32"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I'm a " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xaw-HE-PUX">
+                                                <rect key="frame" x="0.0" y="0.0" width="40.333333333333336" height="32"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your job title..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nUN-Xs-lxp">
+                                                <rect key="frame" x="56.333333333333343" y="0.0" width="200.00000000000003" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="dPa-E7-RyB"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="zyX-6q-qSK"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="DgN-g8-aDR"/>
+                                        </constraints>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jen-DH-gzi">
+                                        <rect key="frame" x="0.0" y="380.33333333333331" width="361" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="WCo-Qj-Yjx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" systemColor="systemGreenColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJF-1G-Btl">
+                                        <rect key="frame" x="5.6666666666666572" y="420.33333333333326" width="350" height="200"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="SUu-fY-Chk"/>
+                                            <constraint firstAttribute="height" constant="200" id="W0N-eo-Aiw"/>
+                                        </constraints>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Spa-is-idt">
+                                        <rect key="frame" x="52.666666666666686" y="636.33333333333337" width="256" height="34.333333333333371"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3H-jU-vcZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="120" height="34.333333333333336"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="fgC-K0-d1V"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" image="trash.fill" catalog="system" title="Cancel"/>
+                                                <connections>
+                                                    <action selector="onEditCancelBtnTap:" destination="uOE-WZ-bDV" eventType="touchUpInside" id="GBc-sn-KYy"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfc-13-K7f">
+                                                <rect key="frame" x="136" y="0.0" width="120" height="34.333333333333336"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="xCa-KO-FiE"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" image="checkmark" catalog="system" title="Save"/>
+                                                <connections>
+                                                    <action selector="onEditSaveBtnTap:" destination="uOE-WZ-bDV" eventType="touchUpInside" id="Y3X-na-UF2"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="0aW-A6-2rG" firstAttribute="leading" secondItem="K15-Ac-fcF" secondAttribute="leading" constant="32" id="41c-VQ-ufE"/>
+                                    <constraint firstItem="Jen-DH-gzi" firstAttribute="leading" secondItem="K15-Ac-fcF" secondAttribute="leading" id="jFf-q3-hUn"/>
+                                    <constraint firstAttribute="trailing" secondItem="0aW-A6-2rG" secondAttribute="trailing" constant="32" id="mAU-dv-CEV"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Skr-LL-PMR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="K15-Ac-fcF" firstAttribute="top" secondItem="Skr-LL-PMR" secondAttribute="top" constant="64" id="0sb-IY-qhl"/>
+                            <constraint firstItem="K15-Ac-fcF" firstAttribute="leading" secondItem="Skr-LL-PMR" secondAttribute="leading" constant="16" id="Sga-pL-1TF"/>
+                            <constraint firstAttribute="trailing" secondItem="K15-Ac-fcF" secondAttribute="trailing" constant="16" id="uL4-N6-6rZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ejI-sO-dfW"/>
+                    <connections>
+                        <outlet property="editCancelBtn" destination="Q3H-jU-vcZ" id="bit-NX-Uq0"/>
+                        <outlet property="editDescEditableTextView" destination="sJF-1G-Btl" id="0TU-fX-atL"/>
+                        <outlet property="editJobTextFIeld" destination="nUN-Xs-lxp" id="6vK-Uq-FaK"/>
+                        <outlet property="editNameTextField" destination="0aW-A6-2rG" id="fNn-He-HyO"/>
+                        <outlet property="editProfileImageBtn" destination="9bF-kT-97Y" id="0LZ-Ob-534"/>
+                        <outlet property="editSaveBtn" destination="Sfc-13-K7f" id="v77-Je-aIa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9S6-m2-PQA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="647" y="1529"/>
+        </scene>
         <!--AboutPage-->
         <scene sceneID="4SO-2m-hu5">
             <objects>
@@ -570,7 +716,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Guh-hB-AR0">
-                                <rect key="frame" x="16" y="91" width="361" height="619.33333333333337"/>
+                                <rect key="frame" x="16" y="91" width="361" height="669.66666666666663"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello there, can you see me? right below here!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFy-TT-a34">
                                         <rect key="frame" x="33.333333333333343" y="0.0" width="294.66666666666663" height="16"/>
@@ -622,6 +768,14 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ohq-jo-xjG">
+                                        <rect key="frame" x="112.33333333333336" y="635.33333333333337" width="136.66666666666663" height="34.333333333333371"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" image="pencil" catalog="system" title="Edit Profiles"/>
+                                        <connections>
+                                            <segue destination="uOE-WZ-bDV" kind="show" id="V34-0j-pYT"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Yl8-7W-kNX" firstAttribute="leading" secondItem="Guh-hB-AR0" secondAttribute="leading" id="SAs-2F-Kq1"/>
@@ -715,17 +869,23 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a3f-ju-l7N"/>
+        <segue reference="Pni-cI-ny5"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="aboutme" width="1080" height="720"/>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="gamecontroller.fill" catalog="system" width="128" height="79"/>
         <image name="globe" catalog="system" width="128" height="123"/>
         <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="placeholder" width="128" height="128"/>
         <image name="relink" width="616" height="353"/>
         <image name="star.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="trash.fill" catalog="system" width="119" height="128"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
