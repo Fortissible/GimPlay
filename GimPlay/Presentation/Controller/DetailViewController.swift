@@ -38,19 +38,24 @@ class DetailViewController: UIViewController {
             self.title = String(gameTitle)
             self.navigationItem.backButtonTitle = ""
             
-            Task {
-                await getGameDetail(
-                    String(gameId)
-                )
+            if (gameDetails == nil) {
+                Task {
+                    await getGameDetail(
+                        String(gameId)
+                    )
+                }
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        errorText.isHidden = true
-        scrollView.isHidden = true
-        gameDetailStackView.isHidden = true
-        gameIndicator.startAnimating()
+        if (gameDetails == nil) {
+            errorText.isHidden = true
+            scrollView.isHidden = true
+            
+            gameDetailStackView.isHidden = true
+            gameIndicator.startAnimating()
+        }
     }
     
     func getGameDetail(_ id: String) async {
@@ -146,7 +151,6 @@ class DetailViewController: UIViewController {
                         self.gameImage.image = image
                         downloadableImage.state = .done
                     }
-                    
                 } catch {
                     downloadableImage.state = .failed
                     downloadableImage.image = UIImage(named: "placeholder")
@@ -159,7 +163,9 @@ class DetailViewController: UIViewController {
         if gameDetails != nil && !isFavourite {
             Task {
                 try await gameUseCase.addFavouriteGame(gameDetails!)
+                
                 self.isFavourite = !isFavourite
+                
                 DispatchQueue.main.async {
                     self.updateUI(detail: self.gameDetails!)
                 }
@@ -167,7 +173,9 @@ class DetailViewController: UIViewController {
         } else {
             Task {
                 try await gameUseCase.removeFavouriteGame(gameDetails!.id)
+                
                 self.isFavourite = !isFavourite
+                
                 DispatchQueue.main.async {
                     self.updateUI(detail: self.gameDetails!)
                 }

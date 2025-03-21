@@ -422,14 +422,14 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                                 </activityIndicatorView>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="favGameCollectionViewCell" id="GgZ-86-rf3" customClass="FavGameCollectionViewCell" customModule="GimPlay" customModuleProvider="target">
-                                                        <rect key="frame" x="10" y="10" width="156" height="240"/>
+                                                        <rect key="frame" x="10" y="10" width="156" height="260"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ZA1-FQ-F7Y">
-                                                            <rect key="frame" x="0.0" y="0.0" width="156" height="240"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="156" height="260"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7pp-KF-wBO">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="156" height="240"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="156" height="260"/>
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="relink" translatesAutoresizingMaskIntoConstraints="NO" id="Bbg-Gd-vrm">
                                                                             <rect key="frame" x="0.0" y="0.0" width="156" height="160"/>
@@ -439,8 +439,17 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                                                             </constraints>
                                                                         </imageView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title Label That is Too Long For A Game Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Mu-4k-PUa">
-                                                                            <rect key="frame" x="0.0" y="160" width="156" height="80"/>
+                                                                            <rect key="frame" x="0.0" y="160" width="156" height="60"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="60" id="U5v-xg-hrM"/>
+                                                                            </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Released: 17/08/2024 Scores: 4.6/5 ★" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7U2-b4-821">
+                                                                            <rect key="frame" x="0.0" y="220" width="156" height="40"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
@@ -465,10 +474,11 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                                             </constraints>
                                                         </collectionViewCellContentView>
                                                         <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
-                                                        <size key="customSize" width="156" height="240"/>
+                                                        <size key="customSize" width="156" height="260"/>
                                                         <connections>
                                                             <outlet property="favGameButton" destination="OXl-bl-KLM" id="rwQ-4j-0XW"/>
                                                             <outlet property="favGameImageView" destination="Bbg-Gd-vrm" id="NFb-5X-FJ7"/>
+                                                            <outlet property="favGameInfo" destination="7U2-b4-821" id="dOu-Pu-ru0"/>
                                                             <outlet property="favGameLabel" destination="9Mu-4k-PUa" id="lqj-Q7-uW3"/>
                                                             <outlet property="favGameLoadingIndicator" destination="Xdc-ff-sXB" id="1kN-Z0-13S"/>
                                                         </connections>
@@ -520,7 +530,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z4Z-bY-aLt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1936.6412213740457" y="753.52112676056345"/>
+            <point key="canvasLocation" x="2863.3587786259541" y="753.52112676056345"/>
         </scene>
         <!--Navigation-->
         <scene sceneID="inU-g8-qNd">
@@ -553,7 +563,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                     </tabBar>
                     <connections>
                         <segue destination="8Xq-pC-W78" kind="relationship" relationship="viewControllers" id="InC-1V-Sm2"/>
-                        <segue destination="am4-jB-Gnv" kind="relationship" relationship="viewControllers" id="0Gs-BY-aqC"/>
+                        <segue destination="4MX-jy-dNM" kind="relationship" relationship="viewControllers" id="0Gs-BY-aqC"/>
                         <segue destination="atP-Qy-D9N" kind="relationship" relationship="viewControllers" id="Cwh-r5-2hZ"/>
                     </connections>
                 </tabBarController>
@@ -566,11 +576,11 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
             <objects>
                 <viewController id="uOE-WZ-bDV" customClass="EditProfileViewController" customModule="GimPlay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BhY-D8-vrp">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="K15-Ac-fcF">
-                                <rect key="frame" x="16" y="64" width="361" height="670.66666666666663"/>
+                                <rect key="frame" x="16" y="103" width="361" height="660.66666666666663"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello there, can you see me? right below here!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dM-ts-uZG">
                                         <rect key="frame" x="33.333333333333343" y="0.0" width="294.66666666666663" height="16"/>
@@ -639,11 +649,11 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJF-1G-Btl">
-                                        <rect key="frame" x="5.6666666666666572" y="420.33333333333326" width="350" height="200"/>
+                                        <rect key="frame" x="5.6666666666666572" y="420.33333333333337" width="350" height="190"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="350" id="SUu-fY-Chk"/>
-                                            <constraint firstAttribute="height" constant="200" id="W0N-eo-Aiw"/>
+                                            <constraint firstAttribute="height" constant="190" id="W0N-eo-Aiw"/>
                                         </constraints>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor"/>
@@ -651,7 +661,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Spa-is-idt">
-                                        <rect key="frame" x="52.666666666666686" y="636.33333333333337" width="256" height="34.333333333333371"/>
+                                        <rect key="frame" x="52.666666666666686" y="626.33333333333337" width="256" height="34.333333333333371"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3H-jU-vcZ">
                                                 <rect key="frame" x="0.0" y="0.0" width="120" height="34.333333333333336"/>
@@ -688,7 +698,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <viewLayoutGuide key="safeArea" id="Skr-LL-PMR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="K15-Ac-fcF" firstAttribute="top" secondItem="Skr-LL-PMR" secondAttribute="top" constant="64" id="0sb-IY-qhl"/>
+                            <constraint firstItem="K15-Ac-fcF" firstAttribute="top" secondItem="Skr-LL-PMR" secondAttribute="top" id="0sb-IY-qhl"/>
                             <constraint firstItem="K15-Ac-fcF" firstAttribute="leading" secondItem="Skr-LL-PMR" secondAttribute="leading" constant="16" id="Sga-pL-1TF"/>
                             <constraint firstAttribute="trailing" secondItem="K15-Ac-fcF" secondAttribute="trailing" constant="16" id="uL4-N6-6rZ"/>
                         </constraints>
@@ -699,6 +709,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <outlet property="editDescEditableTextView" destination="sJF-1G-Btl" id="0TU-fX-atL"/>
                         <outlet property="editJobTextFIeld" destination="nUN-Xs-lxp" id="6vK-Uq-FaK"/>
                         <outlet property="editNameTextField" destination="0aW-A6-2rG" id="fNn-He-HyO"/>
+                        <outlet property="editProfileImage" destination="Qgf-Bb-3dU" id="Sta-zm-WX2"/>
                         <outlet property="editProfileImageBtn" destination="9bF-kT-97Y" id="0LZ-Ob-534"/>
                         <outlet property="editSaveBtn" destination="Sfc-13-K7f" id="v77-Je-aIa"/>
                     </connections>
@@ -710,13 +721,13 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         <!--AboutPage-->
         <scene sceneID="4SO-2m-hu5">
             <objects>
-                <viewController id="am4-jB-Gnv" userLabel="AboutPage" sceneMemberID="viewController">
+                <viewController id="am4-jB-Gnv" userLabel="AboutPage" customClass="ProfileViewController" customModule="GimPlay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a3J-93-02C">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Guh-hB-AR0">
-                                <rect key="frame" x="16" y="91" width="361" height="669.66666666666663"/>
+                                <rect key="frame" x="16" y="103" width="361" height="652.33333333333337"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello there, can you see me? right below here!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFy-TT-a34">
                                         <rect key="frame" x="33.333333333333343" y="0.0" width="294.66666666666663" height="16"/>
@@ -761,15 +772,20 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                         <color key="textColor" systemColor="systemGreenColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yl8-7W-kNX">
-                                        <rect key="frame" x="0.0" y="402" width="361" height="217.33333333333337"/>
-                                        <string key="text">Hey there! I'm a tech geek at heart who loves diving into all things tech, from playing the latest games to crafting cool DIY projects like Arduino and IoT gadgets. When I'm not tinkering with technology, you’ll probably find me indulging in Japanese culture — whether it's binge-watching anime, reading manga, or collecting figures. I’m also a big fan of Japanese festivals and the vibrant traditions that come with them. Professionally, I’m currently working as a software engineer, specializing in mobile development, where I get to bring my passion for tech and problem-solving to life. Always excited to learn new things and push the limits of what tech can do!</string>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9I0-9p-Z3r">
+                                        <rect key="frame" x="5.6666666666666572" y="402" width="350" height="200"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="ecc-7J-bEd"/>
+                                            <constraint firstAttribute="height" constant="200" id="w1q-Lo-8hd"/>
+                                        </constraints>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ohq-jo-xjG">
-                                        <rect key="frame" x="112.33333333333336" y="635.33333333333337" width="136.66666666666663" height="34.333333333333371"/>
+                                        <rect key="frame" x="112.33333333333336" y="618" width="136.66666666666663" height="34.333333333333371"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="pencil" catalog="system" title="Edit Profiles"/>
                                         <connections>
@@ -778,7 +794,6 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Yl8-7W-kNX" firstAttribute="leading" secondItem="Guh-hB-AR0" secondAttribute="leading" id="SAs-2F-Kq1"/>
                                     <constraint firstItem="aRO-2e-Q7x" firstAttribute="leading" secondItem="Guh-hB-AR0" secondAttribute="leading" id="Zfu-2t-Okh"/>
                                     <constraint firstItem="DFj-Qx-MPt" firstAttribute="centerX" secondItem="Guh-hB-AR0" secondAttribute="centerX" id="yeN-AR-AFZ"/>
                                 </constraints>
@@ -788,15 +803,21 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="D3k-uX-5gQ" firstAttribute="trailing" secondItem="Guh-hB-AR0" secondAttribute="trailing" constant="16" id="EFb-x9-JDk"/>
-                            <constraint firstItem="Guh-hB-AR0" firstAttribute="top" secondItem="D3k-uX-5gQ" secondAttribute="top" constant="32" id="QxW-dO-65e"/>
+                            <constraint firstItem="Guh-hB-AR0" firstAttribute="top" secondItem="D3k-uX-5gQ" secondAttribute="top" id="QxW-dO-65e"/>
                             <constraint firstItem="Guh-hB-AR0" firstAttribute="leading" secondItem="D3k-uX-5gQ" secondAttribute="leading" constant="16" id="mUF-JA-xp9"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="ljR-r4-OVc"/>
+                    <navigationItem key="navigationItem" title="Profiles" id="LwZ-pq-Sx0"/>
+                    <connections>
+                        <outlet property="profileDesc" destination="9I0-9p-Z3r" id="ep3-kh-2aJ"/>
+                        <outlet property="profileImage" destination="DFj-Qx-MPt" id="Wbv-4R-o5L"/>
+                        <outlet property="profileJobs" destination="eQj-go-nRW" id="PZq-6K-Ce8"/>
+                        <outlet property="profileName" destination="hx6-DV-ao7" id="Wzl-zH-wQf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3oq-0A-JWO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="754"/>
+            <point key="canvasLocation" x="1011.4503816793892" y="753.52112676056345"/>
         </scene>
         <!--Genre View Controller-->
         <scene sceneID="cKu-YX-unr">
@@ -846,7 +867,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2g-ZT-bRb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2863.3587786259541" y="775.35211267605632"/>
+            <point key="canvasLocation" x="3790.0763358778622" y="775.35211267605632"/>
         </scene>
         <!--Favourite-->
         <scene sceneID="o01-yE-rlP">
@@ -865,7 +886,26 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yj6-pJ-cYa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1009.9236641221373" y="753.52112676056345"/>
+            <point key="canvasLocation" x="1936.6412213740457" y="753.52112676056345"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="sL2-We-QC6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4MX-jy-dNM" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="ljR-r4-OVc"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1jK-2u-185">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="am4-jB-Gnv" kind="relationship" relationship="rootViewController" id="t1v-7B-qTK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2zc-zF-xNY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="84.732824427480907" y="753.52112676056345"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

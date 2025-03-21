@@ -34,16 +34,39 @@ class LocalDataSource {
         return taskContext
     }
     
-    func getAllFavouriteGames(filterByGenreId: Int? = nil, completion: @escaping(_ games: [GameModel]) -> Void) async {
+    func getAllFavouriteGames(query: String? = nil, completion: @escaping(_ games: [GameModel]) -> Void) async {
         let taskContext = newTaskContext()
         
         do {
             try await taskContext.perform {
                 let fetchReq = NSFetchRequest<NSManagedObject>(entityName: "GameDetailEntities")
                 
-//                if filterByGenreId != nil {
-//                    fetchReq.predicate = NSPredicate(format: "genres.id == \(filterByGenreId!)")
-//                }
+                // HANDLE QUERY FILTERING
+                var predicates: [NSPredicate] = []
+                
+                if let query = query, !query.isEmpty {
+                    let components = query.split(separator: " ", maxSplits: 2).map { String($0) }
+                    if components.first?.starts(with: "FilterByGenreId:") == true {
+                        // Extract Genre ID
+                        if let genreId = Int(components[1]) {
+                            predicates.append(NSPredicate(format: "ANY genres.id == %d", genreId))
+                        }
+                        
+                        // Extract game title if provided
+                        if components.count > 2 {
+                            let gameTitle = components[2]
+                            predicates.append(NSPredicate(format: "name CONTAINS[cd] %@", gameTitle))
+                        }
+                    } else {
+                        // If no FilterByGenreId, treat the whole query as a game title search
+                        predicates.append(NSPredicate(format: "name CONTAINS[cd] %@", query))
+                    }
+                }
+                
+                // APPLY PREDICATES
+                if !predicates.isEmpty {
+                    fetchReq.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+                }
                 
                 let results = try taskContext.fetch(fetchReq)
                 

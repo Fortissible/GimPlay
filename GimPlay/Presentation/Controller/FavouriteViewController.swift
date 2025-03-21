@@ -14,9 +14,9 @@ class FavouriteViewController: UIViewController {
     @IBOutlet weak var gameLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var favGameCollectionView: UICollectionView!
     @IBOutlet weak var favGenreCollectionView: UICollectionView!
+    private lazy var searchBar = UISearchBar()
     
     private var searchBarQuery: String? = nil
-    
     private var games: [GameModel] = []
     private var genres: [GenreModel] = []
     
@@ -50,7 +50,6 @@ class FavouriteViewController: UIViewController {
     }
     
     func createSearchBar() {
-        let searchBar = UISearchBar()
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Search your favourite games..."
         searchBar.delegate = self
@@ -58,23 +57,25 @@ class FavouriteViewController: UIViewController {
         self.navigationItem.titleView = searchBar
     }
     
-    func getGames() async {
+    func getGames(_ query: String? = nil) async {
         do {
-            games = try await gameUseCase.getFavouriteGames()
-            print("TOTAL LOCAL GAME is: \(games.count)")
+            searchBarQuery = query
+            games = try await gameUseCase.getFavouriteGames(query)
+            
             gameLoadingIndicator.stopAnimating()
             gameLoadingIndicator.isHidden = true
             
             if games.isEmpty {
                 mainInfoLabel.isHidden = false
                 mainInfoLabel.text = "There's no favourite game yet, Browse and add new favourite games now!"
+            } else {
+                mainInfoLabel.isHidden = true
             }
             
             favGameCollectionView.reloadData()
         } catch {
             gameLoadingIndicator.stopAnimating()
             gameLoadingIndicator.isHidden = true
-            print("DEBUG ERROR WHEN GET LOCAL GAMES \(error.localizedDescription)")
             
             mainInfoLabel.isHidden = false
             mainInfoLabel.textColor = .red
@@ -87,7 +88,7 @@ class FavouriteViewController: UIViewController {
     func getGenres() async {
         do {
             genres = try await gameUseCase.getFavouriteGenres()
-            print("TOTAL LOCAL GENRES is: \(genres.count)")
+            
             genreLoadingIndicator.stopAnimating()
             genreLoadingIndicator.isHidden = true
             
@@ -95,7 +96,7 @@ class FavouriteViewController: UIViewController {
         } catch {
             genreLoadingIndicator.stopAnimating()
             genreLoadingIndicator.isHidden = true
-            print("DEBUG ERROR WHEN GET LOCAL GAMES \(error.localizedDescription)")
+            
             self.view.showToast(message: error.localizedDescription)
         }
     }
@@ -152,9 +153,11 @@ class FavouriteViewController: UIViewController {
         let selectedGameId = games[sender.tag].id
         Task {
             try await gameUseCase.removeFavouriteGame(selectedGameId)
+            
             games = try await gameUseCase.getFavouriteGames()
-            genres = try await gameUseCase.getFavouriteGenres()
             self.favGameCollectionView.reloadData()
+            
+            genres = try await gameUseCase.getFavouriteGenres()
             self.favGenreCollectionView.reloadData()
         }
     }
@@ -193,6 +196,7 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
                     )
                     gameCell.favGameImageView.image = game.image
                     gameCell.favGameLabel.text = game.name
+                    gameCell.favGameInfo.text = "Released: \(game.released ?? "TBA") Scores: \(game.rating)/\(game.ratingTop) ★"
                     
                     if game.state == .new {
                         gameCell.favGameImageView.isHidden = false
@@ -252,7 +256,9 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
                 sender: (games[indexPath.row].id, games[indexPath.row].name)
             )
         } else {
-            // TODO: FETCH FAVOURITE GAMES WITH GENRE FILTER
+            Task {
+                await getGames("FilterByGenreId: \(String(genres[indexPath.row].id))")
+            }
         }
     }
 }
@@ -263,7 +269,8 @@ extension FavouriteViewController: UICollectionViewDelegateFlowLayout {
             let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
             let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
             let size:CGFloat = (favGameCollectionView.frame.size.width - space) / 2.0
-            return CGSize(width: size, height: 240)
+            
+            return CGSize(width: size, height: 260)
         } else {
             return CGSize(width: 140, height: 100)
         }
@@ -278,9 +285,14 @@ extension FavouriteViewController : UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarQuery = nil
+        Task {
+            await getGames()
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // TODO: FETCH DATA FROM COREDATA BASED ON SEARCH QUERY
+        Task {
+            await getGames(searchBarQuery)
+        }
     }
 }

@@ -16,10 +16,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var categoriesTitle: UILabel!
     @IBOutlet weak var gamesTableView: UITableView!
     @IBOutlet weak var filterList: UIStackView!
+    private var filterButtons: [UIButton] = []
     
     private var searchBarQuery: String? = nil
     private var selectedFilter: Int = 0
-    private var filterButtons: [UIButton] = []
     
     private var games: [GameModel] = []
     private var genres: [GenreModel] = []
@@ -79,6 +79,7 @@ class ViewController: UIViewController {
                     self.gameTableIndicator.isHidden = true
                 }
             }
+            
             if genres.isEmpty {
                 await getGenres()
             } else {
@@ -102,7 +103,6 @@ class ViewController: UIViewController {
                     genreViewController.genreData = sender as? (Int, String)
                     genreViewController.searchQueryData =
                         sender as? String
-
                 }
                 break
             default:
@@ -112,12 +112,14 @@ class ViewController: UIViewController {
     
     @IBAction func openSteamWebsite(_ sender: Any) {
         let shopUrl = "https://store.steampowered.com"
+        
         if let url = URL(string: shopUrl), UIApplication.shared.canOpenURL(url) {
           UIApplication.shared.open(url)
         }
     }
     @objc fileprivate func filterBtnTapped(_ sender: UIButton) {
         let filterValue = GameFilterList.fromIndex(sender.tag)
+        
         for btn in filterButtons {
             btn.backgroundColor = .systemBlue
         }
@@ -137,6 +139,7 @@ class ViewController: UIViewController {
     
     func createSearchBar() {
         let searchBar = UISearchBar()
+        
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Search some fun games..."
         searchBar.delegate = self
@@ -154,8 +157,9 @@ class ViewController: UIViewController {
             gamesTableView.reloadData()
         } catch {
             gameTableIndicator.stopAnimating()
-            genreIndicator.stopAnimating()
             gameTableIndicator.isHidden = true
+            
+            genreIndicator.stopAnimating()
             genreIndicator.isHidden = true
             
             errorText.text = error.localizedDescription
@@ -175,8 +179,9 @@ class ViewController: UIViewController {
             genresCollectionView.reloadData()
         } catch {
             gameTableIndicator.stopAnimating()
-            genreIndicator.stopAnimating()
             gameTableIndicator.isHidden = true
+            
+            genreIndicator.stopAnimating()
             genreIndicator.isHidden = true
             
             errorText.text = error.localizedDescription

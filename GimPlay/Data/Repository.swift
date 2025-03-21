@@ -36,9 +36,9 @@ class Repository : IRepository {
     }
     
     // MARK: - LOCAL REGION
-    func getGamesLocal(filterByGenreId: Int? = nil) async throws -> [GameModel] {
+    func getGamesLocal(query: String? = nil) async throws -> [GameModel] {
         var gameList: [GameModel] = []
-        await localDataSource.getAllFavouriteGames(filterByGenreId: filterByGenreId) { games in
+        await localDataSource.getAllFavouriteGames(query: query) { games in
             gameList = games
         }
         return gameList
@@ -70,7 +70,6 @@ class Repository : IRepository {
     ) async throws {
         await withCheckedContinuation { continuation in
             localDataSource.addFavouriteGame(gameDetailModel) {
-                print("DATA GAME \(gameDetailModel.id) SUCCESSFULY SAVED TO LOCAL")
                 continuation.resume()
             }
         }
@@ -83,7 +82,6 @@ class Repository : IRepository {
                     continuation.resume()
                 }
                 await localDataSource.deleteUnusedGenres()
-                print("DATA GAME \(id) SUCCESSFULY REMOVED FROM LOCAL")
             }
         }
     }

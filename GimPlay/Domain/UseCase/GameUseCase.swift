@@ -23,8 +23,8 @@ class GameUseCase {
     }
     
     // MARK: - LOCAL REGIONS
-    func getFavouriteGames(_ filterByGenreId: String? = nil) async throws -> [GameModel] {
-        return try await repository.getGamesLocal(filterByGenreId: Int(filterByGenreId ?? "0"))
+    func getFavouriteGames(_ query: String? = nil) async throws -> [GameModel] {
+        return try await repository.getGamesLocal(query: query)
     }
     
     func getFavouriteGenres() async throws -> [GenreModel] {
@@ -43,11 +43,9 @@ class GameUseCase {
     func getGameDetail(id: String) async throws -> (GameDetailModel, Bool) {
         let isFavourite: Bool = await repository.isGameInLocal(id: Int(id) ?? 0)
         if isFavourite {
-            print("DATA GAME \(id) RETRIEVED FROM LOCAL")
             let localGameDetail: GameDetailModel = try await repository.getGameDetailLocal(id: Int(id) ?? 0)!
             return (localGameDetail, isFavourite)
         } else {
-            print("DATA GAME \(id) RETRIEVED FROM REMOTE API")
             let remoteGameDetail: GameDetailModel = try await repository.getGameDetailRemote(id: id)
             return (remoteGameDetail, isFavourite)
         }
