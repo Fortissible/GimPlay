@@ -38,6 +38,11 @@
 		A05358672D7AFA0C003A31DF /* GameDetailResModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05358662D7AFA0C003A31DF /* GameDetailResModel.swift */; };
 		A055FB6B2D80EFBD0000294F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A055FB6A2D80EFBD0000294F /* DetailViewController.swift */; };
 		A055FB6D2D80EFD00000294F /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A055FB6C2D80EFD00000294F /* GenreViewController.swift */; };
+		A065A8452D921A0B00208C8C /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A065A8442D921A0B00208C8C /* RxCocoa */; };
+		A065A8472D921A0B00208C8C /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A065A8462D921A0B00208C8C /* RxSwift */; };
+		A065A84A2D921A6100208C8C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A065A8492D921A6100208C8C /* Alamofire */; };
+		A065A84D2D921B9400208C8C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A065A84C2D921B9400208C8C /* RealmSwift */; };
+		A065A8502D921CAF00208C8C /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = A065A84F2D921CAF00208C8C /* Swinject */; };
 		A0867B962D8CDA98001C91A8 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0867B952D8CDA98001C91A8 /* UserModel.swift */; };
 		A0867B982D8CE320001C91A8 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0867B972D8CE320001C91A8 /* EditProfileViewController.swift */; };
 		A0A6A3982D81DF8E00BC8BCD /* JSONParsingChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A6A3972D81DF8E00BC8BCD /* JSONParsingChecker.swift */; };
@@ -95,6 +100,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A065A84D2D921B9400208C8C /* RealmSwift in Frameworks */,
+				A065A8502D921CAF00208C8C /* Swinject in Frameworks */,
+				A065A84A2D921A6100208C8C /* Alamofire in Frameworks */,
+				A065A8472D921A0B00208C8C /* RxSwift in Frameworks */,
+				A065A8452D921A0B00208C8C /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +293,13 @@
 			dependencies = (
 			);
 			name = GimPlay;
+			packageProductDependencies = (
+				A065A8442D921A0B00208C8C /* RxCocoa */,
+				A065A8462D921A0B00208C8C /* RxSwift */,
+				A065A8492D921A6100208C8C /* Alamofire */,
+				A065A84C2D921B9400208C8C /* RealmSwift */,
+				A065A84F2D921CAF00208C8C /* Swinject */,
+			);
 			productName = GimPlay;
 			productReference = A05358322D79A171003A31DF /* GimPlay.app */;
 			productType = "com.apple.product-type.application";
@@ -313,6 +330,10 @@
 			mainGroup = A05358292D79A171003A31DF;
 			packageReferences = (
 				A098C6512D81CE410022757E /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				A065A8432D921A0B00208C8C /* XCRemoteSwiftPackageReference "RxSwift" */,
+				A065A8482D921A6100208C8C /* XCRemoteSwiftPackageReference "Alamofire" */,
+				A065A84B2D921B9400208C8C /* XCRemoteSwiftPackageReference "realm-swift" */,
+				A065A84E2D921CAF00208C8C /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = A05358332D79A171003A31DF /* Products */;
 			projectDirPath = "";
@@ -593,15 +614,75 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A065A8432D921A0B00208C8C /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		A065A8482D921A6100208C8C /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		A065A84B2D921B9400208C8C /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				kind = exactVersion;
+				version = 10.49.3;
+			};
+		};
+		A065A84E2D921CAF00208C8C /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		A098C6512D81CE410022757E /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/SwiftLint";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.58.2;
+				kind = exactVersion;
+				version = 0.51.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A065A8442D921A0B00208C8C /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A065A8432D921A0B00208C8C /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		A065A8462D921A0B00208C8C /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A065A8432D921A0B00208C8C /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		A065A8492D921A6100208C8C /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A065A8482D921A6100208C8C /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		A065A84C2D921B9400208C8C /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A065A84B2D921B9400208C8C /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		A065A84F2D921CAF00208C8C /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A065A84E2D921CAF00208C8C /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		A02DADD32D88E5240065D94F /* GameLocalModel.xcdatamodeld */ = {
