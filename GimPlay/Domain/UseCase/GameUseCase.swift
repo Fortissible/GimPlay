@@ -6,8 +6,20 @@
 //
 
 import Foundation
+import RxSwift
 
-class GameUseCase {
+protocol IGameUseCase {
+    func getGameList(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel]
+    func getGenres() async throws -> [GenreModel]
+    
+    func getFavouriteGames(_ query: String?) -> Observable<[GameModel]>
+    func getFavouriteGenres() -> Observable<[GenreModel]>
+    func addFavouriteGame(_ game: GameDetailModel) -> Observable<Bool>
+    func removeFavouriteGame(_ id: Int) -> Observable<Bool>
+    func getGameDetail(id: String) -> Observable<(GameDetailModel, Bool)>
+}
+
+class GameUseCase: IGameUseCase {
     private let repository: IRepository
     
     init(repository: IRepository) {
@@ -23,31 +35,38 @@ class GameUseCase {
     }
     
     // MARK: - LOCAL REGIONS
-    func getFavouriteGames(_ query: String? = nil) async throws -> [GameModel] {
-        return try await repository.getGamesLocal(query: query)
+    func getFavouriteGames(_ query: String? = nil) -> Observable<[GameModel]> {
+        return repository.getGamesLocal(query: query)
     }
     
-    func getFavouriteGenres() async throws -> [GenreModel] {
-        return try await repository.getGenresLocal()
+    func getFavouriteGenres() -> Observable<[GenreModel]> {
+        return repository.getGenresLocal()
     }
     
-    func addFavouriteGame(_ game: GameDetailModel) async throws {
-        try await repository.addGameToFavourites(game)
+    func addFavouriteGame(_ game: GameDetailModel) -> Observable<Bool> {
+        return repository.addGameToFavourites(game)
     }
     
-    func removeFavouriteGame(_ id: Int) async throws {
-        try await repository.removeGameFromFavourites(id: id)
+    func removeFavouriteGame(_ id: Int) -> Observable<Bool>{
+        return repository.removeGameFromFavourites(id: id)
     }
     
     // MARK: - OFFLINE FIRST REGION
-    func getGameDetail(id: String) async throws -> (GameDetailModel, Bool) {
-        let isFavourite: Bool = await repository.isGameInLocal(id: Int(id) ?? 0)
-        if isFavourite {
-            let localGameDetail: GameDetailModel = try await repository.getGameDetailLocal(id: Int(id) ?? 0)!
-            return (localGameDetail, isFavourite)
-        } else {
-            let remoteGameDetail: GameDetailModel = try await repository.getGameDetailRemote(id: id)
-            return (remoteGameDetail, isFavourite)
-        }
+    func getGameDetail(id: String) -> Observable<(GameDetailModel, Bool)> {
+        return repository.isGameInLocal(id: Int(id) ?? 0)
+            .flatMap { isFavourite in
+                if isFavourite {
+                    return repository.getGameDetailLocal(id: Int(id) ?? 0)
+                        .map { localGameDetail in
+                            (localGameDetail, isFavourite)
+                        }
+                } else {
+                    // TODO: CHANGE THE REMOTE DATA SOURCE TO ALAMOFIRE & RXSWIFT
+                    return repository.getGameDetailRemote(id: id)
+                        .map {
+                            remoteGameDetail in (remoteGameDetail, isFavourite)
+                        }
+                }
+            }
     }
 }

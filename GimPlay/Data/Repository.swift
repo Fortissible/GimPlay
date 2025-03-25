@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 class Repository : IRepository {
     private let remoteDataSource: RemoteDataSource // Inject remote
@@ -15,7 +16,9 @@ class Repository : IRepository {
         self.remoteDataSource = remoteDS
         self.localDataSource = localDS
     }
-    
+}
+
+extension Repository {
     // MARK: - REMOTE REGION
     func getGamesRemote(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel] {
         let result = try await remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery)
@@ -36,54 +39,40 @@ class Repository : IRepository {
     }
     
     // MARK: - LOCAL REGION
-    func getGamesLocal(query: String? = nil) async throws -> [GameModel] {
-        var gameList: [GameModel] = []
-        await localDataSource.getAllFavouriteGames(query: query) { games in
-            gameList = games
-        }
-        return gameList
+    func getGamesLocal(query: String? = nil) -> Observable<[GameModel]> {
+        return self.localDataSource.getAllFavouriteGames(query: query)
+            .map {
+                self.mapGameDetailEntitiesToGameModels(entity: $0)
+            }
     }
     
-    func isGameInLocal(id: Int) async -> Bool {
-        return await localDataSource.isGameInLocal(id: id)
+    func isGameInLocal(id: Int) -> Observable<Bool> {
+        return self.localDataSource.isGameInLocal(id: id)
     }
     
     
-    func getGameDetailLocal(id: Int) async throws -> GameDetailModel? {
-        var gameDetail: GameDetailModel?
-        await localDataSource.getFavouriteGame(id) { game in
-            gameDetail = game
-        }
-        return gameDetail
+    func getGameDetailLocal(id: Int) -> Observable<GameDetailModel> {
+        return self.localDataSource.getFavouriteGame(id)
+            .map {
+                self.mapGameDetailEntityToGameDetailModel(entity: $0)
+            }
     }
     
-    func getGenresLocal() async throws -> [GenreModel] {
-        var genreList: [GenreModel] = []
-        await localDataSource.getAllFavouriteGenres { genres in
-            genreList = genres
-        }
-        return genreList
+    func getGenresLocal() -> Observable<[GenreModel]> {
+        return self.localDataSource.getAllFavouriteGenres()
+            .map {
+                self.mapGenreEntitiesToGenreModels(entities: $0)
+            }
     }
     
     func addGameToFavourites(
         _ gameDetailModel: GameDetailModel
-    ) async throws {
-        await withCheckedContinuation { continuation in
-            localDataSource.addFavouriteGame(gameDetailModel) {
-                continuation.resume()
-            }
-        }
+    ) -> Observable<Bool> {
+        return self.localDataSource.addFavouriteGame(gameDetailModel)
     }
     
-    func removeGameFromFavourites(id: Int) async throws {
-        await withCheckedContinuation { continuation in
-            Task {
-                await localDataSource.removeFavouriteGame(id) {
-                    continuation.resume()
-                }
-                await localDataSource.deleteUnusedGenres()
-            }
-        }
+    func removeGameFromFavourites(id: Int) -> Observable<Bool> {
+        return self.localDataSource.removeFavouriteGame(id)
     }
 }
 
@@ -148,6 +137,60 @@ extension Repository {
                 id: genre.id,
                 name: genre.name,
                 imageBackground: genre.imageBackground
+            )
+        }
+    }
+    
+    fileprivate func mapGameDetailEntitiesToGameModels(
+        entity gameDetailList: [GameDetailEntity]
+    ) -> [GameModel] {
+        return gameDetailList.map { gameDetail in
+            var genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
+            
+            return GameModel(
+                id: gameDetail.id,
+                name: gameDetail.name,
+                released: gameDetail.released,
+                rating: gameDetail.rating,
+                ratingTop: gameDetail.ratingTop,
+                metacritic: gameDetail.metacritic,
+                backgroundImage: gameDetail.imageUrl,
+                genres: genres
+            )
+        }
+    }
+    
+    fileprivate func mapGameDetailEntityToGameDetailModel(
+        entity gameDetail: GameDetailEntity
+    ) -> GameDetailModel {
+        
+        var genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
+        
+        return GameDetailModel(
+            id: gameDetail.id,
+            name: gameDetail.name,
+            released: gameDetail.released,
+            description: gameDetail.desc,
+            rating: gameDetail.rating,
+            ratingTop: gameDetail.ratingTop,
+            metacritic: gameDetail.metacritic,
+            backgroundImage: gameDetail.imageUrl,
+            genres: genres,
+            stores: gameDetail.stores.components(separatedBy: ", "),
+            playtime: gameDetail.playtime,
+            reviewsCount: gameDetail.reviewsCount,
+            publisher: gameDetail.publisher
+        )
+    }
+    
+    fileprivate func mapGenreEntitiesToGenreModels(
+        entities: [GenreEntity]
+    ) -> [GenreModel] {
+        return entities.map { entity in
+            GenreModel(
+                id: Int(entity.id) ?? 0,
+                name: entity.name,
+                imageBackground: entity.imageUrl
             )
         }
     }

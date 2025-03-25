@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol IRepository {
     // MARK: - REMOTE REGION
@@ -15,12 +16,12 @@ protocol IRepository {
     func getGenresRemote() async throws -> [GenreModel]
 
     // MARK: - LOCAL REGION
-    func getGamesLocal(query: String?) async throws -> [GameModel]
-    func getGameDetailLocal(id: Int) async throws -> GameDetailModel?
-    func isGameInLocal(id: Int) async -> Bool
+    func getGamesLocal(query: String?) -> Observable<[GameModel]>
+    func getGameDetailLocal(id: Int) -> Observable<GameDetailModel>
+    func isGameInLocal(id: Int) -> Observable<Bool>
     
-    func addGameToFavourites(_ gameDetailModel: GameDetailModel) async throws
-    func removeGameFromFavourites(id: Int) async throws
+    func addGameToFavourites(_ gameDetailModel: GameDetailModel) -> Observable<Bool>
+    func removeGameFromFavourites(id: Int) -> Observable<Bool>
     
-    func getGenresLocal() async throws -> [GenreModel]
+    func getGenresLocal() -> Observable<[GenreModel]>
 }

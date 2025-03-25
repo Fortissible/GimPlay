@@ -8,7 +8,7 @@
 import Foundation
 
 class RemoteDataSource {
-    let API_KEYS = "INSERT_YOUR_TOKEN_HERE"
+    let API_KEYS = "INSERT_API_KEY_HERE"
     let BASE_URL = "https://api.rawg.io/api"
     
     lazy var queryItems: [URLQueryItem] = [
