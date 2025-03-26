@@ -36,15 +36,11 @@ class GenreViewController: UIViewController {
             
             self.title = "\(genreTitle) Genre"
             
-            Task {
-                if games.isEmpty {
-                    await getGamesByGenre(String(genreId))
-                } else {
-                    DispatchQueue.main.async {
-                        self.gameByGenreIndicator.stopAnimating()
-                        self.gameByGenreIndicator.isHidden = true
-                    }
-                }
+            if games.isEmpty {
+                getGamesByGenre(String(genreId))
+            } else {
+                self.gameByGenreIndicator.stopAnimating()
+                self.gameByGenreIndicator.isHidden = true
             }
         }
         
@@ -52,15 +48,11 @@ class GenreViewController: UIViewController {
             
             self.title = "Search: \(searchQueryResult)"
             
-            Task {
-                if games.isEmpty {
-                    await getGamesBySearchQuery(searchQueryResult)
-                } else {
-                    DispatchQueue.main.async {
-                        self.gameByGenreIndicator.stopAnimating()
-                        self.gameByGenreIndicator.isHidden = true
-                    }
-                }
+            if games.isEmpty {
+                getGamesBySearchQuery(searchQueryResult)
+            } else {
+                self.gameByGenreIndicator.stopAnimating()
+                self.gameByGenreIndicator.isHidden = true
             }
         }
     }
@@ -68,6 +60,8 @@ class GenreViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         textError.isHidden = true
         gameByGenreIndicator.startAnimating()
+        
+        bindPresenter()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -78,42 +72,46 @@ class GenreViewController: UIViewController {
         }
     }
     
-    func getGamesByGenre(_ genreId: String) async {
-        do {
-            games = try await gameUseCase.getGameList(query: "lucky", genreId: genreId, searchQuery: nil)
-            
-            gameByGenreIndicator.stopAnimating()
-            gameByGenreIndicator.isHidden = true
-            
-            gameByGenreTableView.reloadData()
-        } catch {
-            gameByGenreIndicator.stopAnimating()
-            gameByGenreIndicator.isHidden = true
-            
-            textError.text = error.localizedDescription
-            textError.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
-        }
+    private func bindPresenter() {
+        presenter?.games
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { games in
+                    self.games = games
+                    self.hideIndicatorUI()
+                    self.gameByGenreTableView.reloadData()
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        presenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { error in
+                self.error = error
+                self.hideIndicatorUI()
+                self.updateUIFromGettingError(error: error)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func getGamesBySearchQuery(_ searchQuery: String?) async {
-        do {
-            games = try await gameUseCase.getGameList(query: "lucky", genreId: nil, searchQuery: searchQuery)
-            
-            gameByGenreIndicator.stopAnimating()
-            gameByGenreIndicator.isHidden = true
-            
-            gameByGenreTableView.reloadData()
-        } catch {
-            gameByGenreIndicator.stopAnimating()
-            gameByGenreIndicator.isHidden = true
-            
-            textError.text = error.localizedDescription
-            textError.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
-        }
+    func getGamesByGenre(_ genreId: String) {
+        presenter?.getGameList(query: "lucky", genreId: genreId, searchQuery: nil)
+    }
+    
+    func getGamesBySearchQuery(_ searchQuery: String?) {
+        presenter?.getGameList(query: "lucky", genreId: nil, searchQuery: searchQuery)
+    }
+    
+    func hideIndicatorUI() {
+        gameByGenreIndicator.stopAnimating()
+        gameByGenreIndicator.isHidden = true
+    }
+    
+    func updateUIFromGettingError(error: String) {
+        textError.text = error
+        textError.isHidden = false
+        
+        self.view.showToast(message: error)
     }
 }
 
