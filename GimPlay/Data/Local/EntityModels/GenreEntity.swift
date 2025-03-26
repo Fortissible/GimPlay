@@ -11,7 +11,7 @@ import RealmSwift
 class GenreEntity: Object {
     @Persisted(primaryKey: true) var id: String
     @Persisted var name: String
-    @Persisted var imageUrl: String
+    @Persisted var imageUrl: String?
     @Persisted var image: Data
     
     @Persisted(originProperty: "genres") var games: LinkingObjects<GameDetailEntity>

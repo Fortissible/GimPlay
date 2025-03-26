@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class GenreViewController: UIViewController {
     
@@ -16,11 +17,10 @@ class GenreViewController: UIViewController {
     var searchQueryData: String? = nil
     var genreData: (Int, String)? = nil
     var games: [GameModel] = []
+    private var error: String? = nil
     
-    private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private let localDS: LocalDataSource = LocalDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
-    private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
+    var presenter: GenrePresenter?
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()

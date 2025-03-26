@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import RxSwift
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var genreIndicator: UIActivityIndicatorView!
     @IBOutlet weak var errorText: UILabel!
     @IBOutlet weak var gameTableIndicator: UIActivityIndicatorView!
@@ -23,11 +24,10 @@ class ViewController: UIViewController {
     
     private var games: [GameModel] = []
     private var genres: [GenreModel] = []
+    private var error: String? = nil
     
-    private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private let localDS: LocalDataSource = LocalDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
-    private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
+    var presenter: HomePresenter?
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
         genresCollectionView.dataSource = self
         genresCollectionView.delegate = self
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -70,43 +70,39 @@ class ViewController: UIViewController {
         gameTableIndicator.startAnimating()
         genreIndicator.startAnimating()
         
-        Task {
-            if games.isEmpty {
-                await getGames(GameFilterList.fromIndex(selectedFilter))
-            } else {
-                DispatchQueue.main.async {
-                    self.gameTableIndicator.stopAnimating()
-                    self.gameTableIndicator.isHidden = true
-                }
-            }
-            
-            if genres.isEmpty {
-                await getGenres()
-            } else {
-                DispatchQueue.main.async {
-                    self.genreIndicator.stopAnimating()
-                    self.genreIndicator.isHidden = true
-                }
-            }
+        bindPresenter()
+        
+        if games.isEmpty {
+            getGames(GameFilterList.fromIndex(selectedFilter))
+        } else {
+            self.gameTableIndicator.stopAnimating()
+            self.gameTableIndicator.isHidden = true
+        }
+        
+        if genres.isEmpty {
+            getGenres()
+        } else {
+            self.genreIndicator.stopAnimating()
+            self.genreIndicator.isHidden = true
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-            case "moveToDetail":
-                if let detailViewController = segue.destination as? DetailViewController {
-                    detailViewController.gameData = sender as? (Int, String)
-                }
-                break
-            case "moveToGenre":
-                if let genreViewController = segue.destination as? GenreViewController {
-                    genreViewController.genreData = sender as? (Int, String)
-                    genreViewController.searchQueryData =
-                        sender as? String
-                }
-                break
-            default:
-                break
+        case "moveToDetail":
+            if let detailViewController = segue.destination as? DetailViewController {
+                detailViewController.gameData = sender as? (Int, String)
+            }
+            break
+        case "moveToGenre":
+            if let genreViewController = segue.destination as? GenreViewController {
+                genreViewController.genreData = sender as? (Int, String)
+                genreViewController.searchQueryData =
+                sender as? String
+            }
+            break
+        default:
+            break
         }
     }
     
@@ -114,7 +110,7 @@ class ViewController: UIViewController {
         let shopUrl = "https://store.steampowered.com"
         
         if let url = URL(string: shopUrl), UIApplication.shared.canOpenURL(url) {
-          UIApplication.shared.open(url)
+            UIApplication.shared.open(url)
         }
     }
     @objc fileprivate func filterBtnTapped(_ sender: UIButton) {
@@ -132,9 +128,7 @@ class ViewController: UIViewController {
         gameTableIndicator.isHidden = false
         gameTableIndicator.startAnimating()
         
-        Task {
-            await getGames(filterValue)
-        }
+        getGames(filterValue)
     }
     
     func createSearchBar() {
@@ -147,48 +141,68 @@ class ViewController: UIViewController {
         self.navigationItem.titleView = searchBar
     }
     
-    func getGames(_ query: String) async {
-        do {
-            games = try await gameUseCase.getGameList(query: query, genreId: nil, searchQuery: nil)
-            
-            gameTableIndicator.stopAnimating()
-            gameTableIndicator.isHidden = true
-            
-            gamesTableView.reloadData()
-        } catch {
+    func getGames(_ query: String) {
+        presenter?.getGames(query: query, genreId: nil, searchQuery: nil)
+    }
+    
+    func getGenres() {
+        presenter?.getGenres()
+    }
+    
+    func updateUIfromGetGames() {
+        gameTableIndicator.stopAnimating()
+        gameTableIndicator.isHidden = true
+        
+        gamesTableView.reloadData()
+    }
+    
+    func updateUIfromGetGenres() {
+        genreIndicator.stopAnimating()
+        genreIndicator.isHidden = true
+        
+        genresCollectionView.reloadData()
+    }
+    
+    func updateUIfromGettingError() {
+        if let error = self.error {
             gameTableIndicator.stopAnimating()
             gameTableIndicator.isHidden = true
             
             genreIndicator.stopAnimating()
             genreIndicator.isHidden = true
             
-            errorText.text = error.localizedDescription
+            errorText.text = error
             errorText.isHidden = false
             
-            self.view.showToast(message: error.localizedDescription)
+            self.view.showToast(message: error)
         }
     }
     
-    func getGenres() async {
-        do {
-            genres = try await gameUseCase.getGenres()
-            
-            genreIndicator.stopAnimating()
-            genreIndicator.isHidden = true
-            
-            genresCollectionView.reloadData()
-        } catch {
-            gameTableIndicator.stopAnimating()
-            gameTableIndicator.isHidden = true
-            
-            genreIndicator.stopAnimating()
-            genreIndicator.isHidden = true
-            
-            errorText.text = error.localizedDescription
-            errorText.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
-        }
+    private func bindPresenter() {
+        presenter?.games
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] games in
+                self?.games = games
+                self?.updateUIfromGetGames()
+            })
+            .disposed(by: disposeBag)
+        
+        presenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] errorMessage in
+                self?.error = errorMessage
+                self?.updateUIfromGettingError()
+                print("Error: \(errorMessage)")
+            })
+            .disposed(by: disposeBag)
+        
+        presenter?.genres
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] genres in
+                self?.genres = genres
+                self?.updateUIfromGetGenres()
+            })
+            .disposed(by: disposeBag)
     }
     
     fileprivate func startDownloadImage(
@@ -246,7 +260,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
             gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
             gameCell.gameReleasedView.text = (game.released != nil) ? "Released on \(game.released!)" : "Not released yet"
             gameCell.gameImageView.image = game.image
-
+            
             if game.state == .new {
                 gameCell.gameImageLoadingIndicator.isHidden = false
                 gameCell.gameImageLoadingIndicator.startAnimating()
@@ -260,7 +274,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
                 gameCell.gameImageLoadingIndicator.stopAnimating()
                 gameCell.gameImageLoadingIndicator.isHidden = true
             }
-
+            
             return gameCell
         } else {
             return UITableViewCell()
@@ -304,7 +318,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
                 genreCell.genreImageLoadingVIew.stopAnimating()
                 genreCell.genreImageLoadingVIew.isHidden = true
             }
-
+            
             return genreCell
         } else {
             return UICollectionViewCell()

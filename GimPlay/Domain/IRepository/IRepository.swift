@@ -10,10 +10,10 @@ import RxSwift
 
 protocol IRepository {
     // MARK: - REMOTE REGION
-    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel]
-    func getGameDetailRemote(id: String) async throws -> GameDetailModel
+    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]>
+    func getGameDetailRemote(id: String) -> Observable<GameDetailModel>
     
-    func getGenresRemote() async throws -> [GenreModel]
+    func getGenresRemote() -> Observable<[GenreModel]>
 
     // MARK: - LOCAL REGION
     func getGamesLocal(query: String?) -> Observable<[GameModel]>

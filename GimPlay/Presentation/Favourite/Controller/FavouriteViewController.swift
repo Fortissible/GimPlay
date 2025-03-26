@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class FavouriteViewController: UIViewController {
 
@@ -19,11 +20,10 @@ class FavouriteViewController: UIViewController {
     private var searchBarQuery: String? = nil
     private var games: [GameModel] = []
     private var genres: [GenreModel] = []
+    private var error: String? = nil
     
-    private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private let localDS: LocalDataSource = LocalDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
-    private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
+    var presenter: FavouritePresenter?
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

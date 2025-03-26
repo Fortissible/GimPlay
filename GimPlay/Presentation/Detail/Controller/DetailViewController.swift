@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class DetailViewController: UIViewController {
     
@@ -26,10 +27,8 @@ class DetailViewController: UIViewController {
     var gameDetails: GameDetailModel? = nil
     var isFavourite: Bool = false
     
-    private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private let localDS: LocalDataSource = LocalDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
-    private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
+    var presenter: DetailPresenter?
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()

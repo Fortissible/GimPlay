@@ -9,8 +9,8 @@ import Foundation
 import RxSwift
 
 protocol IGameUseCase {
-    func getGameList(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel]
-    func getGenres() async throws -> [GenreModel]
+    func getGameList(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]>
+    func getGenres() -> Observable<[GenreModel]>
     
     func getFavouriteGames(_ query: String?) -> Observable<[GameModel]>
     func getFavouriteGenres() -> Observable<[GenreModel]>
@@ -26,12 +26,12 @@ class GameUseCase: IGameUseCase {
         self.repository = repository
     }
     // MARK: - REMOTE REGIONS
-    func getGameList(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel] {
-        return try await repository.getGamesRemote(query: query, genreId: genreId, searchQuery: searchQuery)
+    func getGameList(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]> {
+        return repository.getGamesRemote(query: query, genreId: genreId, searchQuery: searchQuery)
     }
     
-    func getGenres() async throws -> [GenreModel] {
-        return try await repository.getGenresRemote()
+    func getGenres() -> Observable<[GenreModel]> {
+        return repository.getGenresRemote()
     }
     
     // MARK: - LOCAL REGIONS
@@ -56,15 +56,15 @@ class GameUseCase: IGameUseCase {
         return repository.isGameInLocal(id: Int(id) ?? 0)
             .flatMap { isFavourite in
                 if isFavourite {
-                    return repository.getGameDetailLocal(id: Int(id) ?? 0)
+                    return self.repository.getGameDetailLocal(id: Int(id) ?? 0)
                         .map { localGameDetail in
                             (localGameDetail, isFavourite)
                         }
                 } else {
                     // TODO: CHANGE THE REMOTE DATA SOURCE TO ALAMOFIRE & RXSWIFT
-                    return repository.getGameDetailRemote(id: id)
-                        .map {
-                            remoteGameDetail in (remoteGameDetail, isFavourite)
+                    return self.repository.getGameDetailRemote(id: id)
+                        .map { remoteGameDetail in
+                            (remoteGameDetail, isFavourite)
                         }
                 }
             }

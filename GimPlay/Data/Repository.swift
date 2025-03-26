@@ -9,10 +9,10 @@ import Foundation
 import RxSwift
 
 class Repository : IRepository {
-    private let remoteDataSource: RemoteDataSource // Inject remote
-    private let localDataSource: LocalDataSource // Inject local
+    private let remoteDataSource: IRemoteDataSource // Inject remote
+    private let localDataSource: ILocalDataSource // Inject local
     
-    init(remoteDS: RemoteDataSource, localDS: LocalDataSource) {
+    init(remoteDS: IRemoteDataSource, localDS: ILocalDataSource) {
         self.remoteDataSource = remoteDS
         self.localDataSource = localDS
     }
@@ -20,22 +20,25 @@ class Repository : IRepository {
 
 extension Repository {
     // MARK: - REMOTE REGION
-    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) async throws -> [GameModel] {
-        let result = try await remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery)
-        
-        return mapGameResToGameModel(res: result)
+    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]> {
+        return remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery)
+            .map { result in
+                self.mapGameResToGameModel(res: result)
+            }
     }
     
-    func getGenresRemote() async throws -> [GenreModel] {
-        let result = try await remoteDataSource.getGenresFromApi()
-        
-        return mapGenreResToGenreModel(res: result)
+    func getGenresRemote() -> Observable<[GenreModel]> {
+        return remoteDataSource.getGenresFromApi()
+            .map { result in
+                self.mapGenreResToGenreModel(res: result)
+            }
     }
     
-    func getGameDetailRemote(id: String) async throws -> GameDetailModel {
-        let result = try await remoteDataSource.getGameDetailFromApi(id: id)
-        
-        return mapDetailResToDetailModel(res: result)
+    func getGameDetailRemote(id: String) -> Observable<GameDetailModel> {
+        return remoteDataSource.getGameDetailFromApi(id: id)
+            .map { result in
+                self.mapDetailResToDetailModel(res: result)
+            }
     }
     
     // MARK: - LOCAL REGION
@@ -169,12 +172,12 @@ extension Repository {
         return GameDetailModel(
             id: gameDetail.id,
             name: gameDetail.name,
-            released: gameDetail.released,
+            released: gameDetail.released ?? "",
             description: gameDetail.desc,
             rating: gameDetail.rating,
             ratingTop: gameDetail.ratingTop,
-            metacritic: gameDetail.metacritic,
-            backgroundImage: gameDetail.imageUrl,
+            metacritic: gameDetail.metacritic ?? 0,
+            backgroundImage: gameDetail.imageUrl ?? "",
             genres: genres,
             stores: gameDetail.stores.components(separatedBy: ", "),
             playtime: gameDetail.playtime,
@@ -190,7 +193,7 @@ extension Repository {
             GenreModel(
                 id: Int(entity.id) ?? 0,
                 name: entity.name,
-                imageBackground: entity.imageUrl
+                imageBackground: entity.imageUrl ?? ""
             )
         }
     }

@@ -15,13 +15,13 @@ class GameDetailEntity: Object {
     @Persisted var publisher: String
     @Persisted var rating: Double
     @Persisted var ratingTop: Int
-    @Persisted var released: String
+    @Persisted var released: String?
     @Persisted var reviewsCount: Int
     @Persisted var stores: String
     @Persisted var desc: String
     @Persisted var image: Data
-    @Persisted var imageUrl: String
-    @Persisted var metacritic: Int
+    @Persisted var imageUrl: String?
+    @Persisted var metacritic: Int?
     // Many-to-Many Relationship
     @Persisted var genres = List<GenreEntity>()
     
