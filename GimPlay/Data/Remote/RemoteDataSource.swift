@@ -16,7 +16,7 @@ protocol IRemoteDataSource {
 }
 
 class RemoteDataSource: IRemoteDataSource {
-    private let API_KEYS = "INSERT_API_KEY_HERE"
+    private let API_KEYS = "INSERT_API_TOKEN_HERE"
     private let BASE_URL = "https://api.rawg.io/api"
     
     private init() { }

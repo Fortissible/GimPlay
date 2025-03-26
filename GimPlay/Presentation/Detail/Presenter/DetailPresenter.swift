@@ -13,8 +13,7 @@ class DetailPresenter {
     private let disposeBag = DisposeBag()
     
     //Reactive Vars
-    let gameDetail = PublishSubject<GameDetailModel>()
-    let isFavourite = PublishSubject<Bool>()
+    let gameDetail = PublishSubject<(GameDetailModel, Bool)>()
     let error = PublishSubject<String>()
     
     init(useCase: IGameUseCase) {
@@ -25,12 +24,37 @@ class DetailPresenter {
         useCase.getGameDetail(id: id)
             .subscribe(
                 onNext: { (gameDetail, isFavourite) in
-                    self.gameDetail.onNext(gameDetail)
-                    self.isFavourite.onNext(isFavourite)
+                    self.gameDetail.onNext((gameDetail, isFavourite))
                 },
                 onError: { error in
                     self.error.onNext(error.localizedDescription)
                 }
             ).disposed(by: disposeBag)
+    }
+    
+    func addFavouriteGame(_ gameDetail: GameDetailModel) {
+        useCase.addFavouriteGame(gameDetail)
+            .subscribe(
+                onNext: { res in
+                    print("Successfully adding \(gameDetail.id) to favourite")
+                },
+                onError: { error in
+                    self.error.onNext(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func removeFavouriteGame(_ gameDetailId: Int) {
+        useCase.removeFavouriteGame(gameDetailId)
+            .subscribe(
+                onNext: { res in
+                    print("Successfully remove \(gameDetailId) from favourite")
+                },
+                onError: { error in
+                    self.error.onNext(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

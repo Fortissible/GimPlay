@@ -26,10 +26,11 @@ class DetailViewController: UIViewController {
     var gameData: (Int, String)? = nil
     var gameDetails: GameDetailModel? = nil
     var isFavourite: Bool = false
+    private var error: String? = nil
     
     var presenter: DetailPresenter?
     private let disposeBag = DisposeBag()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,16 +39,17 @@ class DetailViewController: UIViewController {
             self.navigationItem.backButtonTitle = ""
             
             if (gameDetails == nil) {
-                Task {
-                    await getGameDetail(
-                        String(gameId)
-                    )
-                }
+                getGameDetail(
+                    String(gameId)
+                )
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        bindPresenter()
+        
         if (gameDetails == nil) {
             errorText.isHidden = true
             scrollView.isHidden = true
@@ -57,23 +59,37 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func getGameDetail(_ id: String) async {
-        do {
-            (self.gameDetails, self.isFavourite) = try await gameUseCase.getGameDetail(id: id)
-            if self.gameDetails != nil {
-                DispatchQueue.main.async {
-                    self.updateUI(detail: self.gameDetails!)
-                }
-            }
-        } catch {
-            gameIndicator.stopAnimating()
-            gameIndicator.isHidden = true
-            
-            errorText.text = error.localizedDescription
-            errorText.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
-        }
+    func bindPresenter() {
+        presenter?.gameDetail
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (gameDetail, isFavourite) in
+                self?.gameDetails = gameDetail
+                self?.isFavourite = isFavourite
+                self?.updateUI(detail: gameDetail)
+            })
+            .disposed(by: disposeBag)
+        
+        presenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] error in
+                self?.error = error
+                self?.updateUIFromGettingError(error: error)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func getGameDetail(_ id: String) {
+        presenter?.getGameDetail(id: id)
+    }
+    
+    func updateUIFromGettingError(error: String) {
+        gameIndicator.stopAnimating()
+        gameIndicator.isHidden = true
+        
+        errorText.text = error
+        errorText.isHidden = false
+        
+        self.view.showToast(message: error)
     }
     
     fileprivate func updateUI(detail: GameDetailModel) {
@@ -88,7 +104,7 @@ class DetailViewController: UIViewController {
         
         var gameStores = ""
         for (idx, storeName) in
-            detail.stores.enumerated() {
+                detail.stores.enumerated() {
             gameStores += storeName.split(separator: " ").first ?? ""
             if idx >= 2 {
                 break
@@ -159,26 +175,11 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func onClickFavourite(_ sender: Any) {
-        if gameDetails != nil && !isFavourite {
-            Task {
-                try await gameUseCase.addFavouriteGame(gameDetails!)
-                
-                self.isFavourite = !isFavourite
-                
-                DispatchQueue.main.async {
-                    self.updateUI(detail: self.gameDetails!)
-                }
-            }
-        } else {
-            Task {
-                try await gameUseCase.removeFavouriteGame(gameDetails!.id)
-                
-                self.isFavourite = !isFavourite
-                
-                DispatchQueue.main.async {
-                    self.updateUI(detail: self.gameDetails!)
-                }
-            }
-        }
+        gameDetails != nil && !isFavourite
+            ? presenter?.addFavouriteGame(gameDetails!)
+            : presenter?.removeFavouriteGame(gameDetails!.id)
+        
+        self.updateUI(detail: self.gameDetails!)
+        self.isFavourite = !isFavourite
     }
 }
