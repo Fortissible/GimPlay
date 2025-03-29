@@ -43,10 +43,42 @@ class FavouriteViewController: UIViewController {
         
         mainInfoLabel.isHidden = true
         
-        Task {
-            await getGames()
-            await getGenres()
-        }
+        bindPresenter()
+        
+        getGames()
+        getGenres()
+    }
+    
+    func bindPresenter() {
+        presenter?.games
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] games in
+                    self?.games = games
+                    self?.updateUIOnGetGames()
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        presenter?.genres
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] genres in
+                    self?.genres = genres
+                    self?.updateUIOnGetGenres()
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        presenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] error in
+                    self?.error = error
+                    self?.updateUIOnGetError()
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     func createSearchBar() {
@@ -57,48 +89,48 @@ class FavouriteViewController: UIViewController {
         self.navigationItem.titleView = searchBar
     }
     
-    func getGames(_ query: String? = nil) async {
-        do {
-            searchBarQuery = query
-            games = try await gameUseCase.getFavouriteGames(query)
-            
-            gameLoadingIndicator.stopAnimating()
-            gameLoadingIndicator.isHidden = true
-            
-            if games.isEmpty {
-                mainInfoLabel.isHidden = false
-                mainInfoLabel.text = "There's no favourite game yet, Browse and add new favourite games now!"
-            } else {
-                mainInfoLabel.isHidden = true
-            }
-            
-            favGameCollectionView.reloadData()
-        } catch {
-            gameLoadingIndicator.stopAnimating()
-            gameLoadingIndicator.isHidden = true
-            
-            mainInfoLabel.isHidden = false
-            mainInfoLabel.textColor = .red
-            mainInfoLabel.text = "Error occured: \(error.localizedDescription)"
-            
-            self.view.showToast(message: error.localizedDescription)
-        }
+    func getGames(_ query: String? = nil) {
+        searchBarQuery = query
+        presenter?.getFavouriteGames(query)
     }
     
-    func getGenres() async {
-        do {
-            genres = try await gameUseCase.getFavouriteGenres()
-            
-            genreLoadingIndicator.stopAnimating()
-            genreLoadingIndicator.isHidden = true
-            
-            favGenreCollectionView.reloadData()
-        } catch {
-            genreLoadingIndicator.stopAnimating()
-            genreLoadingIndicator.isHidden = true
-            
-            self.view.showToast(message: error.localizedDescription)
+    func getGenres() {
+        presenter?.getFavouriteGenres()
+    }
+    
+    func updateUIOnGetGenres() {
+        genreLoadingIndicator.stopAnimating()
+        genreLoadingIndicator.isHidden = true
+        
+        favGenreCollectionView.reloadData()
+    }
+    
+    func updateUIOnGetGames() {
+        gameLoadingIndicator.stopAnimating()
+        gameLoadingIndicator.isHidden = true
+        
+        if games.isEmpty {
+            mainInfoLabel.isHidden = false
+            mainInfoLabel.text = "There's no favourite game yet, Browse and add new favourite games now!"
+        } else {
+            mainInfoLabel.isHidden = true
         }
+        
+        favGameCollectionView.reloadData()
+    }
+    
+    func updateUIOnGetError() {
+        genreLoadingIndicator.stopAnimating()
+        genreLoadingIndicator.isHidden = true
+        
+        gameLoadingIndicator.stopAnimating()
+        gameLoadingIndicator.isHidden = true
+        
+        mainInfoLabel.isHidden = false
+        mainInfoLabel.textColor = .red
+        mainInfoLabel.text = "Error occured: \(error ?? "Error")"
+        
+        self.view.showToast(message: error ?? "Error happened")
     }
     
     fileprivate func startDownloadImage(
@@ -151,15 +183,9 @@ class FavouriteViewController: UIViewController {
     
     @objc fileprivate func favButtonTapped(_ sender: UIButton) {
         let selectedGameId = games[sender.tag].id
-        Task {
-            try await gameUseCase.removeFavouriteGame(selectedGameId)
-            
-            games = try await gameUseCase.getFavouriteGames()
-            self.favGameCollectionView.reloadData()
-            
-            genres = try await gameUseCase.getFavouriteGenres()
-            self.favGenreCollectionView.reloadData()
-        }
+        presenter?.removeFavouriteGame(selectedGameId)
+        presenter?.getFavouriteGames()
+        presenter?.getFavouriteGenres()
     }
 }
 
@@ -256,9 +282,7 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
                 sender: (games[indexPath.row].id, games[indexPath.row].name)
             )
         } else {
-            Task {
-                await getGames("FilterByGenreId: \(String(genres[indexPath.row].id))")
-            }
+            getGames("FilterByGenreId: \(String(genres[indexPath.row].id))")
         }
     }
 }
@@ -285,14 +309,10 @@ extension FavouriteViewController : UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarQuery = nil
-        Task {
-            await getGames()
-        }
+        getGames()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        Task {
-            await getGames(searchBarQuery)
-        }
+        getGames(searchBarQuery)
     }
 }

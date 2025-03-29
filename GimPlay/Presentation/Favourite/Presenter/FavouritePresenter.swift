@@ -20,4 +20,44 @@ class FavouritePresenter {
     init(useCase: IGameUseCase) {
         self.useCase = useCase
     }
+    
+    func getFavouriteGames(_ query: String? = nil) {
+        useCase.getFavouriteGames(query)
+            .subscribe(
+                onNext: { games in
+                    self.games.onNext(games)
+                },
+                onError: { error in
+                    self.error.onNext(
+                        error.localizedDescription
+                    )
+                }
+            ).disposed(by: disposeBag)
+    }
+    
+    func getFavouriteGenres() {
+        useCase.getFavouriteGenres()
+            .subscribe(
+                onNext: { genres in
+                    self.genres.onNext(genres)
+                },
+                onError: { error in
+                    self.error.onNext(
+                        error.localizedDescription
+                    )
+                }
+            ).disposed(by: disposeBag)
+    }
+    
+    func removeFavouriteGame(_ gameId: Int) {
+        useCase.removeFavouriteGame(gameId)
+            .subscribe(
+                onNext: { isSuccess in
+                    print("Success removing game \(gameId) from favourite")
+                },
+                onError: { error in
+                    print("Fail to remove game \(gameId) from favourite")
+                }
+            ).disposed(by: disposeBag)
+    }
 }
