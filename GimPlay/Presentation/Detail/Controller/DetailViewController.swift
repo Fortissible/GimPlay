@@ -58,6 +58,8 @@ class DetailViewController: UIViewController {
             gameDetailStackView.isHidden = true
             gameIndicator.startAnimating()
         } else {
+            presenter?.isGameInLocalStorage(gameDetails?.id)
+            
             errorText.isHidden = true
             scrollView.isHidden = false
             
@@ -188,6 +190,5 @@ class DetailViewController: UIViewController {
         : presenter?.removeFavouriteGame(gameDetails!.id)
         
         self.updateUI(detail: self.gameDetails!)
-        self.isFavourite = !isFavourite
     }
 }

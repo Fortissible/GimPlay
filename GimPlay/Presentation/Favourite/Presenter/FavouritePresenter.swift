@@ -59,5 +59,14 @@ class FavouritePresenter {
                     print("Fail to remove game \(gameId) from favourite")
                 }
             ).disposed(by: disposeBag)
+        
+        useCase.deleteUnusedGenres()
+            .subscribe(
+                onNext: { res in
+                },
+                onError: {error in
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

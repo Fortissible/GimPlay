@@ -16,7 +16,9 @@ protocol IGameUseCase {
     func getFavouriteGenres() -> Observable<[GenreModel]>
     func addFavouriteGame(_ game: GameDetailModel) -> Observable<Bool>
     func removeFavouriteGame(_ id: Int) -> Observable<Bool>
+    func deleteUnusedGenres() -> Observable<Bool>
     func getGameDetail(id: String) -> Observable<(GameDetailModel, Bool)>
+    func isGameInLocal(id: Int) -> Observable<Bool>
 }
 
 class GameUseCase: IGameUseCase {
@@ -49,6 +51,14 @@ class GameUseCase: IGameUseCase {
     
     func removeFavouriteGame(_ id: Int) -> Observable<Bool>{
         return repository.removeGameFromFavourites(id: id)
+    }
+    
+    func deleteUnusedGenres() -> Observable<Bool> {
+        return repository.deleteUnusedGenres()
+    }
+    
+    func isGameInLocal(id: Int) -> Observable<Bool> {
+        return repository.isGameInLocal(id: id)
     }
     
     // MARK: - OFFLINE FIRST REGION

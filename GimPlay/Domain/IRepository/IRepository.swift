@@ -24,4 +24,5 @@ protocol IRepository {
     func removeGameFromFavourites(id: Int) -> Observable<Bool>
     
     func getGenresLocal() -> Observable<[GenreModel]>
+    func deleteUnusedGenres() -> Observable<Bool>
 }

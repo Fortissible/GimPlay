@@ -21,6 +21,16 @@ class DetailPresenter {
         self.useCase = useCase
     }
     
+    func isGameInLocalStorage(_ id: Int?) {
+        useCase.isGameInLocal(id: id ?? 0)
+            .subscribe(
+                onNext: { isFavourite in
+                    self.isFavourite.onNext(isFavourite)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
     func getGameDetail(id: String) {
         useCase.getGameDetail(id: id)
             .subscribe(
@@ -55,6 +65,15 @@ class DetailPresenter {
                 },
                 onError: { error in
                     self.error.onNext(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        useCase.deleteUnusedGenres()
+            .subscribe(
+                onNext: { res in
+                },
+                onError: {error in
                 }
             )
             .disposed(by: disposeBag)

@@ -68,6 +68,10 @@ extension Repository {
             }
     }
     
+    func deleteUnusedGenres() -> Observable<Bool> {
+        return self.localDataSource.deleteUnusedGenres()
+    }
+    
     func addGameToFavourites(
         _ gameDetailModel: GameDetailModel
     ) -> Observable<Bool> {

@@ -124,14 +124,19 @@ extension LocalDataSource {
     
     func deleteUnusedGenres() -> Observable<Bool> {
         return Observable.create { observer in
+            // Ensure we have a valid Realm instance
             guard let realm = self.realm else {
                 observer.onError(DatabaseError.invalidInstance)
                 return Disposables.create()
             }
             
             do {
+                // Write operation
                 try realm.write {
+                    // Fetch all genres with no games related to them
                     let unusedGenres = realm.objects(GenreEntity.self).filter("games.@count == 0")
+                    
+                    // Delete unused genres
                     realm.delete(unusedGenres)
                 }
                 
