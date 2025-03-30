@@ -192,7 +192,6 @@ class ViewController: UIViewController {
             .subscribe(onNext: { [weak self] errorMessage in
                 self?.error = errorMessage
                 self?.updateUIfromGettingError()
-                print("Error: \(errorMessage)")
             })
             .disposed(by: disposeBag)
         

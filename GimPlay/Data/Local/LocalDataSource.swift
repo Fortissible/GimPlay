@@ -94,7 +94,7 @@ extension LocalDataSource {
                 return Disposables.create()
             }
             
-            if let result = realm.object(ofType: GameDetailEntity.self, forPrimaryKey: id) {
+            if realm.object(ofType: GameDetailEntity.self, forPrimaryKey: id) != nil {
                 observer.onNext(true)
                 observer.onCompleted()
             } else {

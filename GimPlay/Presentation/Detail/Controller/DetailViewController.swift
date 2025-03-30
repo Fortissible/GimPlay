@@ -34,6 +34,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bindPresenter()
+        
         if let (gameId, gameTitle) = gameData {
             self.title = String(gameTitle)
             self.navigationItem.backButtonTitle = ""
@@ -47,8 +49,7 @@ class DetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        bindPresenter()
+        super.viewWillAppear(animated)
         
         if (gameDetails == nil) {
             errorText.isHidden = true
@@ -56,18 +57,25 @@ class DetailViewController: UIViewController {
             
             gameDetailStackView.isHidden = true
             gameIndicator.startAnimating()
+        } else {
+            errorText.isHidden = true
+            scrollView.isHidden = false
+            
+            gameDetailStackView.isHidden = false
+            gameIndicator.stopAnimating()
         }
     }
     
     func bindPresenter() {
-        presenter?.gameDetail
+        Observable.combineLatest(presenter?.gameDetail ?? Observable.empty(), presenter?.isFavourite ?? Observable.empty())
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (gameDetail, isFavourite) in
+            .subscribe(onNext: { [weak self] gameDetail, isFavourite in
                 self?.gameDetails = gameDetail
                 self?.isFavourite = isFavourite
                 self?.updateUI(detail: gameDetail)
             })
             .disposed(by: disposeBag)
+        
         
         presenter?.error
             .observe(on: MainScheduler.instance)
@@ -176,8 +184,8 @@ class DetailViewController: UIViewController {
     
     @IBAction func onClickFavourite(_ sender: Any) {
         gameDetails != nil && !isFavourite
-            ? presenter?.addFavouriteGame(gameDetails!)
-            : presenter?.removeFavouriteGame(gameDetails!.id)
+        ? presenter?.addFavouriteGame(gameDetails!)
+        : presenter?.removeFavouriteGame(gameDetails!.id)
         
         self.updateUI(detail: self.gameDetails!)
         self.isFavourite = !isFavourite

@@ -148,7 +148,7 @@ extension Repository {
         entity gameDetailList: [GameDetailEntity]
     ) -> [GameModel] {
         return gameDetailList.map { gameDetail in
-            var genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
+            let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
             
             return GameModel(
                 id: gameDetail.id,
@@ -158,7 +158,8 @@ extension Repository {
                 ratingTop: gameDetail.ratingTop,
                 metacritic: gameDetail.metacritic,
                 backgroundImage: gameDetail.imageUrl,
-                genres: genres
+                genres: genres,
+                isFavourite: true
             )
         }
     }
@@ -167,7 +168,7 @@ extension Repository {
         entity gameDetail: GameDetailEntity
     ) -> GameDetailModel {
         
-        var genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
+        let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
         
         return GameDetailModel(
             id: gameDetail.id,
@@ -182,7 +183,8 @@ extension Repository {
             stores: gameDetail.stores.components(separatedBy: ", "),
             playtime: gameDetail.playtime,
             reviewsCount: gameDetail.reviewsCount,
-            publisher: gameDetail.publisher
+            publisher: gameDetail.publisher,
+            isFavourite: true
         )
     }
     

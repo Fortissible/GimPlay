@@ -58,13 +58,12 @@ class GameUseCase: IGameUseCase {
                 if isFavourite {
                     return self.repository.getGameDetailLocal(id: Int(id) ?? 0)
                         .map { localGameDetail in
-                            (localGameDetail, isFavourite)
+                            return (localGameDetail, isFavourite)
                         }
                 } else {
-                    // TODO: CHANGE THE REMOTE DATA SOURCE TO ALAMOFIRE & RXSWIFT
                     return self.repository.getGameDetailRemote(id: id)
                         .map { remoteGameDetail in
-                            (remoteGameDetail, isFavourite)
+                            return (remoteGameDetail, isFavourite)
                         }
                 }
             }
