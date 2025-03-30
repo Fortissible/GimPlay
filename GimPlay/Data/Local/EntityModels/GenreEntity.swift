@@ -18,6 +18,7 @@ class GenreEntity: Object {
     
     convenience init(genre: GenreModel) {
         self.init()
+        self.id = String(genre.id)
         self.name = genre.name
         self.image = genre.image?.jpegData(
             compressionQuality: 1

@@ -197,6 +197,7 @@ extension LocalDataSource {
                 try realm.write {
                     if let game = realm.object(ofType: GameDetailEntity.self, forPrimaryKey: id) {
                         realm.delete(game)
+                        
                         observer.onNext(true)
                     } else {
                         observer.onNext(false)
