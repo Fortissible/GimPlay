@@ -11,16 +11,16 @@ import RxSwift
 class DetailPresenter {
     private let useCase: IGameUseCase
     private let disposeBag = DisposeBag()
-    
-    //Reactive Vars
+
+    // Reactive Vars
     let gameDetail = PublishSubject<GameDetailModel>()
     let isFavourite = PublishSubject<Bool>()
     let error = PublishSubject<String>()
-    
+
     init(useCase: IGameUseCase) {
         self.useCase = useCase
     }
-    
+
     func isGameInLocalStorage(_ id: Int?) {
         useCase.isGameInLocal(id: id ?? 0)
             .subscribe(
@@ -30,7 +30,7 @@ class DetailPresenter {
             )
             .disposed(by: disposeBag)
     }
-    
+
     func getGameDetail(id: String) {
         useCase.getGameDetail(id: id)
             .subscribe(
@@ -43,7 +43,7 @@ class DetailPresenter {
                 }
             ).disposed(by: disposeBag)
     }
-    
+
     func addFavouriteGame(_ gameDetail: GameDetailModel) {
         useCase.addFavouriteGame(gameDetail)
             .subscribe(
@@ -56,7 +56,7 @@ class DetailPresenter {
             )
             .disposed(by: disposeBag)
     }
-    
+
     func removeFavouriteGame(_ gameDetailId: Int) {
         useCase.removeFavouriteGame(gameDetailId)
             .subscribe(
@@ -68,12 +68,12 @@ class DetailPresenter {
                 }
             )
             .disposed(by: disposeBag)
-        
+
         useCase.deleteUnusedGenres()
             .subscribe(
-                onNext: { res in
+                onNext: { _ in
                 },
-                onError: {error in
+                onError: { _ in
                 }
             )
             .disposed(by: disposeBag)

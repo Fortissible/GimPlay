@@ -7,18 +7,18 @@
 
 import Foundation
 
-enum NetworkError : Error {
+enum NetworkError: Error {
     case connectionFailed
     case decodingError
 }
 
-extension NetworkError : LocalizedError {
+extension NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
-            case .connectionFailed:
-                return "Network connection error. Please check your network connections and try again"
-            case .decodingError:
-                return "Failed to decode the response. Please check the API Response structure"
+        case .connectionFailed:
+            return "Network connection error. Please check your network connections and try again"
+        case .decodingError:
+            return "Failed to decode the response. Please check the API Response structure"
         }
     }
 }

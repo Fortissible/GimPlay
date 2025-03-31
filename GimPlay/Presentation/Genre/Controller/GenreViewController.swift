@@ -9,16 +9,16 @@ import UIKit
 import RxSwift
 
 class GenreViewController: UIViewController {
-    
+
     @IBOutlet weak var textError: UILabel!
     @IBOutlet weak var gameByGenreIndicator: UIActivityIndicatorView!
     @IBOutlet weak var gameByGenreTableView: UITableView!
-    
-    var searchQueryData: String? = nil
-    var genreData: (Int, String)? = nil
+
+    var searchQueryData: String?
+    var genreData: (Int, String)?
     var games: [GameModel] = []
-    private var error: String? = nil
-    
+    private var error: String?
+
     var presenter: GenrePresenter?
     private let disposeBag = DisposeBag()
 
@@ -31,11 +31,11 @@ class GenreViewController: UIViewController {
             forCellReuseIdentifier: "gameCardViewCell"
         )
         gameByGenreTableView.delegate = self
-        
+
         if let (genreId, genreTitle) = genreData {
-            
+
             self.title = "\(genreTitle) Genre"
-            
+
             if games.isEmpty {
                 getGamesByGenre(String(genreId))
             } else {
@@ -43,11 +43,11 @@ class GenreViewController: UIViewController {
                 self.gameByGenreIndicator.isHidden = true
             }
         }
-        
+
         if let searchQueryResult = searchQueryData {
-            
+
             self.title = "Search: \(searchQueryResult)"
-            
+
             if games.isEmpty {
                 getGamesBySearchQuery(searchQueryResult)
             } else {
@@ -56,14 +56,14 @@ class GenreViewController: UIViewController {
             }
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         textError.isHidden = true
         gameByGenreIndicator.startAnimating()
-        
+
         bindPresenter()
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "moveToDetailFromGenre" {
             if let detailViewController = segue.destination as? DetailViewController {
@@ -71,7 +71,7 @@ class GenreViewController: UIViewController {
             }
         }
     }
-    
+
     private func bindPresenter() {
         presenter?.games
             .observe(on: MainScheduler.instance)
@@ -83,7 +83,7 @@ class GenreViewController: UIViewController {
                 }
             )
             .disposed(by: disposeBag)
-        
+
         presenter?.error
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { error in
@@ -93,24 +93,24 @@ class GenreViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
+
     func getGamesByGenre(_ genreId: String) {
         presenter?.getGameList(query: "lucky", genreId: genreId, searchQuery: nil)
     }
-    
+
     func getGamesBySearchQuery(_ searchQuery: String?) {
         presenter?.getGameList(query: "lucky", genreId: nil, searchQuery: searchQuery)
     }
-    
+
     func hideIndicatorUI() {
         gameByGenreIndicator.stopAnimating()
         gameByGenreIndicator.isHidden = true
     }
-    
+
     func updateUIFromGettingError(error: String) {
         textError.text = error
         textError.isHidden = false
-        
+
         self.view.showToast(message: error)
     }
 }
@@ -120,14 +120,14 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return games.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let gameCell = tableView.dequeueReusableCell(
             withIdentifier: "gameCardViewCell",
             for: indexPath
         ) as? GameCardViewCell {
             let game = games[indexPath.row]
-            
+
             gameCell.gameGenresView.text = game.genres.map { $0.name }.joined(separator: ", ")
             gameCell.gameTitleView.text = game.name
             gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
@@ -152,36 +152,36 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(
             withIdentifier: "moveToDetailFromGenre",
             sender: (
                 games[indexPath.row].id,
                 games[indexPath.row].name
-                )
+            )
         )
     }
-    
+
     fileprivate func startDownloadImage(
         imageUrl: String?,
         downloadableImage: DownloadableImage,
         indexPath: IndexPath
     ) {
         let imageDownloader = ImageDownloader()
-        
+
         if downloadableImage.state == .new {
             Task {
                 do {
                     downloadableImage.state = .downloading
-                    
+
                     let image = try await imageDownloader.downloadImage(
                         url: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
                     )
-                    
+
                     downloadableImage.state = .done
                     downloadableImage.image = image
-                    
+
                     DispatchQueue.main.async {
                         self.gameByGenreTableView.reloadRows(at: [indexPath], with: .automatic)
                     }

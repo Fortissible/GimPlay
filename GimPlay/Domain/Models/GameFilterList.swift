@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum GameFilterList: CaseIterable{
-    case lucky, new, update    
+enum GameFilterList: CaseIterable {
+case lucky, new, update
     static func fromIndex(_ idx: Int) -> String {
         switch idx {
-            case 0: return "lucky"
-            case 1: return "released"
-            case 2: return "updated"
-            default: return "lucky"
+        case 0: return "lucky"
+        case 1: return "released"
+        case 2: return "updated"
+        default: return "lucky"
         }
     }
 }

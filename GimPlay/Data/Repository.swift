@@ -8,10 +8,10 @@
 import Foundation
 import RxSwift
 
-class Repository : IRepository {
+class Repository: IRepository {
     private let remoteDataSource: IRemoteDataSource // Inject remote
     private let localDataSource: ILocalDataSource // Inject local
-    
+
     init(remoteDS: IRemoteDataSource, localDS: ILocalDataSource) {
         self.remoteDataSource = remoteDS
         self.localDataSource = localDS
@@ -26,21 +26,21 @@ extension Repository {
                 self.mapGameResToGameModel(res: result)
             }
     }
-    
+
     func getGenresRemote() -> Observable<[GenreModel]> {
         return remoteDataSource.getGenresFromApi()
             .map { result in
                 self.mapGenreResToGenreModel(res: result)
             }
     }
-    
+
     func getGameDetailRemote(id: String) -> Observable<GameDetailModel> {
         return remoteDataSource.getGameDetailFromApi(id: id)
             .map { result in
                 self.mapDetailResToDetailModel(res: result)
             }
     }
-    
+
     // MARK: - LOCAL REGION
     func getGamesLocal(query: String? = nil) -> Observable<[GameModel]> {
         return self.localDataSource.getAllFavouriteGames(query: query)
@@ -48,36 +48,35 @@ extension Repository {
                 self.mapGameDetailEntitiesToGameModels(entity: $0)
             }
     }
-    
+
     func isGameInLocal(id: Int) -> Observable<Bool> {
         return self.localDataSource.isGameInLocal(id: id)
     }
-    
-    
+
     func getGameDetailLocal(id: Int) -> Observable<GameDetailModel> {
         return self.localDataSource.getFavouriteGame(id)
             .map {
                 self.mapGameDetailEntityToGameDetailModel(entity: $0)
             }
     }
-    
+
     func getGenresLocal() -> Observable<[GenreModel]> {
         return self.localDataSource.getAllFavouriteGenres()
             .map {
                 self.mapGenreEntitiesToGenreModels(entities: $0)
             }
     }
-    
+
     func deleteUnusedGenres() -> Observable<Bool> {
         return self.localDataSource.deleteUnusedGenres()
     }
-    
+
     func addGameToFavourites(
         _ gameDetailModel: GameDetailModel
     ) -> Observable<Bool> {
         return self.localDataSource.addFavouriteGame(gameDetailModel)
     }
-    
+
     func removeGameFromFavourites(id: Int) -> Observable<Bool> {
         return self.localDataSource.removeFavouriteGame(id)
     }
@@ -135,7 +134,7 @@ extension Repository {
             )
         }
     }
-    
+
     fileprivate func mapGenreResToGenreModel(
         res genreRes: GenreRes
     ) -> [GenreModel] {
@@ -147,13 +146,13 @@ extension Repository {
             )
         }
     }
-    
+
     fileprivate func mapGameDetailEntitiesToGameModels(
         entity gameDetailList: [GameDetailEntity]
     ) -> [GameModel] {
         return gameDetailList.map { gameDetail in
             let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
-            
+
             return GameModel(
                 id: gameDetail.id,
                 name: gameDetail.name,
@@ -167,13 +166,13 @@ extension Repository {
             )
         }
     }
-    
+
     fileprivate func mapGameDetailEntityToGameDetailModel(
         entity gameDetail: GameDetailEntity
     ) -> GameDetailModel {
-        
+
         let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
-        
+
         return GameDetailModel(
             id: gameDetail.id,
             name: gameDetail.name,
@@ -191,7 +190,7 @@ extension Repository {
             isFavourite: true
         )
     }
-    
+
     fileprivate func mapGenreEntitiesToGenreModels(
         entities: [GenreEntity]
     ) -> [GenreModel] {

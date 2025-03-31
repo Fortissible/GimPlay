@@ -11,16 +11,16 @@ import RxSwift
 class FavouritePresenter {
     private let useCase: IGameUseCase
     private let disposeBag = DisposeBag()
-    
-    //Reactive Vars
+
+    // Reactive Vars
     let games = PublishSubject<[GameModel]>()
     let genres = PublishSubject<[GenreModel]>()
     let error = PublishSubject<String>()
-    
+
     init(useCase: IGameUseCase) {
         self.useCase = useCase
     }
-    
+
     func getFavouriteGames(_ query: String? = nil) {
         useCase.getFavouriteGames(query)
             .subscribe(
@@ -34,7 +34,7 @@ class FavouritePresenter {
                 }
             ).disposed(by: disposeBag)
     }
-    
+
     func getFavouriteGenres() {
         useCase.getFavouriteGenres()
             .subscribe(
@@ -48,23 +48,23 @@ class FavouritePresenter {
                 }
             ).disposed(by: disposeBag)
     }
-    
+
     func removeFavouriteGame(_ gameId: Int) {
         useCase.removeFavouriteGame(gameId)
             .subscribe(
-                onNext: { isSuccess in
+                onNext: { _ in
                     print("Success removing game \(gameId) from favourite")
                 },
-                onError: { error in
+                onError: { _ in
                     print("Fail to remove game \(gameId) from favourite")
                 }
             ).disposed(by: disposeBag)
-        
+
         useCase.deleteUnusedGenres()
             .subscribe(
-                onNext: { res in
+                onNext: { _ in
                 },
-                onError: {error in
+                onError: { _ in
                 }
             )
             .disposed(by: disposeBag)

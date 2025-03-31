@@ -18,9 +18,9 @@ protocol IRemoteDataSource {
 class RemoteDataSource: IRemoteDataSource {
     private let API_KEYS = "INSERT_API_TOKEN_HERE"
     private let BASE_URL = "https://api.rawg.io/api"
-    
+
     private init() { }
-    
+
     static let sharedInstance: RemoteDataSource = RemoteDataSource()
 }
 
@@ -32,15 +32,15 @@ extension RemoteDataSource {
             "page": "1"
         ]
     }
-    
+
     private func buildUrl(endpoint: String, parameters: [String: String]?) -> String {
         var allParams = defaultQueryItems
         parameters?.forEach { allParams[$0.key] = $0.value }
-        
+
         let queryString = allParams.map { "\($0.key)=\($0.value)" }.joined(separator: "&")
         return "\(BASE_URL)\(endpoint)?\(queryString)"
     }
-    
+
     private func request<T: Decodable>(url: String) -> Observable<T> {
         return Observable.create { observer in
             let request = AF.request(url)
@@ -54,37 +54,37 @@ extension RemoteDataSource {
                         observer.onError(NetworkError.connectionFailed)
                     }
                 }
-            
+
             return Disposables.create { request.cancel() }
         }
     }
-    
+
     func getGamesFromApi(query: String, genreId: String?, searchQuery: String?) -> Observable<GamesRes> {
         var parameters: [String: String] = [:]
-        
+
         if let searchQuery = searchQuery {
             parameters["search"] = searchQuery
         }
-        
+
         if query == "released" {
             parameters["ordering"] = "-released"
         } else if query != "lucky" {
             parameters["ordering"] = query
         }
-        
+
         if let genreId = genreId {
             parameters["genres"] = genreId
         }
-        
+
         let url = buildUrl(endpoint: "/games", parameters: parameters)
         return request(url: url)
     }
-    
+
     func getGenresFromApi() -> Observable<GenreRes> {
         let url = buildUrl(endpoint: "/genres", parameters: nil)
         return request(url: url)
     }
-    
+
     func getGameDetailFromApi(id: String) -> Observable<GameDetailRes> {
         let url = buildUrl(endpoint: "/games/\(id)", parameters: nil)
         return request(url: url)

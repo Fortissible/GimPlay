@@ -13,9 +13,9 @@ class GenreEntity: Object {
     @Persisted var name: String
     @Persisted var imageUrl: String?
     @Persisted var image: Data
-    
+
     @Persisted(originProperty: "genres") var games: LinkingObjects<GameDetailEntity>
-    
+
     convenience init(genre: GenreModel) {
         self.init()
         self.id = String(genre.id)

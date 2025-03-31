@@ -8,11 +8,11 @@
 import Foundation
 
 enum DatabaseError: LocalizedError {
-    
+
     case invalidInstance
     case requestFailed
     case notFound
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidInstance: return "Database can't instance."
@@ -20,5 +20,5 @@ enum DatabaseError: LocalizedError {
         case .notFound: return "Data not found in Database"
         }
     }
-    
+
 }

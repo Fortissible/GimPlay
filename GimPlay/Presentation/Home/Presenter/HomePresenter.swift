@@ -11,16 +11,16 @@ import RxSwift
 class HomePresenter {
     private let useCase: IGameUseCase
     private let disposeBag = DisposeBag()
-    
-    //Reactive Vars
+
+    // Reactive Vars
     let games = PublishSubject<[GameModel]>()
     let genres = PublishSubject<[GenreModel]>()
     let error = PublishSubject<String>()
-    
+
     init(useCase: IGameUseCase) {
         self.useCase = useCase
     }
-    
+
     func getGames(query: String, genreId: String?, searchQuery: String?) {
         useCase.getGameList(query: query, genreId: genreId, searchQuery: searchQuery)
             .subscribe(
@@ -32,7 +32,7 @@ class HomePresenter {
                 }
             ).disposed(by: disposeBag)
     }
-    
+
     func getGenres() {
         useCase.getGenres()
             .subscribe(

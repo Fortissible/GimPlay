@@ -22,9 +22,9 @@ extension UIView {
         toastLabel.alpha = 0.0
         toastLabel.layer.cornerRadius = 10
         toastLabel.clipsToBounds = true
-        
+
         self.addSubview(toastLabel)
- 
+
         UIView.animate(withDuration: 0.5, animations: {
             toastLabel.alpha = 1.0
         }) { _ in
