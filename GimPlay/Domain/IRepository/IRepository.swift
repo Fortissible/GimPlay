@@ -10,7 +10,7 @@ import RxSwift
 
 protocol IRepository {
     // MARK: - REMOTE REGION
-    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]>
+    func getGamesRemote(query: String, genreId: String?, searchQuery: String?, page: Int?) -> Observable<[GameModel]>
     func getGameDetailRemote(id: String) -> Observable<GameDetailModel>
 
     func getGenresRemote() -> Observable<[GenreModel]>

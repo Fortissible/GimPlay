@@ -77,7 +77,7 @@ class GenreViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { games in
-                    self.games = games
+                    self.games.append(contentsOf: games)
                     self.hideIndicatorUI()
                     self.gameByGenreTableView.reloadData()
                 }
@@ -108,10 +108,30 @@ class GenreViewController: UIViewController {
     }
 
     func updateUIFromGettingError(error: String) {
-        textError.text = error
-        textError.isHidden = false
+        if games.isEmpty {
+            textError.text = error
+            textError.isHidden = false
+        }
 
         self.view.showToast(message: error)
+    }
+}
+
+extension GenreViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        let offset = scrollView.contentOffset.y
+
+        if offset > contentHeight - scrollViewHeight - 100 {
+            if games.count > 0 {
+                if genreData != nil {
+                    getGamesByGenre(String(genreData?.0 ?? 0))
+                } else if searchQueryData != nil {
+                    getGamesBySearchQuery(searchQueryData)
+                }
+            }
+        }
     }
 }
 

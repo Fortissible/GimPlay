@@ -10,13 +10,23 @@ import Alamofire
 import RxSwift
 
 protocol IRemoteDataSource {
-    func getGamesFromApi(query: String, genreId: String?, searchQuery: String?) -> Observable<GamesRes>
+    func getGamesFromApi(query: String, genreId: String?, searchQuery: String?, page: Int?) -> Observable<GamesRes>
     func getGenresFromApi() -> Observable<GenreRes>
     func getGameDetailFromApi(id: String) -> Observable<GameDetailRes>
 }
 
 class RemoteDataSource: IRemoteDataSource {
-    private let API_KEYS = "INSERT_API_TOKEN_HERE"
+    private var API_KEYS: String {
+        guard let filePath = Bundle.main.path(forResource: "env", ofType: "plist") else {
+            fatalError("Couldn't find file 'env.plist'.")
+        }
+
+        let plist = NSDictionary(contentsOfFile: filePath)
+        guard let value = plist?.object(forKey: "API_KEYS") as? String else {
+            fatalError("Couldn't find key 'API_KEYS' in 'env.plist'.")
+        }
+        return value
+    }
     private let BASE_URL = "https://api.rawg.io/api"
 
     private init() { }
@@ -28,8 +38,7 @@ extension RemoteDataSource {
     private var defaultQueryItems: [String: String] {
         return [
             "key": API_KEYS,
-            "page_size": "10",
-            "page": "1"
+            "page_size": "10"
         ]
     }
 
@@ -59,8 +68,10 @@ extension RemoteDataSource {
         }
     }
 
-    func getGamesFromApi(query: String, genreId: String?, searchQuery: String?) -> Observable<GamesRes> {
-        var parameters: [String: String] = [:]
+    func getGamesFromApi(query: String, genreId: String?, searchQuery: String?, page: Int?) -> Observable<GamesRes> {
+        var parameters: [String: String] = [
+                "page": "\(page ?? 1)"
+            ]
 
         if let searchQuery = searchQuery {
             parameters["search"] = searchQuery

@@ -163,14 +163,16 @@ class ViewController: UIViewController {
 
     func updateUIfromGettingError() {
         if let error = self.error {
-            gameTableIndicator.stopAnimating()
-            gameTableIndicator.isHidden = true
+            if games.isEmpty {
+                gameTableIndicator.stopAnimating()
+                gameTableIndicator.isHidden = true
 
-            genreIndicator.stopAnimating()
-            genreIndicator.isHidden = true
+                genreIndicator.stopAnimating()
+                genreIndicator.isHidden = true
 
-            errorText.text = error
-            errorText.isHidden = false
+                errorText.text = error
+                errorText.isHidden = false
+            }
 
             self.view.showToast(message: error)
         }
@@ -180,7 +182,7 @@ class ViewController: UIViewController {
         presenter?.games
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] games in
-                self?.games = games
+                self?.games.append(contentsOf: games)
                 self?.updateUIfromGetGames()
             })
             .disposed(by: disposeBag)
@@ -234,6 +236,20 @@ class ViewController: UIViewController {
                     downloadableImage.state = .failed
                     downloadableImage.image = UIImage(named: "placeholder")
                 }
+            }
+        }
+    }
+}
+
+extension ViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        let offset = scrollView.contentOffset.y
+
+        if offset > contentHeight - scrollViewHeight - 100 {
+            if games.count > 0 {
+                presenter?.getGames(query: GameFilterList.fromIndex(selectedFilter), genreId: nil, searchQuery: nil)
             }
         }
     }

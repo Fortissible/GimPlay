@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol IGameUseCase {
-    func getGameList(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]>
+    func getGameList(query: String, genreId: String?, searchQuery: String?, page: Int?) -> Observable<[GameModel]>
     func getGenres() -> Observable<[GenreModel]>
 
     func getFavouriteGames(_ query: String?) -> Observable<[GameModel]>
@@ -28,8 +28,8 @@ class GameUseCase: IGameUseCase {
         self.repository = repository
     }
     // MARK: - REMOTE REGIONS
-    func getGameList(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]> {
-        return repository.getGamesRemote(query: query, genreId: genreId, searchQuery: searchQuery)
+    func getGameList(query: String, genreId: String?, searchQuery: String?, page: Int?) -> Observable<[GameModel]> {
+        return repository.getGamesRemote(query: query, genreId: genreId, searchQuery: searchQuery, page: page)
     }
 
     func getGenres() -> Observable<[GenreModel]> {

@@ -20,8 +20,8 @@ class Repository: IRepository {
 
 extension Repository {
     // MARK: - REMOTE REGION
-    func getGamesRemote(query: String, genreId: String?, searchQuery: String?) -> Observable<[GameModel]> {
-        return remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery)
+    func getGamesRemote(query: String, genreId: String?, searchQuery: String?, page: Int?) -> Observable<[GameModel]> {
+        return remoteDataSource.getGamesFromApi(query: query, genreId: genreId, searchQuery: searchQuery, page: page)
             .map { result in
                 self.mapGameResToGameModel(res: result)
             }
