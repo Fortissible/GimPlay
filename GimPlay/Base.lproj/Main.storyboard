@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="c4k-I7-NUw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="c4k-I7-NUw">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -317,7 +318,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hje-pF-ExZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2789" y="4"/>
+            <point key="canvasLocation" x="4691" y="-30"/>
         </scene>
         <!--Favourite-->
         <scene sceneID="1pE-0H-m2Q">
@@ -716,7 +717,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9S6-m2-PQA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="647" y="1529"/>
+            <point key="canvasLocation" x="1011" y="1527"/>
         </scene>
         <!--AboutPage-->
         <scene sceneID="4SO-2m-hu5">
@@ -867,7 +868,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2g-ZT-bRb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3790.0763358778622" y="775.35211267605632"/>
+            <point key="canvasLocation" x="3912" y="822"/>
         </scene>
         <!--Favourite-->
         <scene sceneID="o01-yE-rlP">
@@ -909,7 +910,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Pni-cI-ny5"/>
+        <segue reference="Y55-zm-nGv"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="aboutme" width="1080" height="720"/>
@@ -922,9 +923,9 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         <image name="placeholder" width="128" height="128"/>
         <image name="relink" width="616" height="353"/>
         <image name="star.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="trash.fill" catalog="system" width="119" height="128"/>
+        <image name="trash.fill" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

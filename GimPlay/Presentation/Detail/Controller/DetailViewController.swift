@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import RxSwift
 
 class DetailViewController: UIViewController {
-    
+
     @IBOutlet weak var gameDetailStackView: UIStackView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var gameReleasePlaytime: UILabel!
@@ -21,62 +22,85 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var gamePublisher: UILabel!
     @IBOutlet weak var gameReviews: UILabel!
     @IBOutlet weak var gameCartBtn: UIButton!
-    
-    var gameData: (Int, String)? = nil
-    var gameDetails: GameDetailModel? = nil
+
+    var gameData: (Int, String)?
+    var gameDetails: GameDetailModel?
     var isFavourite: Bool = false
-    
-    private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private let localDS: LocalDataSource = LocalDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
-    private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
+    private var error: String?
+
+    var presenter: DetailPresenter?
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        bindPresenter()
+
         if let (gameId, gameTitle) = gameData {
             self.title = String(gameTitle)
             self.navigationItem.backButtonTitle = ""
-            
-            if (gameDetails == nil) {
-                Task {
-                    await getGameDetail(
-                        String(gameId)
-                    )
-                }
+
+            if gameDetails == nil {
+                getGameDetail(
+                    String(gameId)
+                )
             }
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
-        if (gameDetails == nil) {
+        super.viewWillAppear(animated)
+
+        if gameDetails == nil {
             errorText.isHidden = true
             scrollView.isHidden = true
-            
+
             gameDetailStackView.isHidden = true
             gameIndicator.startAnimating()
-        }
-    }
-    
-    func getGameDetail(_ id: String) async {
-        do {
-            (self.gameDetails, self.isFavourite) = try await gameUseCase.getGameDetail(id: id)
-            if self.gameDetails != nil {
-                DispatchQueue.main.async {
-                    self.updateUI(detail: self.gameDetails!)
-                }
-            }
-        } catch {
+        } else {
+            presenter?.isGameInLocalStorage(gameDetails?.id)
+
+            errorText.isHidden = true
+            scrollView.isHidden = false
+
+            gameDetailStackView.isHidden = false
             gameIndicator.stopAnimating()
-            gameIndicator.isHidden = true
-            
-            errorText.text = error.localizedDescription
-            errorText.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
         }
     }
-    
+
+    func bindPresenter() {
+        Observable.combineLatest(presenter?.gameDetail ?? Observable.empty(), presenter?.isFavourite ?? Observable.empty())
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] gameDetail, isFavourite in
+                self?.gameDetails = gameDetail
+                self?.isFavourite = isFavourite
+                self?.updateUI(detail: gameDetail)
+            })
+            .disposed(by: disposeBag)
+
+        presenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] error in
+                self?.error = error
+                self?.updateUIFromGettingError(error: error)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    func getGameDetail(_ id: String) {
+        presenter?.getGameDetail(id: id)
+    }
+
+    func updateUIFromGettingError(error: String) {
+        gameIndicator.stopAnimating()
+        gameIndicator.isHidden = true
+
+        errorText.text = error
+        errorText.isHidden = false
+
+        self.view.showToast(message: error)
+    }
+
     fileprivate func updateUI(detail: GameDetailModel) {
         gamePublisher.text = detail.publisher
         gameReleasePlaytime.text = "Released: \(detail.released), Total playtime: \(detail.playtime) Hours"
@@ -86,20 +110,20 @@ class DetailViewController: UIViewController {
             isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"),
             for: .normal
         )
-        
+
         var gameStores = ""
         for (idx, storeName) in
-            detail.stores.enumerated() {
+                detail.stores.enumerated() {
             gameStores += storeName.split(separator: " ").first ?? ""
             if idx >= 2 {
                 break
             }
-            if (idx != detail.stores.count - 1) {
+            if idx != detail.stores.count - 1 {
                 gameStores += ", "
             }
         }
         gameStoreList.setTitle("On \(gameStores)", for: .normal)
-        
+
         gameGenreList.arrangedSubviews.forEach { subview in
             gameGenreList.removeArrangedSubview(subview)
             subview.removeFromSuperview()
@@ -119,34 +143,34 @@ class DetailViewController: UIViewController {
             genreCard.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
             gameGenreList.addArrangedSubview(genreCard)
         }
-        
+
         startDownloadImage(
             imageUrl: detail.backgroundImage,
             downloadableImage: detail
         )
-        
+
         gameIndicator.stopAnimating()
         gameIndicator.isHidden = true
-        
+
         gameDetailStackView.isHidden = false
         scrollView.isHidden = false
     }
-    
+
     fileprivate func startDownloadImage(
         imageUrl: String?,
         downloadableImage: DownloadableImage
     ) {
         let imageDownloader = ImageDownloader()
-        
+
         if downloadableImage.state == .new {
             Task {
                 do {
                     downloadableImage.state = .downloading
-                    
+
                     let image = try await imageDownloader.downloadImage(
                         url: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
                     )
-                    
+
                     DispatchQueue.main.async {
                         self.gameImage.image = image
                         downloadableImage.state = .done
@@ -158,28 +182,12 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    
+
     @IBAction func onClickFavourite(_ sender: Any) {
-        if gameDetails != nil && !isFavourite {
-            Task {
-                try await gameUseCase.addFavouriteGame(gameDetails!)
-                
-                self.isFavourite = !isFavourite
-                
-                DispatchQueue.main.async {
-                    self.updateUI(detail: self.gameDetails!)
-                }
-            }
-        } else {
-            Task {
-                try await gameUseCase.removeFavouriteGame(gameDetails!.id)
-                
-                self.isFavourite = !isFavourite
-                
-                DispatchQueue.main.async {
-                    self.updateUI(detail: self.gameDetails!)
-                }
-            }
-        }
+        gameDetails != nil && !isFavourite
+        ? presenter?.addFavouriteGame(gameDetails!)
+        : presenter?.removeFavouriteGame(gameDetails!.id)
+
+        self.updateUI(detail: self.gameDetails!)
     }
 }

@@ -15,12 +15,5 @@ class GameCardViewCell: UITableViewCell {
     @IBOutlet weak var gameGenresView: UILabel!
     @IBOutlet weak var gameTitleView: UILabel!
     @IBOutlet weak var gameImageView: UIImageView!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
 }

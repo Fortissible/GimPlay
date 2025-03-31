@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // MARK: - Result
-class GenreModel : DownloadableImage {
+class GenreModel: DownloadableImage {
     let id: Int
     let name: String
     let imageBackground: String
@@ -22,7 +22,7 @@ class GenreModel : DownloadableImage {
         self.id = id
         self.name = name
         self.imageBackground = imageBackground
-        
+
         super.init()
     }
 }

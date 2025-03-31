@@ -21,7 +21,7 @@ class GameDetailModel: DownloadableImage {
     let stores: [String]
     let publisher: String
     let isFavourite: Bool
-    
+
     init(
         id: Int,
         name: String,

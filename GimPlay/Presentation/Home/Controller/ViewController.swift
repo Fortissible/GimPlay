@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class ViewController: UIViewController {
 
@@ -17,26 +18,25 @@ class ViewController: UIViewController {
     @IBOutlet weak var gamesTableView: UITableView!
     @IBOutlet weak var filterList: UIStackView!
     private var filterButtons: [UIButton] = []
-    
-    private var searchBarQuery: String? = nil
+
+    private var searchBarQuery: String?
     private var selectedFilter: Int = 0
-    
+
     private var games: [GameModel] = []
     private var genres: [GenreModel] = []
-    
-    private let remoteDS: RemoteDataSource = RemoteDataSource()
-    private let localDS: LocalDataSource = LocalDataSource()
-    private lazy var repository: IRepository = Repository(remoteDS: remoteDS, localDS: localDS)
-    private lazy var gameUseCase: GameUseCase = GameUseCase(repository: repository)
-    
+    private var error: String?
+
+    var presenter: HomePresenter?
+    private let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         createSearchBar()
-        
+
         filterList.spacing = 4
         filterList.distribution = .fillEqually
-        for (idx, _) in GameFilterList.allCases.enumerated() {
+        for idx in GameFilterList.allCases.indices {
             let filterBtn = UIButton(type: .system)
             filterBtn.setTitle(GameFilterList.fromIndex(idx), for: .normal)
             filterBtn.setTitleColor(.white, for: .normal)
@@ -45,152 +45,165 @@ class ViewController: UIViewController {
             filterBtn.layer.masksToBounds = true
             filterBtn.heightAnchor.constraint(equalToConstant: 80).isActive = true
             filterBtn.tag = idx
-            
+
             filterBtn.addTarget(self, action: #selector(filterBtnTapped(_:)), for: .touchUpInside)
-            
+
             filterList.addArrangedSubview(filterBtn)
             filterButtons.append(filterBtn)
         }
-        
+
         gamesTableView.dataSource = self
         gamesTableView.register(
             UINib(nibName: "GameCardViewCell", bundle: nil),
             forCellReuseIdentifier: "gameCardViewCell"
         )
         gamesTableView.delegate = self
-        
+
         genresCollectionView.dataSource = self
         genresCollectionView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         errorText.isHidden = true
         gameTableIndicator.startAnimating()
         genreIndicator.startAnimating()
-        
-        Task {
-            if games.isEmpty {
-                await getGames(GameFilterList.fromIndex(selectedFilter))
-            } else {
-                DispatchQueue.main.async {
-                    self.gameTableIndicator.stopAnimating()
-                    self.gameTableIndicator.isHidden = true
-                }
-            }
-            
-            if genres.isEmpty {
-                await getGenres()
-            } else {
-                DispatchQueue.main.async {
-                    self.genreIndicator.stopAnimating()
-                    self.genreIndicator.isHidden = true
-                }
-            }
+
+        bindPresenter()
+
+        if games.isEmpty {
+            getGames(GameFilterList.fromIndex(selectedFilter))
+        } else {
+            self.gameTableIndicator.stopAnimating()
+            self.gameTableIndicator.isHidden = true
+        }
+
+        if genres.isEmpty {
+            getGenres()
+        } else {
+            self.genreIndicator.stopAnimating()
+            self.genreIndicator.isHidden = true
         }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-            case "moveToDetail":
-                if let detailViewController = segue.destination as? DetailViewController {
-                    detailViewController.gameData = sender as? (Int, String)
-                }
-                break
-            case "moveToGenre":
-                if let genreViewController = segue.destination as? GenreViewController {
-                    genreViewController.genreData = sender as? (Int, String)
-                    genreViewController.searchQueryData =
-                        sender as? String
-                }
-                break
-            default:
-                break
+        case "moveToDetail":
+            if let detailViewController = segue.destination as? DetailViewController {
+                detailViewController.gameData = sender as? (Int, String)
+            }
+        case "moveToGenre":
+            if let genreViewController = segue.destination as? GenreViewController {
+                genreViewController.genreData = sender as? (Int, String)
+                genreViewController.searchQueryData =
+                sender as? String
+            }
+        default:
+            print("Segue not founs")
         }
     }
-    
+
     @IBAction func openSteamWebsite(_ sender: Any) {
         let shopUrl = "https://store.steampowered.com"
-        
+
         if let url = URL(string: shopUrl), UIApplication.shared.canOpenURL(url) {
-          UIApplication.shared.open(url)
+            UIApplication.shared.open(url)
         }
     }
     @objc fileprivate func filterBtnTapped(_ sender: UIButton) {
         let filterValue = GameFilterList.fromIndex(sender.tag)
-        
+
         for btn in filterButtons {
             btn.backgroundColor = .systemBlue
         }
-        
+
         selectedFilter = sender.tag
         sender.backgroundColor = .systemMint
-        
+
         games = []
         gamesTableView.reloadData()
         gameTableIndicator.isHidden = false
         gameTableIndicator.startAnimating()
-        
-        Task {
-            await getGames(filterValue)
-        }
+
+        getGames(filterValue)
     }
-    
+
     func createSearchBar() {
         let searchBar = UISearchBar()
-        
+
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Search some fun games..."
         searchBar.delegate = self
-        
+
         self.navigationItem.titleView = searchBar
     }
-    
-    func getGames(_ query: String) async {
-        do {
-            games = try await gameUseCase.getGameList(query: query, genreId: nil, searchQuery: nil)
-            
-            gameTableIndicator.stopAnimating()
-            gameTableIndicator.isHidden = true
-            
-            gamesTableView.reloadData()
-        } catch {
-            gameTableIndicator.stopAnimating()
-            gameTableIndicator.isHidden = true
-            
-            genreIndicator.stopAnimating()
-            genreIndicator.isHidden = true
-            
-            errorText.text = error.localizedDescription
-            errorText.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
+
+    func getGames(_ query: String) {
+        presenter?.getGames(query: query, genreId: nil, searchQuery: nil)
+    }
+
+    func getGenres() {
+        presenter?.getGenres()
+    }
+
+    func updateUIfromGetGames() {
+        gameTableIndicator.stopAnimating()
+        gameTableIndicator.isHidden = true
+
+        gamesTableView.reloadData()
+    }
+
+    func updateUIfromGetGenres() {
+        genreIndicator.stopAnimating()
+        genreIndicator.isHidden = true
+
+        genresCollectionView.reloadData()
+    }
+
+    func updateUIfromGettingError() {
+        if let error = self.error {
+            if games.isEmpty {
+                gameTableIndicator.stopAnimating()
+                gameTableIndicator.isHidden = true
+
+                genreIndicator.stopAnimating()
+                genreIndicator.isHidden = true
+
+                errorText.text = error
+                errorText.isHidden = false
+            }
+
+            self.view.showToast(message: error)
         }
     }
-    
-    func getGenres() async {
-        do {
-            genres = try await gameUseCase.getGenres()
-            
-            genreIndicator.stopAnimating()
-            genreIndicator.isHidden = true
-            
-            genresCollectionView.reloadData()
-        } catch {
-            gameTableIndicator.stopAnimating()
-            gameTableIndicator.isHidden = true
-            
-            genreIndicator.stopAnimating()
-            genreIndicator.isHidden = true
-            
-            errorText.text = error.localizedDescription
-            errorText.isHidden = false
-            
-            self.view.showToast(message: error.localizedDescription)
-        }
+
+    private func bindPresenter() {
+        presenter?.games
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] games in
+                self?.games.append(contentsOf: games)
+                self?.updateUIfromGetGames()
+            })
+            .disposed(by: disposeBag)
+
+        presenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] errorMessage in
+                self?.error = errorMessage
+                self?.updateUIfromGettingError()
+            })
+            .disposed(by: disposeBag)
+
+        presenter?.genres
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] genres in
+                self?.genres = genres
+                self?.updateUIfromGetGenres()
+            })
+            .disposed(by: disposeBag)
     }
-    
+
     fileprivate func startDownloadImage(
         imageUrl: String?,
         downloadableImage: DownloadableImage,
@@ -198,19 +211,19 @@ class ViewController: UIViewController {
         viewType: ViewType
     ) {
         let imageDownloader = ImageDownloader()
-        
+
         if downloadableImage.state == .new {
             Task {
                 do {
                     downloadableImage.state = .downloading
-                    
+
                     let image = try await imageDownloader.downloadImage(
                         url: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
                     )
-                    
+
                     downloadableImage.state = .done
                     downloadableImage.image = image
-                    
+
                     DispatchQueue.main.async {
                         switch viewType {
                         case .gameTable:
@@ -228,19 +241,33 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        let offset = scrollView.contentOffset.y
+
+        if offset > contentHeight - scrollViewHeight - 100 {
+            if games.count > 0 {
+                presenter?.getGames(query: GameFilterList.fromIndex(selectedFilter), genreId: nil, searchQuery: nil)
+            }
+        }
+    }
+}
+
 // MARK: - Games Table View Data & UI Utils
-extension ViewController : UITableViewDataSource, UITableViewDelegate {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return games.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let gameCell = tableView.dequeueReusableCell(
             withIdentifier: "gameCardViewCell",
             for: indexPath
         ) as? GameCardViewCell {
             let game = games[indexPath.row]
-            
+
             gameCell.gameGenresView.text = game.genres.map { $0.name }.joined(separator: ", ")
             gameCell.gameTitleView.text = game.name
             gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
@@ -266,7 +293,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(
             withIdentifier: "moveToDetail",
@@ -276,21 +303,21 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: - Genres Collection Data & UI Utils
-extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate {
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return genres.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let genreCell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "genreCollectionViewCell",
             for: indexPath
         ) as? GenreCollectionViewCell {
             let genre = genres[indexPath.row]
-            
+
             genreCell.genreLabelView.text = genre.name
             genreCell.genreImageView.image = genre.image
-            
+
             if genre.state == .new {
                 genreCell.genreImageLoadingVIew.isHidden = false
                 genreCell.genreImageLoadingVIew.startAnimating()
@@ -310,7 +337,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
             return UICollectionViewCell()
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(
             withIdentifier: "moveToGenre",
@@ -320,15 +347,15 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
 }
 
 // MARK: - Searchbar UI Utils
-extension ViewController : UISearchBarDelegate {
+extension ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBarQuery = searchText
     }
-    
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarQuery = nil
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         performSegue(
             withIdentifier: "moveToGenre",

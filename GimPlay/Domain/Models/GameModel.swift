@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-import UIKit
-
 class GameModel: DownloadableImage {
     let id: Int
     let name: String
@@ -41,7 +39,7 @@ class GameModel: DownloadableImage {
         self.backgroundImage = backgroundImage
         self.genres = genres
         self.isFavourite = isFavourite
-        
+
         super.init()
     }
 }

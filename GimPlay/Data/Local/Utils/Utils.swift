@@ -24,16 +24,4 @@ extension LocalDataSource {
             )
         }
     }
-    
-    func getGameGenres(gameEntity: GameDetailEntities) -> [GenreModel] {
-        let genres = (gameEntity.genres as? Set<GenreEntities>)?.map { genreEntity in
-            GenreModel(
-                id: Int(genreEntity.id),
-                name: genreEntity.name ?? "",
-                imageBackground: genreEntity.imageUrl ?? ""
-            )
-        } ?? []
-        
-        return genres
-    }
 }
