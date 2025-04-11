@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		52BD33232D9AAB810011150E /* env.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52BD33222D9AAB7A0011150E /* env.plist */; };
+		52C56E2C2DA937FC00820CEC /* env.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52C56E2B2DA937FC00820CEC /* env.plist */; };
 		A01B24AC2D8A9ADE008D0F74 /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AB2D8A9ADE008D0F74 /* FavouriteViewController.swift */; };
 		A01B24AE2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AD2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift */; };
 		A01B24B02D8AB067008D0F74 /* FavGameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AF2D8AB067008D0F74 /* FavGameCollectionViewCell.swift */; };
@@ -62,7 +62,7 @@
 
 /* Begin PBXFileReference section */
 		522C44EC2D9A8CAC00DDDEAD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		52BD33222D9AAB7A0011150E /* env.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = env.plist; sourceTree = "<group>"; };
+		52C56E2B2DA937FC00820CEC /* env.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = env.plist; sourceTree = "<group>"; };
 		A01B24AB2D8A9ADE008D0F74 /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
 		A01B24AD2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavGenreCollectionViewCell.swift; sourceTree = "<group>"; };
 		A01B24AF2D8AB067008D0F74 /* FavGameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavGameCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -158,7 +158,6 @@
 		A05358342D79A171003A31DF /* GimPlay */ = {
 			isa = PBXGroup;
 			children = (
-				52BD33222D9AAB7A0011150E /* env.plist */,
 				A065A8512D921ECE00208C8C /* DI */,
 				A053584E2D79B731003A31DF /* Data */,
 				A053584D2D79B721003A31DF /* Domain */,
@@ -170,6 +169,7 @@
 				A053583E2D79A174003A31DF /* Assets.xcassets */,
 				A05358402D79A174003A31DF /* LaunchScreen.storyboard */,
 				A05358432D79A174003A31DF /* Info.plist */,
+				52C56E2B2DA937FC00820CEC /* env.plist */,
 			);
 			path = GimPlay;
 			sourceTree = "<group>";
@@ -524,7 +524,7 @@
 				A05358562D7AC4EA003A31DF /* GameCardViewCell.xib in Resources */,
 				A05358422D79A174003A31DF /* LaunchScreen.storyboard in Resources */,
 				A053583F2D79A174003A31DF /* Assets.xcassets in Resources */,
-				52BD33232D9AAB810011150E /* env.plist in Resources */,
+				52C56E2C2DA937FC00820CEC /* env.plist in Resources */,
 				A053583D2D79A171003A31DF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
