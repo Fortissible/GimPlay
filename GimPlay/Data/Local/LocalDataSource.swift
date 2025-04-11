@@ -11,13 +11,17 @@ import RxSwift
 
 protocol ILocalDataSource {
     func getAllFavouriteGames(query: String?) -> Observable<[GameDetailEntity]>
-    func getFavouriteGame(_ id: Int) -> Observable<GameDetailEntity>
-    func isGameInLocal(id: Int) -> Observable<Bool>
     func getAllFavouriteGenres() -> Observable<[GenreEntity]>
-    func deleteUnusedGenres() -> Observable<Bool>
+
+    func getFavouriteGame(_ id: Int) -> Observable<GameDetailEntity>
     func fetchGenreById(genreId: Int) -> Observable<GenreEntity>
+
     func addFavouriteGame(_ gameDetailModel: GameDetailModel) -> Observable<Bool>
+
     func removeFavouriteGame(_ id: Int) -> Observable<Bool>
+    func deleteUnusedGenres() -> Observable<Bool>
+    
+    func isGameInLocal(id: Int) -> Observable<Bool>
 }
 
 class LocalDataSource: ILocalDataSource {

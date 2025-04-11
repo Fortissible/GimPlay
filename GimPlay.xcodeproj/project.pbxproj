@@ -3,11 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5203800E2DA96DF9008F8254 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 52BAA3592DA9434700CBDF21 /* Core */; };
 		52C56E2C2DA937FC00820CEC /* env.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52C56E2B2DA937FC00820CEC /* env.plist */; };
+		52CE00362DA965C70023CEDB /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE00352DA965C70023CEDB /* Core */; };
+		52CE00392DA965DC0023CEDB /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE00382DA965DC0023CEDB /* Game */; };
+		52CE003C2DA966230023CEDB /* GameDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE003B2DA966230023CEDB /* GameDetail */; };
+		52CE003F2DA966310023CEDB /* Genre in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE003E2DA966310023CEDB /* Genre */; };
 		A01B24AC2D8A9ADE008D0F74 /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AB2D8A9ADE008D0F74 /* FavouriteViewController.swift */; };
 		A01B24AE2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AD2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift */; };
 		A01B24B02D8AB067008D0F74 /* FavGameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AF2D8AB067008D0F74 /* FavGameCollectionViewCell.swift */; };
@@ -116,11 +121,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5203800E2DA96DF9008F8254 /* Core in Frameworks */,
 				A065A84D2D921B9400208C8C /* RealmSwift in Frameworks */,
 				A065A86A2D9377CE00208C8C /* Swinject in Frameworks */,
 				A065A8582D92C01200208C8C /* RxSwift in Frameworks */,
 				A065A8562D92C01200208C8C /* RxCocoa in Frameworks */,
+				52CE003F2DA966310023CEDB /* Genre in Frameworks */,
 				A065A86D2D93782B00208C8C /* SwinjectStoryboard in Frameworks */,
+				52CE003C2DA966230023CEDB /* GameDetail in Frameworks */,
+				52CE00362DA965C70023CEDB /* Core in Frameworks */,
+				52CE00392DA965DC0023CEDB /* Game in Frameworks */,
 				A065A84A2D921A6100208C8C /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,6 +480,11 @@
 				A065A8572D92C01200208C8C /* RxSwift */,
 				A065A8692D9377CE00208C8C /* Swinject */,
 				A065A86C2D93782B00208C8C /* SwinjectStoryboard */,
+				52BAA3592DA9434700CBDF21 /* Core */,
+				52CE00352DA965C70023CEDB /* Core */,
+				52CE00382DA965DC0023CEDB /* Game */,
+				52CE003B2DA966230023CEDB /* GameDetail */,
+				52CE003E2DA966310023CEDB /* Genre */,
 			);
 			productName = GimPlay;
 			productReference = A05358322D79A171003A31DF /* GimPlay.app */;
@@ -506,6 +521,10 @@
 				A065A8542D92C01200208C8C /* XCRemoteSwiftPackageReference "RxSwift" */,
 				A065A8682D9377CE00208C8C /* XCRemoteSwiftPackageReference "Swinject" */,
 				A065A86B2D93782B00208C8C /* XCRemoteSwiftPackageReference "SwinjectStoryboard" */,
+				52CE00342DA965C70023CEDB /* XCLocalSwiftPackageReference "Modules/Core" */,
+				52CE00372DA965DC0023CEDB /* XCLocalSwiftPackageReference "Modules/Game" */,
+				52CE003A2DA966230023CEDB /* XCLocalSwiftPackageReference "Modules/GameDetail" */,
+				52CE003D2DA966310023CEDB /* XCLocalSwiftPackageReference "Modules/Genre" */,
 			);
 			productRefGroup = A05358332D79A171003A31DF /* Products */;
 			projectDirPath = "";
@@ -817,6 +836,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		52CE00342DA965C70023CEDB /* XCLocalSwiftPackageReference "Modules/Core" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Core;
+		};
+		52CE00372DA965DC0023CEDB /* XCLocalSwiftPackageReference "Modules/Game" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Game;
+		};
+		52CE003A2DA966230023CEDB /* XCLocalSwiftPackageReference "Modules/GameDetail" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/GameDetail;
+		};
+		52CE003D2DA966310023CEDB /* XCLocalSwiftPackageReference "Modules/Genre" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Genre;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		A065A8482D921A6100208C8C /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -869,6 +907,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		52BAA3592DA9434700CBDF21 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		52CE00352DA965C70023CEDB /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		52CE00382DA965DC0023CEDB /* Game */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Game;
+		};
+		52CE003B2DA966230023CEDB /* GameDetail */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GameDetail;
+		};
+		52CE003E2DA966310023CEDB /* Genre */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Genre;
+		};
 		A065A8492D921A6100208C8C /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A065A8482D921A6100208C8C /* XCRemoteSwiftPackageReference "Alamofire" */;
