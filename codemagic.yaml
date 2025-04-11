@@ -7,6 +7,7 @@ workflows:
       vars:
         XCODE_PROJECT: "GimPlay.xcodeproj" # <-- Put the name of your Xcode project here
         XCODE_SCHEME: "GimPlay" # <-- Put the name of your Xcode scheme here
+        API_KEYS: $API_KEYS # <-- This will use the value from Codemagic environment variables
       xcode: latest
       cocoapods: default
     scripts:
