@@ -10,11 +10,6 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Install CocoaPods dependencies
-        script: | 
-          pod install
-      - name: Set up provisioning profiles settings on Xcode project
-        script: xcode-project use-profiles
       - name: Build debug app
         script: | 
           xcodebuild build \

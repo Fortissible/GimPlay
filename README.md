@@ -1,4 +1,4 @@
-RAWG Games API Docs: <br>
+RAWG Games API Docs [![Codemagic build status](https://api.codemagic.io/apps/<app-id>/<workflow-id>/status_badge.svg)](https://codemagic.io/apps/67f3e4681468126bef9b38db/ios-native-workflow/latest_build) : <br>
 https://api.rawg.io/docs/
 
 Packages:
