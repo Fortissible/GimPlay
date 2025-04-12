@@ -1,20 +1,20 @@
 //
-//  GameLocalDataSource.swift
-//  Game
+//  GameDetailLocalDataSource.swift
+//  GameDetail
 //
-//  Created by Zahra Nurul Izza on 11/04/25.
+//  Created by Zahra Nurul Izza on 12/04/25.
 //
 import Core
 import RxSwift
 
-public struct GameLocalDataSource: LocalDataSource {
+public struct GameDetailLocalDataSource: LocalDataSource {
     public typealias Response = GameDetailEntity
-    
-    public typealias ListRequest = String?
+
+    public typealias ListRequest = Any
 
     public typealias ModelRequest = GameDetailModel
 
-    public func getList(request: String?) -> Observable<[GameDetailEntity]> {
+    public func getList(request: Any) -> Observable<[GameDetailEntity]> {
         fatalError("Unimplemented Function")
     }
 

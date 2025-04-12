@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/realm/realm-swift.git", exact: "10.49.3"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "6.0.0")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.0.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -23,7 +24,8 @@ let package = Package(
             name: "Core",
             dependencies: [
                 .product(name: "RealmSwift", package: "realm-swift"),
-                .product(name: "RxSwift", package: "RxSwift")
+                .product(name: "RxSwift", package: "RxSwift"),
+                "Alamofire"
             ]
         ),
 

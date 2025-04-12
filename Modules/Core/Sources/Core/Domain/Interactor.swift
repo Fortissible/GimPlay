@@ -17,6 +17,6 @@ where R.Request == Request, R.Response == Response {
     }
 
     public func execute(request: Request?) -> Observable<Response> {
-        _repository.execute(request)
+        _repository.execute(request: request)
     }
 }

@@ -20,9 +20,7 @@ public class GenreEntity: Object {
         self.init()
         self.id = String(genre.id)
         self.name = genre.name
-        self.image = genre.image?.jpegData(
-            compressionQuality: 1
-        ) ?? Data()
+        self.image = genre.image ?? Data()
         self.imageUrl = genre.imageBackground
     }
 }

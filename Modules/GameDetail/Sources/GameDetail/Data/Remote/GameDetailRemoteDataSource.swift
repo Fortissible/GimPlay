@@ -1,25 +1,17 @@
 //
-//  RemoteDataSource.swift
-//  Game
+//  GameDetailRemoteDataSource.swift
+//  GameDetail
 //
-//  Created by Zahra Nurul Izza on 11/04/25.
+//  Created by Zahra Nurul Izza on 12/04/25.
 //
-
-import Foundation
 import Core
 @preconcurrency import RxSwift
+import Foundation
 import Alamofire
 
-public struct GameRequestType: Decodable{
-    let query: String
-    let genreId: String?
-    let searchQuery: String?
-    let page: Int?
-}
-
-public struct GameRemoteDataSource: RemoteDataSource {
-    public typealias Request = GameRequestType
-    public typealias Response = GamesRes
+public struct GameDetailRemoteDataSource: RemoteDataSource {
+    public typealias Request = String
+    public typealias Response = GameDetailRes
 
     private var API_KEYS: String {
         guard let filePath = Bundle.main.path(forResource: "env", ofType: "plist") else {
@@ -69,26 +61,8 @@ public struct GameRemoteDataSource: RemoteDataSource {
         }
     }
 
-    public func execute(req: GameRequestType) -> Observable<GamesRes> {
-        var parameters: [String: String] = [
-            "page": "\(req.page ?? 1)"
-            ]
-
-        if let searchQuery = req.searchQuery {
-            parameters["search"] = searchQuery
-        }
-
-        if req.query == "released" {
-            parameters["ordering"] = "-released"
-        } else if req.query != "lucky" {
-            parameters["ordering"] = req.query
-        }
-
-        if let genreId = req.genreId {
-            parameters["genres"] = genreId
-        }
-
-        let url = buildUrl(endpoint: "/games", parameters: parameters)
+    public func execute(req: String) -> Observable<GameDetailRes> {
+        let url = buildUrl(endpoint: "/games/\(req)", parameters: nil)
         return request(url: url)
     }
 }

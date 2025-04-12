@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 // MARK: - Result
 public class GenreModel: DownloadableImage {

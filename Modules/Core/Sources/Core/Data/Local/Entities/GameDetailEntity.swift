@@ -38,9 +38,7 @@ public class GameDetailEntity: Object {
         self.reviewsCount = detail.reviewsCount
         self.stores = detail.stores.joined(separator: ", ")
         self.desc = detail.description
-        self.image = detail.image?.jpegData(
-            compressionQuality: 1
-        ) ?? Data()
+        self.image = detail.image ?? Data()
         self.imageUrl = detail.backgroundImage
         self.metacritic = detail.metacritic
 

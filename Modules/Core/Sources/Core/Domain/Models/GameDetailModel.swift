@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 public class GameDetailModel: DownloadableImage {
     let id: Int

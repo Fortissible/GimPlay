@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Game
-public struct GamesRes: Codable {
+public struct GamesRes: Codable, Sendable {
     let count: Int
     let next: String?
     let previous: String?
@@ -20,7 +20,7 @@ public struct GamesRes: Codable {
 }
 
 // MARK: - Result
-public struct Result: Codable {
+public struct Result: Codable, Sendable {
     let id: Int
     let name: String
     let released: String?
@@ -41,7 +41,7 @@ public struct Result: Codable {
 }
 
 // MARK: - Genre
-struct Genre: Codable {
+struct Genre: Codable, Sendable {
     let id: Int
     let name: String
     let imageBackground: String?

@@ -13,7 +13,7 @@ public protocol LocalDataSource {
     associatedtype ModelRequest
     associatedtype Response
 
-    func getList(request: ListRequest?) -> Observable<[Response]>
+    func getList(request: ListRequest) -> Observable<[Response]>
     func getDetail(id: Int) -> Observable<Response>
     func add(entity: ModelRequest) -> Observable<Bool>
     func delete(id: Int?) -> Observable<Bool>

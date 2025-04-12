@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 public enum ViewType {
     case gameTable
@@ -14,10 +13,10 @@ public enum ViewType {
 }
 
 public class DownloadableImage {
-    var image: UIImage?
+    var image: Data?
     var state: NetworkState = .new
 
-    init(_ image: UIImage? = nil, _ state: NetworkState = .new) {
+    init(_ image: Data? = nil, _ state: NetworkState = .new) {
         self.image = image
         self.state = state
     }

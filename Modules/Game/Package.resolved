@@ -1,6 +1,15 @@
 {
-  "originHash" : "ba921283cf48ee1b869b788d8d484c56b775bf17b01562ec23998b9de867559e",
+  "originHash" : "8f4da820f6a5e8073952d175ec17041a6d51e78d86eac366a9d3c88091c2881a",
   "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
+      }
+    },
     {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
@@ -17,6 +26,15 @@
       "state" : {
         "revision" : "abbe849262c165dbd33b2d1c15c0f04783eb3311",
         "version" : "10.49.3"
+      }
+    },
+    {
+      "identity" : "rxswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveX/RxSwift.git",
+      "state" : {
+        "revision" : "5dd1907d64f0d36f158f61a466bab75067224893",
+        "version" : "6.9.0"
       }
     }
   ],

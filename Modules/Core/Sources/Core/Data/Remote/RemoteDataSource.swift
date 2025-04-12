@@ -12,5 +12,5 @@ public protocol RemoteDataSource {
     associatedtype Request
     associatedtype Response
 
-    func execute(request: Request?) -> Observable<Response>
+    func execute(req: Request) -> Observable<Response>
 }
