@@ -12,5 +12,5 @@ public protocol UseCase {
     associatedtype Request
     associatedtype Response
 
-    func execute(request: Request?) -> Observable<Response>
+    func execute(request: Request) -> Observable<Response>
 }

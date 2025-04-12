@@ -21,7 +21,7 @@ public struct GenreLocalDataSource: LocalDataSource {
         self.realm = realm
     }
 
-    public func getList(request: Any) -> Observable<[GenreEntity]> {
+    public func getList(request: ListRequest) -> Observable<[Response]> {
         return Observable.create { observer in
             guard let realm = self.realm else {
                 observer.onError(DatabaseError.invalidInstance)
@@ -36,7 +36,7 @@ public struct GenreLocalDataSource: LocalDataSource {
         }
     }
 
-    public func getDetail(id: Int) -> Observable<GenreEntity> {
+    public func getDetail(id: Int) -> Observable<Response> {
         return Observable.create { observer in
             guard let realm = self.realm else {
                 observer.onError(DatabaseError.invalidInstance)
@@ -54,7 +54,7 @@ public struct GenreLocalDataSource: LocalDataSource {
         }
     }
 
-    public func add(entity: Any) -> Observable<Bool> {
+    public func add(model entity: ModelRequest) -> Observable<Bool> {
         return Observable.create { observer in
             // Ensure have a valid Realm instance
             guard let realm = self.realm else {
@@ -83,6 +83,34 @@ public struct GenreLocalDataSource: LocalDataSource {
     }
 
     public func delete(id: Int?) -> Observable<Bool> {
+        return Observable.create { observer in
+            // Ensure we have a valid Realm instance
+            guard let realm = self.realm else {
+                observer.onError(DatabaseError.invalidInstance)
+                return Disposables.create()
+            }
+
+            do {
+                // Write operation
+                try realm.write {
+                    // Fetch all genres with no games related to them
+                    let unusedGenres = realm.objects(GenreEntity.self).filter("games.@count == 0")
+
+                    // Delete unused genres
+                    realm.delete(unusedGenres)
+                }
+
+                observer.onNext(true)
+                observer.onCompleted()
+            } catch {
+                observer.onError(error)
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    public func check(id: Int) -> Observable<Bool> {
         fatalError("Unimplemented Function")
     }
 }

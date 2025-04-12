@@ -15,6 +15,7 @@ public protocol LocalDataSource {
 
     func getList(request: ListRequest) -> Observable<[Response]>
     func getDetail(id: Int) -> Observable<Response>
-    func add(entity: ModelRequest) -> Observable<Bool>
+    func add(model: ModelRequest) -> Observable<Bool>
     func delete(id: Int?) -> Observable<Bool>
+    func check(id: Int) -> Observable<Bool>
 }

@@ -27,7 +27,7 @@ public struct GameRemoteDataSource: RemoteDataSource {
         self._networkService = NetworkService.shared
     }
 
-    public func execute(req: GameRequestType) -> Observable<GamesRes> {
+    public func execute(req: Request) -> Observable<Response> {
         var parameters: [String: String] = [
             "page": "\(req.page ?? 1)"
             ]

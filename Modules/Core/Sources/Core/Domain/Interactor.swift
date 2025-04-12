@@ -16,7 +16,7 @@ where R.Request == Request, R.Response == Response {
         _repository = repository
     }
 
-    public func execute(request: Request?) -> Observable<Response> {
+    public func execute(request: Request) -> Observable<Response> {
         _repository.execute(request: request)
     }
 }

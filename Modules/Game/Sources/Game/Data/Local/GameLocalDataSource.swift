@@ -61,11 +61,15 @@ public struct GameLocalDataSource: LocalDataSource {
         fatalError("Unimplemented Function")
     }
 
-    public func add(entity: GameDetailModel) -> Observable<Bool> {
+    public func add(model: GameDetailModel) -> Observable<Bool> {
         fatalError("Unimplemented Function")
     }
 
     public func delete(id: Int?) -> Observable<Bool> {
+        fatalError("Unimplemented Function")
+    }
+
+    public func check(id: Int) -> Observable<Bool> {
         fatalError("Unimplemented Function")
     }
 }

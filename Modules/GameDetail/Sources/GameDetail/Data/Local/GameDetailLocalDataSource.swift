@@ -39,7 +39,7 @@ public struct GameDetailLocalDataSource: LocalDataSource {
         }
     }
 
-    public func add(entity: GameDetailModel) -> Observable<Bool> {
+    public func add(model: GameDetailModel) -> Observable<Bool> {
         return Observable.create { observer in
             guard let realm = self.realm else {
                 observer.onError(DatabaseError.invalidInstance)
@@ -48,7 +48,7 @@ public struct GameDetailLocalDataSource: LocalDataSource {
 
             do {
                 try realm.write {
-                    let gameDetailEntity = GameDetailEntity(detail: entity)
+                    let gameDetailEntity = GameDetailEntity(detail: model)
 
                     realm.add(gameDetailEntity, update: .all)
                 }

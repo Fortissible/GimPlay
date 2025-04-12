@@ -20,8 +20,8 @@ public struct GameRepository<
     public typealias Request = GameRepositoryRequest
     public typealias Response = [GameModel]
 
-    private let _localDS : GameLocalDataSource
-    private let _remoteDS : GameRemoteDataSource
+    private let _localDS: GameLocalDataSource
+    private let _remoteDS: GameRemoteDataSource
     private let _mapper: GameDataMapper
 
     public init(
@@ -34,7 +34,7 @@ public struct GameRepository<
         self._mapper = dataMapper
     }
 
-    public func execute(request: GameRepositoryRequest) -> Observable<[GameModel]> {
+    public func execute(request: Request) -> Observable<Response> {
         switch request {
         case .fetchAllRemote(let remoteReq):
             return fetchAllRemote(req: remoteReq)
@@ -43,17 +43,21 @@ public struct GameRepository<
         }
     }
 
-    private func fetchAllRemote(req: GameRequestType) -> Observable<[Response]> {
+    private func fetchAllRemote(req: GameRequestType) -> Observable<[GameModel]> {
         return _remoteDS.execute(req: req as! GameRemoteDataSource.Request)
             .map { result in
-                _mapper.transformResponseToDomain(response: result as! GameDataMapper.Response)
+                _mapper.transformResponseToDomain(
+                    response: result as! GameDataMapper.Response
+                ) as! [GameModel]
             }
     }
 
-    private func fetchAllLocal(req: String?) -> Observable<[Response]> {
+    private func fetchAllLocal(req: String?) -> Observable<[GameModel]> {
         return _localDS.getList(request: req as! GameLocalDataSource.ListRequest)
             .map { result in
-                _mapper.transformEntitiesToDomain(entities: result)
+                _mapper.transformEntitiesToDomain(
+                    entities: result as! GameDataMapper.Entities
+                ) as! [GameModel]
             }
     }
 }

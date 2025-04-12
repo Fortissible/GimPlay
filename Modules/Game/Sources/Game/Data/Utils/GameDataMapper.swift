@@ -12,7 +12,7 @@ public struct GameDataMapper: DataMapper {
     public typealias Entities = [GameDetailEntity]
     public typealias Domain = [GameModel]
 
-    public func transformResponseToDomain(response: GamesRes) -> [GameModel] {
+    public func transformResponseToDomain(response: Response) -> Domain {
         return response.results.map { game in
             let genres = game.genres.map { genre in
                 return GenreModel(
@@ -35,7 +35,7 @@ public struct GameDataMapper: DataMapper {
         }
     }
 
-    public func transformEntitiesToDomain(entities: [GameDetailEntity]) -> [GameModel] {
+    public func transformEntitiesToDomain(entities: Entities) -> Domain {
         return entities.map { gameDetail in
             let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
 
