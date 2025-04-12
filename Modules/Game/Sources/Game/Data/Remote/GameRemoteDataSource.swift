@@ -10,7 +10,7 @@ import Core
 @preconcurrency import RxSwift
 import Alamofire
 
-public struct GameRequestType: Decodable{
+public struct GameRequestType: Decodable {
     let query: String
     let genreId: String?
     let searchQuery: String?

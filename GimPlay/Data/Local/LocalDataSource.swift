@@ -20,7 +20,7 @@ protocol ILocalDataSource {
 
     func removeFavouriteGame(_ id: Int) -> Observable<Bool>
     func deleteUnusedGenres() -> Observable<Bool>
-    
+
     func isGameInLocal(id: Int) -> Observable<Bool>
 }
 

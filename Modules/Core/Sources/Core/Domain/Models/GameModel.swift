@@ -18,7 +18,7 @@ public class GameModel: DownloadableImage {
     let genres: [GenreModel]
     let isFavourite: Bool
 
-    init(
+    public init(
         id: Int,
         name: String,
         released: String?,

@@ -84,6 +84,51 @@ extension Repository {
 
 // MARK: - MAPPING API RESPONSE MODEL TO DOMAIN MODEL UTILS
 extension Repository {
+    fileprivate func mapGameResToGameModel(
+        res gameResponse: GamesRes
+    ) -> [GameModel] {
+        return gameResponse.results.map { game in
+            let genres = game.genres.map { genre in
+                return GenreModel(
+                    id: genre.id,
+                    name: genre.name,
+                    imageBackground: genre.imageBackground ?? "https://placehold.co/600x400.png"
+                )
+            }
+            return GameModel(
+                id: game.id,
+                name: game.name,
+                released: game.released,
+                rating: game.rating,
+                ratingTop: game.ratingTop,
+                metacritic: game.metacritic,
+                backgroundImage: game.backgroundImage,
+                genres: genres,
+                isFavourite: false
+            )
+        }
+    }
+
+    fileprivate func mapGameDetailEntitiesToGameModels(
+        entity gameDetailList: [GameDetailEntity]
+    ) -> [GameModel] {
+        return gameDetailList.map { gameDetail in
+            let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
+
+            return GameModel(
+                id: gameDetail.id,
+                name: gameDetail.name,
+                released: gameDetail.released,
+                rating: gameDetail.rating,
+                ratingTop: gameDetail.ratingTop,
+                metacritic: gameDetail.metacritic,
+                backgroundImage: gameDetail.imageUrl,
+                genres: genres,
+                isFavourite: true
+            )
+        }
+    }
+
     fileprivate func mapDetailResToDetailModel(res: GameDetailRes) -> GameDetailModel {
         return GameDetailModel(
             id: res.id,
@@ -110,30 +155,6 @@ extension Repository {
             isFavourite: false
         )
     }
-    fileprivate func mapGameResToGameModel(
-        res gameResponse: GamesRes
-    ) -> [GameModel] {
-        return gameResponse.results.map { game in
-            let genres = game.genres.map { genre in
-                return GenreModel(
-                    id: genre.id,
-                    name: genre.name,
-                    imageBackground: genre.imageBackground ?? "https://placehold.co/600x400.png"
-                )
-            }
-            return GameModel(
-                id: game.id,
-                name: game.name,
-                released: game.released,
-                rating: game.rating,
-                ratingTop: game.ratingTop,
-                metacritic: game.metacritic,
-                backgroundImage: game.backgroundImage,
-                genres: genres,
-                isFavourite: false
-            )
-        }
-    }
 
     fileprivate func mapGenreResToGenreModel(
         res genreRes: GenreRes
@@ -143,26 +164,6 @@ extension Repository {
                 id: genre.id,
                 name: genre.name,
                 imageBackground: genre.imageBackground
-            )
-        }
-    }
-
-    fileprivate func mapGameDetailEntitiesToGameModels(
-        entity gameDetailList: [GameDetailEntity]
-    ) -> [GameModel] {
-        return gameDetailList.map { gameDetail in
-            let genres: [GenreModel] = mapGenreEntitiesToGenreModels(entities: Array(gameDetail.genres))
-
-            return GameModel(
-                id: gameDetail.id,
-                name: gameDetail.name,
-                released: gameDetail.released,
-                rating: gameDetail.rating,
-                ratingTop: gameDetail.ratingTop,
-                metacritic: gameDetail.metacritic,
-                backgroundImage: gameDetail.imageUrl,
-                genres: genres,
-                isFavourite: true
             )
         }
     }

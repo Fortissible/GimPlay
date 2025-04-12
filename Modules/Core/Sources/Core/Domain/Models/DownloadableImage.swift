@@ -16,7 +16,7 @@ public class DownloadableImage {
     var image: Data?
     var state: NetworkState = .new
 
-    init(_ image: Data? = nil, _ state: NetworkState = .new) {
+    public init(_ image: Data? = nil, _ state: NetworkState = .new) {
         self.image = image
         self.state = state
     }

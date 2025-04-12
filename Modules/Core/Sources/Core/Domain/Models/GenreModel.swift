@@ -13,7 +13,7 @@ public class GenreModel: DownloadableImage {
     let name: String
     let imageBackground: String
 
-    init(
+    public init(
         id: Int,
         name: String,
         imageBackground: String

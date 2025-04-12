@@ -27,7 +27,7 @@ let package = Package(
                 "Core",
                 .product(name: "RealmSwift", package: "realm-swift"),
                 "Alamofire",
-                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxSwift", package: "RxSwift")
             ]
         )
     ]

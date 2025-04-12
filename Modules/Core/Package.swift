@@ -27,7 +27,6 @@ let package = Package(
                 .product(name: "RxSwift", package: "RxSwift"),
                 "Alamofire"
             ]
-        ),
-
+        )
     ]
 )

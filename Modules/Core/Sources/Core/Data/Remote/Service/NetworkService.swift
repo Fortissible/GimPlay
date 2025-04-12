@@ -9,7 +9,7 @@ import Foundation
 @preconcurrency import RxSwift
 import Alamofire
 
-public final class NetworkService: @unchecked Sendable{
+public final class NetworkService: @unchecked Sendable {
     private var API_KEYS: String {
         guard let filePath = Bundle.main.path(forResource: "env", ofType: "plist") else {
             fatalError("Couldn't find file 'env.plist'.")

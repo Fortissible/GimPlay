@@ -20,5 +20,4 @@ enum DatabaseError: LocalizedError {
         case .notFound: return "Data not found in Database"
         }
     }
-
 }

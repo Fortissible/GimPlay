@@ -21,7 +21,7 @@ public class GameDetailModel: DownloadableImage {
     let publisher: String
     let isFavourite: Bool
 
-    init(
+    public init(
         id: Int,
         name: String,
         released: String,

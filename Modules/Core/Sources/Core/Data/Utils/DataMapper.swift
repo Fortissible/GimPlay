@@ -9,9 +9,9 @@ import Foundation
 
 public protocol DataMapper {
     associatedtype Response
-    associatedtype Entity
+    associatedtype Entities
     associatedtype Domain
 
-    func transformResponseToEntity(response: Response) -> Entity
-    func transformEntityToDomain(entity: Entity) -> Domain
+    func transformResponseToDomain(response: Response) -> Domain
+    func transformEntitiesToDomain(entities: Entities) -> Domain
 }

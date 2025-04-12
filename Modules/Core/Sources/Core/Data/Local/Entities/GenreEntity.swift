@@ -9,10 +9,10 @@ import Foundation
 import RealmSwift
 
 public class GenreEntity: Object {
-    @Persisted(primaryKey: true) var id: String
-    @Persisted var name: String
-    @Persisted var imageUrl: String?
-    @Persisted var image: Data
+    @Persisted(primaryKey: true) public var id: String
+    @Persisted public var name: String
+    @Persisted public var imageUrl: String?
+    @Persisted public var image: Data
 
     @Persisted(originProperty: "genres") var games: LinkingObjects<GameDetailEntity>
 
