@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 
 public struct Interactor<Request, Response, R: Repository>: UseCase
+// MARK: - 'Where' is a Generic Constraint
 where R.Request == Request, R.Response == Response {
     private let _repository: R
 

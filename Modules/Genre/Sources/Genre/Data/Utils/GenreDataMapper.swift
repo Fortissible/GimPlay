@@ -12,7 +12,7 @@ public struct GenreDataMapper: DataMapper {
     public typealias Domain = [GenreModel]
 
     public func transformResponseToDomain(response: Response) -> Domain {
-        return genreRes.results.map { genre in
+        return response.results.map { genre in
             return GenreModel(
                 id: genre.id,
                 name: genre.name,

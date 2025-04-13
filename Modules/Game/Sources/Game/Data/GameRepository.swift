@@ -43,7 +43,7 @@ public struct GameRepository<
         }
     }
 
-    private func fetchAllRemote(req: GameRequestType) -> Observable<[GameModel]> {
+    private func fetchAllRemote(req: GameRequestType) -> Observable<Response> {
         return _remoteDS.execute(req: req as! GameRemoteDataSource.Request)
             .map { result in
                 _mapper.transformResponseToDomain(
@@ -52,7 +52,7 @@ public struct GameRepository<
             }
     }
 
-    private func fetchAllLocal(req: String?) -> Observable<[GameModel]> {
+    private func fetchAllLocal(req: String?) -> Observable<Response> {
         return _localDS.getList(request: req as! GameLocalDataSource.ListRequest)
             .map { result in
                 _mapper.transformEntitiesToDomain(
