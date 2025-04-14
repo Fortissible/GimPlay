@@ -7,6 +7,9 @@
 
 import UIKit
 import RxSwift
+import Genre
+import Game
+import Core
 
 class ViewController: UIViewController {
 
@@ -26,7 +29,9 @@ class ViewController: UIViewController {
     private var genres: [GenreModel] = []
     private var error: String?
 
-    var presenter: HomePresenter?
+//    var presenter: HomePresenter?
+    var gamePresenter: GamePresenter<GameInteractor>?
+    var genrePresenter: GenresPresenter<GenreInteractor>?
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -140,11 +145,11 @@ class ViewController: UIViewController {
     }
 
     func getGames(_ query: String) {
-        presenter?.getGames(query: query, genreId: nil, searchQuery: nil)
+        gamePresenter?.execute(request: GamePresenterRequest.fetchGames(query, nil, nil))
     }
 
     func getGenres() {
-        presenter?.getGenres()
+        genrePresenter?.execute(request: GenrePresenterRequest.fetchGenresRemote)
     }
 
     func updateUIfromGetGames() {
@@ -179,7 +184,7 @@ class ViewController: UIViewController {
     }
 
     private func bindPresenter() {
-        presenter?.games
+        gamePresenter?.games
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] games in
                 self?.games.append(contentsOf: games)
@@ -187,7 +192,7 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        presenter?.error
+        gamePresenter?.error
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] errorMessage in
                 self?.error = errorMessage
@@ -195,18 +200,26 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        presenter?.genres
+        genrePresenter?.genres
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] genres in
                 self?.genres = genres
                 self?.updateUIfromGetGenres()
             })
             .disposed(by: disposeBag)
+
+        genrePresenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] errorMessage in
+                self?.error = errorMessage
+                self?.updateUIfromGettingError()
+            })
+            .disposed(by: disposeBag)
     }
 
     fileprivate func startDownloadImage(
         imageUrl: String?,
-        downloadableImage: DownloadableImage,
+        downloadableImage: Core.DownloadableImage,
         indexPath: IndexPath,
         viewType: ViewType
     ) {
@@ -218,7 +231,7 @@ class ViewController: UIViewController {
                     downloadableImage.state = .downloading
 
                     let image = try await imageDownloader.downloadImage(
-                        url: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
+                        from: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
                     )
 
                     downloadableImage.state = .done
@@ -234,7 +247,7 @@ class ViewController: UIViewController {
                     }
                 } catch {
                     downloadableImage.state = .failed
-                    downloadableImage.image = UIImage(named: "placeholder")
+                    downloadableImage.image = UIImage(named: "placeholder")?.jpegData(compressionQuality: 1)
                 }
             }
         }
@@ -249,7 +262,7 @@ extension ViewController: UIScrollViewDelegate {
 
         if offset > contentHeight - scrollViewHeight - 100 {
             if games.count > 0 {
-                presenter?.getGames(query: GameFilterList.fromIndex(selectedFilter), genreId: nil, searchQuery: nil)
+                gamePresenter?.execute(request: GamePresenterRequest.fetchGames(GameFilterList.fromIndex(selectedFilter), nil, nil))
             }
         }
     }
@@ -272,7 +285,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             gameCell.gameTitleView.text = game.name
             gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
             gameCell.gameReleasedView.text = (game.released != nil) ? "Released on \(game.released!)" : "Not released yet"
-            gameCell.gameImageView.image = game.image
+            gameCell.gameImageView.image = UIImage(data: game.image ?? Data())
 
             if game.state == .new {
                 gameCell.gameImageLoadingIndicator.isHidden = false
@@ -316,7 +329,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             let genre = genres[indexPath.row]
 
             genreCell.genreLabelView.text = genre.name
-            genreCell.genreImageView.image = genre.image
+            genreCell.genreImageView.image = UIImage(data: genre.image ?? Data())
 
             if genre.state == .new {
                 genreCell.genreImageLoadingVIew.isHidden = false

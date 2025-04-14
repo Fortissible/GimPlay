@@ -8,18 +8,18 @@
 import Foundation
 
 public class GameDetailModel: DownloadableImage {
-    let id: Int
-    let name, released, description: String
-    let rating: Double
-    let ratingTop: Int
-    let metacritic: Int
-    let playtime: Int
-    let reviewsCount: Int
-    let backgroundImage: String
-    let genres: [GenreModel]
-    let stores: [String]
-    let publisher: String
-    let isFavourite: Bool
+    public let id: Int
+    public let name, released, description: String
+    public let rating: Double
+    public let ratingTop: Int
+    public let metacritic: Int
+    public let playtime: Int
+    public let reviewsCount: Int
+    public let backgroundImage: String
+    public let genres: [GenreModel]
+    public let stores: [String]
+    public let publisher: String
+    public let isFavourite: Bool
 
     public init(
         id: Int,

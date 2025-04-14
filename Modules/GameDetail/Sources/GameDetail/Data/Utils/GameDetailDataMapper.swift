@@ -11,6 +11,8 @@ public struct GameDetailDataMapper: DataMapper {
     public typealias Entities = GameDetailEntity
     public typealias Domain = GameDetailModel
 
+    public init() { }
+
     public func transformResponseToDomain(response: Response) -> Domain {
         return GameDetailModel(
             id: response.id,

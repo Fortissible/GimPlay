@@ -96,6 +96,7 @@ public struct GameDetailRepository<
     }
 
     private func checkDetailInLocal(id: Int) -> Observable<GameDetailRepositoryResponse> {
+        print("DEBUG: LOCAL GAME CHECK \(id)")
         return _localDS.check(id: id)
             .map { result in
                 GameDetailRepositoryResponse.BoolResponse(result)

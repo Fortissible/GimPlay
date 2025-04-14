@@ -11,6 +11,8 @@ public struct GenreDataMapper: DataMapper {
     public typealias Entities = [GenreEntity]
     public typealias Domain = [GenreModel]
 
+    public init() {}
+
     public func transformResponseToDomain(response: Response) -> Domain {
         return response.results.map { genre in
             return GenreModel(

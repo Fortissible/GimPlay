@@ -13,8 +13,8 @@ public enum ViewType {
 }
 
 public class DownloadableImage {
-    var image: Data?
-    var state: NetworkState = .new
+    public var image: Data?
+    public var state: NetworkState = .new
 
     public init(_ image: Data? = nil, _ state: NetworkState = .new) {
         self.image = image

@@ -9,9 +9,9 @@ import Foundation
 
 // MARK: - Result
 public class GenreModel: DownloadableImage {
-    let id: Int
-    let name: String
-    let imageBackground: String
+    public let id: Int
+    public let name: String
+    public let imageBackground: String
 
     public init(
         id: Int,

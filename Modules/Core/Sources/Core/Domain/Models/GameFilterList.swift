@@ -9,7 +9,7 @@ import Foundation
 
 public enum GameFilterList: CaseIterable {
 case lucky, new, update
-    static func fromIndex(_ idx: Int) -> String {
+    public static func fromIndex(_ idx: Int) -> String {
         switch idx {
         case 0: return "lucky"
         case 1: return "released"

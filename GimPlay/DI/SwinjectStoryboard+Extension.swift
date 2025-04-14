@@ -10,6 +10,10 @@ import Swinject
 import RealmSwift
 import SwinjectStoryboard
 import UIKit
+import Core
+import Game
+import GameDetail
+import Genre
 
 extension SwinjectStoryboard {
     @objc class func setup() {
@@ -34,56 +38,95 @@ extension SwinjectStoryboard {
 
     class func setupSourceData(container: Container) {
         let realm = try? Realm()
-        let local: ILocalDataSource = LocalDataSource.sharedInstance(realm)
-        let remote: IRemoteDataSource = RemoteDataSource.sharedInstance
 
-        container.register(ILocalDataSource.self) { _ in local }
-        container.register(IRemoteDataSource.self) { _ in remote }
+        // Modules
+        let gameLocal: GameLocalDataSource = GameLocalDataSource(realm: realm)
+        let gameRemote: GameRemoteDataSource = GameRemoteDataSource()
+        let gameDetailLocal: GameDetailLocalDataSource = GameDetailLocalDataSource(realm: realm)
+        let gameDetailRemote: GameDetailRemoteDataSource = GameDetailRemoteDataSource()
+        let genreLocal: GenreLocalDataSource = GenreLocalDataSource(realm: realm)
+        let genreRemote: GenreRemoteDataSource = GenreRemoteDataSource()
+
+        container.register(GameLocalDataSource.self) { _ in gameLocal }
+        container.register(GameRemoteDataSource.self) { _ in gameRemote }
+        container.register(GameDetailLocalDataSource.self) { _ in gameDetailLocal }
+        container.register(GameDetailRemoteDataSource.self) { _ in gameDetailRemote }
+        container.register(GenreLocalDataSource.self) { _ in genreLocal }
+        container.register(GenreRemoteDataSource.self) { _ in genreRemote }
     }
 
     class func setupRepository(container: Container) {
-        container.register(IRepository.self) { resolver in
-            Repository(
-                remoteDS: resolver.resolve(IRemoteDataSource.self)!,
-                localDS: resolver.resolve(ILocalDataSource.self)!
+        // Modules
+        container.register(GameRepository.self) { resolver in
+            GameRepository(
+                localDataSource: resolver.resolve(GameLocalDataSource.self)!,
+                remoteDataSource: resolver.resolve(GameRemoteDataSource.self)!,
+                dataMapper: GameDataMapper()
+            )
+        }
+        container.register(GameDetailRepository.self) { resolver in
+            GameDetailRepository(
+                localDataSource: resolver.resolve(GameDetailLocalDataSource.self)!,
+                remoteDataSource: resolver.resolve(GameDetailRemoteDataSource.self)!,
+                dataMapper: GameDetailDataMapper()
+            )
+        }
+        container.register(GenreRepository.self) { resolver in
+            GenreRepository(
+                localDS: resolver.resolve(GenreLocalDataSource.self)!,
+                remoteDS: resolver.resolve(GenreRemoteDataSource.self)!,
+                mapper: GenreDataMapper()
             )
         }
     }
 
     class func setupUsecase(container: Container) {
-        container.register(IGameUseCase.self) { resolver in
-            GameUseCase(repository: resolver.resolve(IRepository.self)!)
+        // Modules
+        container.register(GameInteractor.self) { resolver in
+            GameInteractor(repository: resolver.resolve(GameRepository.self)!)
+        }
+
+        container.register(GameDetailInteractor.self) { resolver in
+            GameDetailInteractor(repository: resolver.resolve(GameDetailRepository.self)!)
+        }
+
+        container.register(GenreInteractor.self) { resolver in
+            GenreInteractor(repository: resolver.resolve(GenreRepository.self)!)
         }
     }
 
     class func setupPresenter(container: Container) {
-        container.register(HomePresenter.self) { resolver in
-            HomePresenter(useCase: resolver.resolve(IGameUseCase.self)!)
+        // Modules
+        container.register(GamePresenter<GameInteractor>.self) { resolver in
+            GamePresenter(useCase: resolver.resolve(GameInteractor.self)!)
         }
-        container.register(DetailPresenter.self) { resolver in
-            DetailPresenter(useCase: resolver.resolve(IGameUseCase.self)!)
+
+        container.register(GameDetailPresenter<GameDetailInteractor>.self) { resolver in
+            GameDetailPresenter(useCase: resolver.resolve(GameDetailInteractor.self)!)
         }
-        container.register(FavouritePresenter.self) { resolver in
-            FavouritePresenter(useCase: resolver.resolve(IGameUseCase.self)!)
-        }
-        container.register(GenrePresenter.self) { resolver in
-            GenrePresenter(useCase: resolver.resolve(IGameUseCase.self)!)
+
+        container.register(GenresPresenter<GenreInteractor>.self) { resolver in
+            GenresPresenter(useCase: resolver.resolve(GenreInteractor.self)!)
         }
     }
 
     class func setupController(container: Container) {
         // Register ViewController
         container.storyboardInitCompleted(ViewController.self) { resolver, viewCon in
-            viewCon.presenter = resolver.resolve(HomePresenter.self)
+            viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
+            viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
         }
         container.storyboardInitCompleted(FavouriteViewController.self) { resolver, viewCon in
-            viewCon.presenter = resolver.resolve(FavouritePresenter.self)
+            viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
+            viewCon.detailPresenter = resolver.resolve(GameDetailPresenter.self)
+            viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
         }
         container.storyboardInitCompleted(DetailViewController.self) { resolver, viewCon in
-            viewCon.presenter = resolver.resolve(DetailPresenter.self)
+            viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
+            viewCon.detailPresenter = resolver.resolve(GameDetailPresenter.self)
         }
         container.storyboardInitCompleted(GenreViewController.self) { resolver, viewCon in
-            viewCon.presenter = resolver.resolve(GenrePresenter.self)
+            viewCon.presenter = resolver.resolve(GamePresenter.self)
         }
         container.storyboardInitCompleted(ProfileViewController.self) { _, _ in
         }
@@ -94,12 +137,14 @@ extension SwinjectStoryboard {
 
             switch navCon.viewControllers.first {
             case is ViewController:
-                (viewController as? ViewController)?.presenter = resolver.resolve(HomePresenter.self)
+                (viewController as? ViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
+                (viewController as? ViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
             case is ProfileViewController:
                 print("ProfileViewController Set Up")
             case is FavouriteViewController:
-                (viewController as? FavouriteViewController)?.presenter =
-                resolver.resolve(FavouritePresenter.self)
+                (viewController as? FavouriteViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
+                (viewController as? FavouriteViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
+                (viewController as? FavouriteViewController)?.detailPresenter = resolver.resolve(GameDetailPresenter.self)
             default:
                 print("VC Not found")
             }
@@ -114,12 +159,14 @@ extension SwinjectStoryboard {
 
                     switch navController.viewControllers.first {
                     case is ViewController:
-                        (viewController as? ViewController)?.presenter = resolver.resolve(HomePresenter.self)
+                        (viewController as? ViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
+                        (viewController as? ViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
                     case is ProfileViewController:
                         print("ProfileViewController Set Up")
                     case is FavouriteViewController:
-                        (viewController as? FavouriteViewController)?.presenter =
-                        resolver.resolve(FavouritePresenter.self)
+                        (viewController as? FavouriteViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
+                        (viewController as? FavouriteViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
+                        (viewController as? FavouriteViewController)?.detailPresenter = resolver.resolve(GameDetailPresenter.self)
                     default:
                         print("VC Not found")
                     }

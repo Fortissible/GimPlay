@@ -14,26 +14,26 @@ public enum GamePresenterRequest {
 }
 
 public class GamePresenter<
-    Interactor: UseCase
+    GameInteractor: UseCase
 >: Presenter where
-Interactor.Request == GameRepositoryRequest,
-Interactor.Response == [GameModel] {
+GameInteractor.Request == GameRepositoryRequest,
+GameInteractor.Response == [GameModel] {
 
     public typealias Request = GamePresenterRequest
     public typealias Response = [GameModel]
 
-    private let useCase: Interactor
+    private let useCase: GameInteractor
     private let disposeBag: DisposeBag
 
     // Reactive Vars
-    let games = PublishSubject<[GameModel]>()
-    let genres = PublishSubject<[GenreModel]>()
-    let error = PublishSubject<String>()
+    public let games = PublishSubject<[GameModel]>()
+    public let genres = PublishSubject<[GenreModel]>()
+    public let error = PublishSubject<String>()
 
     private var page = 1
     var isLoading = false
 
-    public init(useCase: Interactor) {
+    public init(useCase: GameInteractor) {
         self.useCase = useCase
         self.disposeBag = DisposeBag()
     }

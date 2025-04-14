@@ -18,21 +18,21 @@ public enum GenrePresenterResponse {
     case genresResponse([GenreModel])
 }
 
-public class GenrePresenter<
-    Interactor: UseCase
->: Presenter where Interactor.Request == GenreRepositoryRequest, Interactor.Response == GenreRepositoryResponse {
+public class GenresPresenter<
+    GenreInteractor: UseCase
+>: Presenter where GenreInteractor.Request == GenreRepositoryRequest, GenreInteractor.Response == GenreRepositoryResponse {
 
     public typealias Request = GenrePresenterRequest
     public typealias Response = GenrePresenterResponse
 
-    private let useCase: Interactor
+    private let useCase: GenreInteractor
     private let disposeBag: DisposeBag
 
     // Reactive Vars
-    let genres = PublishSubject<[GenreModel]>()
-    let error = PublishSubject<String>()
+    public let genres = PublishSubject<[GenreModel]>()
+    public let error = PublishSubject<String>()
 
-    public init(useCase: Interactor) {
+    public init(useCase: GenreInteractor) {
         self.useCase = useCase
         self.disposeBag = DisposeBag()
     }

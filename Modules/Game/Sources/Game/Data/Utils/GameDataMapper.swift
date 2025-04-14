@@ -12,6 +12,8 @@ public struct GameDataMapper: DataMapper {
     public typealias Entities = [GameDetailEntity]
     public typealias Domain = [GameModel]
 
+    public init() {}
+
     public func transformResponseToDomain(response: Response) -> Domain {
         return response.results.map { game in
             let genres = game.genres.map { genre in

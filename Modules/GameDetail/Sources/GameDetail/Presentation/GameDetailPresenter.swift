@@ -9,8 +9,7 @@ import RxSwift
 import Core
 
 public enum GameDetailPresenterRequest {
-    case fetchDetailRemote(String)
-    case fetchDetailLocal(Int)
+    case fetchDetail(String)
     case addDetailLocal(GameDetailModel)
     case deleteDetailLocal(Int?)
     case checkDetailInLocal(Int)
@@ -21,48 +20,67 @@ public enum GameDetailPresenterResponse {
 }
 
 public class GameDetailPresenter<
-    Interactor: UseCase
+    GameDetailInteractor: UseCase
 >: Presenter where
-Interactor.Request == GameDetailRepositoryRequest,
-Interactor.Response == GameDetailRepositoryResponse {
+GameDetailInteractor.Request == GameDetailRepositoryRequest,
+GameDetailInteractor.Response == GameDetailRepositoryResponse {
 
     public typealias Request = GameDetailPresenterRequest
     public typealias Response = GameDetailPresenterResponse
 
-    private let useCase: Interactor
+    private let useCase: GameDetailInteractor
     private let disposeBag: DisposeBag
 
     // Reactive Vars
-    let gameDetail = PublishSubject<GameDetailModel>()
-    let isFavourite = PublishSubject<Bool>()
-    let error = PublishSubject<String>()
+    public let gameDetail = PublishSubject<GameDetailModel>()
+    public let isFavourite = PublishSubject<Bool>()
+    public let error = PublishSubject<String>()
 
-    public init(useCase: Interactor) {
+    public init(useCase: GameDetailInteractor) {
         self.useCase = useCase
         self.disposeBag = DisposeBag()
     }
 
     public func execute(request: Request) {
         switch request {
-        case .fetchDetailRemote(let id):
-            fetchDetailRemote(id: id)
+        case .fetchDetail(let id):
+            fetchDetail(id: id)
         case .addDetailLocal(let gameDetailModel):
             addDetailLocal(gameDetailModel: gameDetailModel)
         case .deleteDetailLocal(let id):
             deleteDetailLocal(id: id)
         case .checkDetailInLocal(let id):
             checkDetailInLocal(id: id)
-        case .fetchDetailLocal(let id):
-            fetchDetailLocal(id: id)
         }
     }
 
-    private func fetchDetailRemote(id: String) {
-        useCase.execute(request: .fetchDetailRemote(id))
+    private func fetchDetail(id: String) {
+        useCase.execute(request: .checkDetailInLocal(Int(id) ?? 0))
+            .subscribe(
+                onNext: { result in
+                    if case GameDetailRepositoryResponse.BoolResponse(let isFavorite)
+                        = result {
+                        if isFavorite {
+                            print("DEBUG: REMOTE DETAIL TRIGGERED")
+                            self.detailLocal(id: Int(id) ?? 0)
+                        } else {
+                            print("DEBUG: REMOTE DETAIL TRIGGERED")
+                            self.detailRemote(id: id)
+                        }
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+
+    private func detailLocal(id: Int) {
+        useCase.execute(request: .fetchDetailLocal(id))
             .subscribe(
                 onNext: { res in
                     if case GameDetailRepositoryResponse.ModelResponse(let gameDetailModel) = res {
+                        print("DEBUG: LOCAL DETAIL RETRIEVED \(gameDetailModel.name)")
                         self.gameDetail.onNext(gameDetailModel)
+                        self.isFavourite.onNext(true)
                     }
                 },
                 onError: { error in
@@ -72,12 +90,14 @@ Interactor.Response == GameDetailRepositoryResponse {
             .disposed(by: disposeBag)
     }
 
-    private func fetchDetailLocal(id: Int) {
-        useCase.execute(request: .fetchDetailLocal(id))
+    private func detailRemote(id: String) {
+        useCase.execute(request: .fetchDetailRemote(id))
             .subscribe(
                 onNext: { res in
                     if case GameDetailRepositoryResponse.ModelResponse(let gameDetailModel) = res {
+                        print("DEBUG: REMOTE DETAIL RETRIEVED \(gameDetailModel.name)")
                         self.gameDetail.onNext(gameDetailModel)
+                        self.isFavourite.onNext(false)
                     }
                 },
                 onError: { error in
