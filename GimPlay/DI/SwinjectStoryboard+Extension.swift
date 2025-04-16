@@ -14,11 +14,15 @@ import Core
 import Game
 import GameDetail
 import Genre
+import Common
 
 extension SwinjectStoryboard {
     @objc class func setup() {
         // Define Container
         let container = defaultContainer
+
+        // Register Localization Module
+        self.setupLocalization(container: container)
 
         // Register DataSource
         self.setupSourceData(container: container)
@@ -34,6 +38,12 @@ extension SwinjectStoryboard {
 
         // Register Controller
         self.setupController(container: container)
+    }
+
+    class func setupLocalization(container: Container) {
+        container.register(Localization.self) { _ in
+            Localization()
+        }
     }
 
     class func setupSourceData(container: Container) {
@@ -115,20 +125,28 @@ extension SwinjectStoryboard {
         container.storyboardInitCompleted(ViewController.self) { resolver, viewCon in
             viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
+            viewCon.localization = resolver.resolve(Localization.self)
         }
         container.storyboardInitCompleted(FavouriteViewController.self) { resolver, viewCon in
             viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
             viewCon.detailPresenter = resolver.resolve(GameDetailPresenter.self)
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
+            viewCon.localization = resolver.resolve(Localization.self)
         }
         container.storyboardInitCompleted(DetailViewController.self) { resolver, viewCon in
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
             viewCon.detailPresenter = resolver.resolve(GameDetailPresenter.self)
+            viewCon.localization = resolver.resolve(Localization.self)
         }
         container.storyboardInitCompleted(GenreViewController.self) { resolver, viewCon in
             viewCon.presenter = resolver.resolve(GamePresenter.self)
+            viewCon.localization = resolver.resolve(Localization.self)
         }
-        container.storyboardInitCompleted(ProfileViewController.self) { _, _ in
+        container.storyboardInitCompleted(ProfileViewController.self) { resolver, viewCon in
+            viewCon.localization = resolver.resolve(Localization.self)
+        }
+        container.storyboardInitCompleted(EditProfileViewController.self) { resolver, viewCon in
+            viewCon.localization = resolver.resolve(Localization.self)
         }
 
         // Register UINavigationController
@@ -139,12 +157,14 @@ extension SwinjectStoryboard {
             case is ViewController:
                 (viewController as? ViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                 (viewController as? ViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
+                (viewController as? ViewController)?.localization = resolver.resolve(Localization.self)
             case is ProfileViewController:
-                print("ProfileViewController Set Up")
+                (viewController as? ProfileViewController)?.localization = resolver.resolve(Localization.self)
             case is FavouriteViewController:
                 (viewController as? FavouriteViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                 (viewController as? FavouriteViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
                 (viewController as? FavouriteViewController)?.detailPresenter = resolver.resolve(GameDetailPresenter.self)
+                (viewController as? FavouriteViewController)?.localization = resolver.resolve(Localization.self)
             default:
                 print("VC Not found")
             }
@@ -161,12 +181,14 @@ extension SwinjectStoryboard {
                     case is ViewController:
                         (viewController as? ViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                         (viewController as? ViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
+                        (viewController as? ViewController)?.localization = resolver.resolve(Localization.self)
                     case is ProfileViewController:
-                        print("ProfileViewController Set Up")
+                        (viewController as? ProfileViewController)?.localization = resolver.resolve(Localization.self)
                     case is FavouriteViewController:
                         (viewController as? FavouriteViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                         (viewController as? FavouriteViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
                         (viewController as? FavouriteViewController)?.detailPresenter = resolver.resolve(GameDetailPresenter.self)
+                        (viewController as? FavouriteViewController)?.localization = resolver.resolve(Localization.self)
                     default:
                         print("VC Not found")
                     }

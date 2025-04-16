@@ -10,6 +10,7 @@ import RxSwift
 import Core
 import GameDetail
 import Genre
+import Common
 
 class DetailViewController: UIViewController {
 
@@ -31,6 +32,7 @@ class DetailViewController: UIViewController {
     var isFavourite: Bool = false
     private var error: String?
 
+    var localization: Localization?
     var detailPresenter: GameDetailPresenter<GameDetailInteractor>?
     var genrePresenter: GenresPresenter<GenreInteractor>?
     private let disposeBag = DisposeBag()

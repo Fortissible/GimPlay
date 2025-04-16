@@ -7,6 +7,7 @@
 
 import UIKit
 import Core
+import Common
 
 class ProfileViewController: UIViewController {
 
@@ -14,6 +15,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profileJobs: UILabel!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
+
+    var localization: Localization?
 
     override func viewWillAppear(_ animated: Bool) {
         syncProfiles()

@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import Core
 import Game
+import Common
 
 class GenreViewController: UIViewController {
 
@@ -21,6 +22,7 @@ class GenreViewController: UIViewController {
     var games: [Core.GameModel] = []
     private var error: String?
 
+    var localization: Localization?
     var presenter: GamePresenter<GameInteractor>?
     private let disposeBag = DisposeBag()
 

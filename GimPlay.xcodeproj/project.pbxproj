@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5203800E2DA96DF9008F8254 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 52BAA3592DA9434700CBDF21 /* Core */; };
+		529E93882DB0186D00767597 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 529E93872DB0186D00767597 /* Common */; };
 		52C56E2C2DA937FC00820CEC /* env.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52C56E2B2DA937FC00820CEC /* env.plist */; };
 		52CE00362DA965C70023CEDB /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE00352DA965C70023CEDB /* Core */; };
 		52CE00392DA965DC0023CEDB /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE00382DA965DC0023CEDB /* Game */; };
@@ -42,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		522C44EC2D9A8CAC00DDDEAD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		529E93842DB0183200767597 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
+		529E93852DB0183200767597 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		52C56E2B2DA937FC00820CEC /* env.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = env.plist; sourceTree = "<group>"; };
 		A01B24AB2D8A9ADE008D0F74 /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
 		A01B24AD2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavGenreCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -82,6 +85,7 @@
 				52CE00362DA965C70023CEDB /* Core in Frameworks */,
 				52CE00392DA965DC0023CEDB /* Game in Frameworks */,
 				A065A84A2D921A6100208C8C /* Alamofire in Frameworks */,
+				529E93882DB0186D00767597 /* Common in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +294,7 @@
 				52CE00382DA965DC0023CEDB /* Game */,
 				52CE003B2DA966230023CEDB /* GameDetail */,
 				52CE003E2DA966310023CEDB /* Genre */,
+				529E93872DB0186D00767597 /* Common */,
 			);
 			productName = GimPlay;
 			productReference = A05358322D79A171003A31DF /* GimPlay.app */;
@@ -317,6 +322,7 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = A05358292D79A171003A31DF;
 			packageReferences = (
@@ -330,6 +336,7 @@
 				52CE00372DA965DC0023CEDB /* XCLocalSwiftPackageReference "Modules/Game" */,
 				52CE003A2DA966230023CEDB /* XCLocalSwiftPackageReference "Modules/GameDetail" */,
 				52CE003D2DA966310023CEDB /* XCLocalSwiftPackageReference "Modules/Genre" */,
+				529E93862DB0186D00767597 /* XCLocalSwiftPackageReference "Modules/Common" */,
 			);
 			productRefGroup = A05358332D79A171003A31DF /* Products */;
 			projectDirPath = "";
@@ -406,6 +413,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A053583C2D79A171003A31DF /* Base */,
+				529E93842DB0183200767597 /* id */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -414,6 +422,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A05358412D79A174003A31DF /* Base */,
+				529E93852DB0183200767597 /* id */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -426,6 +435,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -488,6 +498,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -617,6 +628,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		529E93862DB0186D00767597 /* XCLocalSwiftPackageReference "Modules/Common" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Common;
+		};
 		52CE00342DA965C70023CEDB /* XCLocalSwiftPackageReference "Modules/Core" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Modules/Core;
@@ -687,6 +702,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		529E93872DB0186D00767597 /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
+		};
 		52BAA3592DA9434700CBDF21 /* Core */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Core;

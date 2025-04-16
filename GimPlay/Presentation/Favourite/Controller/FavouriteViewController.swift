@@ -11,6 +11,7 @@ import Core
 import Game
 import Genre
 import GameDetail
+import Common
 
 class FavouriteViewController: UIViewController {
 
@@ -26,6 +27,7 @@ class FavouriteViewController: UIViewController {
     private var genres: [Core.GenreModel] = []
     private var error: String?
 
+    var localization: Localization?
     var gamePresenter: GamePresenter<GameInteractor>?
     var detailPresenter: GameDetailPresenter<GameDetailInteractor>?
     var genrePresenter: GenresPresenter<GenreInteractor>?

@@ -7,6 +7,7 @@
 
 import UIKit
 import Core
+import Common
 
 class EditProfileViewController: UIViewController {
 
@@ -17,6 +18,8 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var editJobTextFIeld: UITextField!
     @IBOutlet weak var editNameTextField: UITextField!
     @IBOutlet weak var editProfileImageBtn: UIButton!
+
+    var localization: Localization?
 
     private let imagePicker = UIImagePickerController()
 

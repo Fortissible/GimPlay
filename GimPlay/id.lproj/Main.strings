@@ -1,0 +1,135 @@
+
+/* Class = "UITextField"; placeholder = "Enter your name..."; ObjectID = "0aW-A6-2rG"; */
+"0aW-A6-2rG.placeholder" = "Enter your name...";
+
+/* Class = "UILabel"; text = "Hello there, can you see me? right below here!"; ObjectID = "5dM-ts-uZG"; */
+"5dM-ts-uZG.text" = "Hello there, can you see me? right below here!";
+
+/* Class = "UITabBarItem"; title = "Store"; ObjectID = "60g-8U-TsA"; */
+"60g-8U-TsA.title" = "Store";
+
+/* Class = "UILabel"; text = "Released: 17/08/2024 Scores: 4.6/5 ★"; ObjectID = "7U2-b4-821"; */
+"7U2-b4-821.text" = "Released: 17/08/2024 Scores: 4.6/5 ★";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "9I0-9p-Z3r"; */
+"9I0-9p-Z3r.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "Title Label That is Too Long For A Game Title"; ObjectID = "9Mu-4k-PUa"; */
+"9Mu-4k-PUa.text" = "Title Label That is Too Long For A Game Title";
+
+/* Class = "UIButton"; configuration.title = "Select profile picture"; ObjectID = "9bF-kT-97Y"; */
+"9bF-kT-97Y.configuration.title" = "Select profile picture";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "9bF-kT-97Y"; */
+"9bF-kT-97Y.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Ieu-Ea-Ln7"; */
+"Ieu-Ea-Ln7.text" = "Label";
+
+/* Class = "UILabel"; text = "4.65/5 ★ - Metacritic: 94 - Reviews: 64"; ObjectID = "Iga-kK-Z8D"; */
+"Iga-kK-Z8D.text" = "4.65/5 ★ - Metacritic: 94 - Reviews: 64";
+
+/* Class = "UILabel"; text = "Error Text"; ObjectID = "J7N-Tj-dE2"; */
+"J7N-Tj-dE2.text" = "Error Text";
+
+/* Class = "UILabel"; text = "About Me"; ObjectID = "Jen-DH-gzi"; */
+"Jen-DH-gzi.text" = "About Me";
+
+/* Class = "UINavigationItem"; title = "Profiles"; ObjectID = "LwZ-pq-Sx0"; */
+"LwZ-pq-Sx0.title" = "Profiles";
+
+/* Class = "UILabel"; text = "Error text"; ObjectID = "ODD-zD-mdd"; */
+"ODD-zD-mdd.text" = "Error text";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "OXl-bl-KLM"; */
+"OXl-bl-KLM.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Edit Profiles"; ObjectID = "Ohq-jo-xjG"; */
+"Ohq-jo-xjG.configuration.title" = "Edit Profiles";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Ohq-jo-xjG"; */
+"Ohq-jo-xjG.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Publisher Name"; ObjectID = "PTp-9Q-cVX"; */
+"PTp-9Q-cVX.text" = "Publisher Name";
+
+/* Class = "UIButton"; configuration.title = "Cancel"; ObjectID = "Q3H-jU-vcZ"; */
+"Q3H-jU-vcZ.configuration.title" = "Cancel";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Q3H-jU-vcZ"; */
+"Q3H-jU-vcZ.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Save"; ObjectID = "Sfc-13-K7f"; */
+"Sfc-13-K7f.configuration.title" = "Save";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Sfc-13-K7f"; */
+"Sfc-13-K7f.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "TKd-zP-9ea"; */
+"TKd-zP-9ea.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "I'm a "; ObjectID = "Xaw-HE-PUX"; */
+"Xaw-HE-PUX.text" = "I'm a ";
+
+/* Class = "UILabel"; text = "Released: 12/7/2025, Total Playtime: 105 Hours"; ObjectID = "XmG-hZ-z0C"; */
+"XmG-hZ-z0C.text" = "Released: 12/7/2025, Total Playtime: 105 Hours";
+
+/* Class = "UILabel"; text = "Placeholder Text"; ObjectID = "ZZR-bh-qFO"; */
+"ZZR-bh-qFO.text" = "Placeholder Text";
+
+/* Class = "UINavigationItem"; title = "GimPlay"; ObjectID = "aMQ-Pl-aUP"; */
+"aMQ-Pl-aUP.title" = "GimPlay";
+
+/* Class = "UIButton"; configuration.title = "On Steam, XBOX, Epic, Etc"; ObjectID = "aNb-xM-AWC"; */
+"aNb-xM-AWC.configuration.title" = "On Steam, XBOX, Epic, Etc";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "aNb-xM-AWC"; */
+"aNb-xM-AWC.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "About Me"; ObjectID = "aRO-2e-Q7x"; */
+"aRO-2e-Q7x.text" = "About Me";
+
+/* Class = "UITabBarItem"; title = "Favourite"; ObjectID = "dJL-MZ-otH"; */
+"dJL-MZ-otH.title" = "Favourite";
+
+/* Class = "UILabel"; text = "I'm a Software Engineer"; ObjectID = "eQj-go-nRW"; */
+"eQj-go-nRW.text" = "I'm a Software Engineer";
+
+/* Class = "UINavigationItem"; title = "Favourite"; ObjectID = "gCw-X2-WFk"; */
+"gCw-X2-WFk.title" = "Favourite";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "h4l-7k-XjA"; */
+"h4l-7k-XjA.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "hF0-WQ-wuh"; */
+"hF0-WQ-wuh.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Error text"; ObjectID = "hnx-hL-MOc"; */
+"hnx-hL-MOc.text" = "Error text";
+
+/* Class = "UILabel"; text = "Wildan Fajri here!"; ObjectID = "hx6-DV-ao7"; */
+"hx6-DV-ao7.text" = "Wildan Fajri here!";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "jct-aM-Fty"; */
+"jct-aM-Fty.text" = "Label";
+
+/* Class = "UILabel"; text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ipsum dolor, blandit at tincidunt ac, viverra a urna. Integer consequat lorem in arcu dictum, vitae lobortis dui efficitur. Sed dignissim accumsan nulla, eu ultrices dui mattis quis. Mauris interdum, nunc sollicitudin tempor bibendum, risus lorem porttitor lorem, sed imperdiet quam nisi ornare velit. Duis tristique lorem a ligula volutpat malesuada. Nulla accumsan ultrices lorem lobortis elementum. Proin faucibus, est et ultricies sagittis, purus diam tristique elit, eget dictum elit massa non eros. Aenean lobortis interdum venenatis. Integer augue odio, fermentum at elit sit amet, hendrerit aliquet orci. Morbi in neque a lacus imperdiet elementum. Integer porta laoreet dictum. Aenean ultrices sem lectus, quis porttitor sapien aliquam sed. Donec vel faucibus felis, ut viverra ex. Duis eget ullamcorper lectus, sit amet condimentum elit. Praesent est erat, egestas ac turpis at, dignissim laoreet magna.\n\nNulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum vehicula sem eget felis efficitur sollicitudin. Phasellus blandit neque sem, in vehicula mauris rutrum ut. Nam vitae massa ut metus tristique facilisis. Nam nec nibh finibus, vulputate elit tempor, interdum neque. Sed efficitur sem malesuada felis ullamcorper dictum. Sed ut quam eu nibh fringilla iaculis. Curabitur sed viverra purus. Quisque tempus ipsum ex, sed laoreet ante elementum in. Sed ullamcorper pellentesque mi, ac ornare eros consequat quis. Nam et tempus justo. Pellentesque at mattis sem, a semper quam. Maecenas maximus mi justo, nec mollis diam tristique at. In hac habitasse platea dictumst."; ObjectID = "lLf-Te-Wfk"; */
+"lLf-Te-Wfk.text" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ipsum dolor, blandit at tincidunt ac, viverra a urna. Integer consequat lorem in arcu dictum, vitae lobortis dui efficitur. Sed dignissim accumsan nulla, eu ultrices dui mattis quis. Mauris interdum, nunc sollicitudin tempor bibendum, risus lorem porttitor lorem, sed imperdiet quam nisi ornare velit. Duis tristique lorem a ligula volutpat malesuada. Nulla accumsan ultrices lorem lobortis elementum. Proin faucibus, est et ultricies sagittis, purus diam tristique elit, eget dictum elit massa non eros. Aenean lobortis interdum venenatis. Integer augue odio, fermentum at elit sit amet, hendrerit aliquet orci. Morbi in neque a lacus imperdiet elementum. Integer porta laoreet dictum. Aenean ultrices sem lectus, quis porttitor sapien aliquam sed. Donec vel faucibus felis, ut viverra ex. Duis eget ullamcorper lectus, sit amet condimentum elit. Praesent est erat, egestas ac turpis at, dignissim laoreet magna.\n\nNulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum vehicula sem eget felis efficitur sollicitudin. Phasellus blandit neque sem, in vehicula mauris rutrum ut. Nam vitae massa ut metus tristique facilisis. Nam nec nibh finibus, vulputate elit tempor, interdum neque. Sed efficitur sem malesuada felis ullamcorper dictum. Sed ut quam eu nibh fringilla iaculis. Curabitur sed viverra purus. Quisque tempus ipsum ex, sed laoreet ante elementum in. Sed ullamcorper pellentesque mi, ac ornare eros consequat quis. Nam et tempus justo. Pellentesque at mattis sem, a semper quam. Maecenas maximus mi justo, nec mollis diam tristique at. In hac habitasse platea dictumst.";
+
+/* Class = "UITabBarItem"; title = "Profile"; ObjectID = "ljR-r4-OVc"; */
+"ljR-r4-OVc.title" = "Profile";
+
+/* Class = "UILabel"; text = "Hello there, can you see me? right below here!"; ObjectID = "nFy-TT-a34"; */
+"nFy-TT-a34.text" = "Hello there, can you see me? right below here!";
+
+/* Class = "UITextField"; placeholder = "Enter your job title..."; ObjectID = "nUN-Xs-lxp"; */
+"nUN-Xs-lxp.placeholder" = "Enter your job title...";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "sJF-1G-Btl"; */
+"sJF-1G-Btl.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "Browse by categories!"; ObjectID = "x4o-q9-NL4"; */
+"x4o-q9-NL4.text" = "Browse by categories!";
+
+/* Class = "UILabel"; text = "Search your favourite game"; ObjectID = "yJZ-6T-szg"; */
+"yJZ-6T-szg.text" = "Search your favourite game";
