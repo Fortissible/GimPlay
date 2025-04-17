@@ -27,7 +27,7 @@ class FavouriteViewController: UIViewController {
     private var genres: [Core.GenreModel] = []
     private var error: String?
 
-    var localization: Localization?
+    var localization: LocalizationStringWrapper?
     var gamePresenter: GamePresenter<GameInteractor>?
     var detailPresenter: GameDetailPresenter<GameDetailInteractor>?
     var genrePresenter: GenresPresenter<GenreInteractor>?

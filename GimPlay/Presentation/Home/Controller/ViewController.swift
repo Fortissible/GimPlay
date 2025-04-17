@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     private var error: String?
 
     //    var presenter: HomePresenter?
-    var localization: Localization?
+    var localization: LocalizationStringWrapper?
     var gamePresenter: GamePresenter<GameInteractor>?
     var genrePresenter: GenresPresenter<GenreInteractor>?
     private let disposeBag = DisposeBag()
@@ -72,6 +72,8 @@ class ViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        print(localization?.homeSearchHint ?? "")
 
         errorText.isHidden = true
         gameTableIndicator.startAnimating()

@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
 
-    var localization: Localization?
+    var localization: LocalizationStringWrapper?
 
     override func viewWillAppear(_ animated: Bool) {
         syncProfiles()

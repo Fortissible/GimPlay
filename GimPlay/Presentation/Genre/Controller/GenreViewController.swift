@@ -22,7 +22,7 @@ class GenreViewController: UIViewController {
     var games: [Core.GameModel] = []
     private var error: String?
 
-    var localization: Localization?
+    var localization: LocalizationStringWrapper?
     var presenter: GamePresenter<GameInteractor>?
     private let disposeBag = DisposeBag()
 

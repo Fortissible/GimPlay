@@ -41,8 +41,8 @@ extension SwinjectStoryboard {
     }
 
     class func setupLocalization(container: Container) {
-        container.register(Localization.self) { _ in
-            Localization()
+        container.register(LocalizationStringWrapper.self) { _ in
+            LocalizationStringWrapper()
         }
     }
 
@@ -125,28 +125,28 @@ extension SwinjectStoryboard {
         container.storyboardInitCompleted(ViewController.self) { resolver, viewCon in
             viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
-            viewCon.localization = resolver.resolve(Localization.self)
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
         }
         container.storyboardInitCompleted(FavouriteViewController.self) { resolver, viewCon in
             viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
             viewCon.detailPresenter = resolver.resolve(GameDetailPresenter.self)
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
-            viewCon.localization = resolver.resolve(Localization.self)
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
         }
         container.storyboardInitCompleted(DetailViewController.self) { resolver, viewCon in
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)
             viewCon.detailPresenter = resolver.resolve(GameDetailPresenter.self)
-            viewCon.localization = resolver.resolve(Localization.self)
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
         }
         container.storyboardInitCompleted(GenreViewController.self) { resolver, viewCon in
             viewCon.presenter = resolver.resolve(GamePresenter.self)
-            viewCon.localization = resolver.resolve(Localization.self)
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
         }
         container.storyboardInitCompleted(ProfileViewController.self) { resolver, viewCon in
-            viewCon.localization = resolver.resolve(Localization.self)
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
         }
         container.storyboardInitCompleted(EditProfileViewController.self) { resolver, viewCon in
-            viewCon.localization = resolver.resolve(Localization.self)
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
         }
 
         // Register UINavigationController
@@ -157,14 +157,14 @@ extension SwinjectStoryboard {
             case is ViewController:
                 (viewController as? ViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                 (viewController as? ViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
-                (viewController as? ViewController)?.localization = resolver.resolve(Localization.self)
+                (viewController as? ViewController)?.localization = resolver.resolve(LocalizationStringWrapper.self)
             case is ProfileViewController:
-                (viewController as? ProfileViewController)?.localization = resolver.resolve(Localization.self)
+                (viewController as? ProfileViewController)?.localization = resolver.resolve(LocalizationStringWrapper.self)
             case is FavouriteViewController:
                 (viewController as? FavouriteViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                 (viewController as? FavouriteViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
                 (viewController as? FavouriteViewController)?.detailPresenter = resolver.resolve(GameDetailPresenter.self)
-                (viewController as? FavouriteViewController)?.localization = resolver.resolve(Localization.self)
+                (viewController as? FavouriteViewController)?.localization = resolver.resolve(LocalizationStringWrapper.self)
             default:
                 print("VC Not found")
             }
@@ -181,14 +181,14 @@ extension SwinjectStoryboard {
                     case is ViewController:
                         (viewController as? ViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                         (viewController as? ViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
-                        (viewController as? ViewController)?.localization = resolver.resolve(Localization.self)
+                        (viewController as? ViewController)?.localization = resolver.resolve(LocalizationStringWrapper.self)
                     case is ProfileViewController:
-                        (viewController as? ProfileViewController)?.localization = resolver.resolve(Localization.self)
+                        (viewController as? ProfileViewController)?.localization = resolver.resolve(LocalizationStringWrapper.self)
                     case is FavouriteViewController:
                         (viewController as? FavouriteViewController)?.gamePresenter = resolver.resolve(GamePresenter.self)
                         (viewController as? FavouriteViewController)?.genrePresenter = resolver.resolve(GenresPresenter.self)
                         (viewController as? FavouriteViewController)?.detailPresenter = resolver.resolve(GameDetailPresenter.self)
-                        (viewController as? FavouriteViewController)?.localization = resolver.resolve(Localization.self)
+                        (viewController as? FavouriteViewController)?.localization = resolver.resolve(LocalizationStringWrapper.self)
                     default:
                         print("VC Not found")
                     }

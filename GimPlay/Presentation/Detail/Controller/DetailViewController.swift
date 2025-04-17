@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
     var isFavourite: Bool = false
     private var error: String?
 
-    var localization: Localization?
+    var localization: LocalizationStringWrapper?
     var detailPresenter: GameDetailPresenter<GameDetailInteractor>?
     var genrePresenter: GenresPresenter<GenreInteractor>?
     private let disposeBag = DisposeBag()

@@ -19,7 +19,7 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var editNameTextField: UITextField!
     @IBOutlet weak var editProfileImageBtn: UIButton!
 
-    var localization: Localization?
+    var localization: LocalizationStringWrapper?
 
     private let imagePicker = UIImagePickerController()
 
