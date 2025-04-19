@@ -6,16 +6,23 @@
 //
 
 import UIKit
+import Core
+import Common
 
 class EditProfileViewController: UIViewController {
 
+    @IBOutlet weak var namePrefix: UILabel!
+    @IBOutlet weak var editProfilSubtitle: UILabel!
     @IBOutlet weak var editProfileImage: UIImageView!
     @IBOutlet weak var editSaveBtn: UIButton!
     @IBOutlet weak var editCancelBtn: UIButton!
     @IBOutlet weak var editDescEditableTextView: UITextView!
     @IBOutlet weak var editJobTextFIeld: UITextField!
     @IBOutlet weak var editNameTextField: UITextField!
+    @IBOutlet weak var aboutMeTitle: UILabel!
     @IBOutlet weak var editProfileImageBtn: UIButton!
+
+    var localization: LocalizationStringWrapper?
 
     private let imagePicker = UIImagePickerController()
 
@@ -40,6 +47,19 @@ class EditProfileViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         UserModel.sync()
+
+        editProfilSubtitle.text = localization?.editProfileSubtitle ?? "Hello there, can you see me? right below here!"
+        editProfileImageBtn.setTitle(localization?.editProfileSelectPicture ?? "Select profile picture", for: .normal)
+        editSaveBtn.setTitle(localization?.editProfileBtnSave ?? "Save", for: .normal)
+        editCancelBtn.setTitle(localization?.editProfileBtnCancel ?? "Cancel", for: .normal)
+        editNameTextField.placeholder = localization?.editNamePlaceholder ?? "Enter your name..."
+        editJobTextFIeld.placeholder =
+            localization?.editJobPlaceholder ??
+            "Enter your job title..."
+        aboutMeTitle.text =
+        localization?.editProfileAboutTitle ?? "About Me"
+        namePrefix.text =
+        localization?.editProfileJobsPrefix ?? "I'm a"
     }
 
     @IBAction func onSelectImageBtnTap(_ sender: Any) {
@@ -72,8 +92,8 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
             dismiss(animated: true)
         } else {
-            let alert = UIAlertController(title: "Failed", message: "Image can't loaded", preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+            let alert = UIAlertController(title: localization?.generalModalFailedTitle ?? "Failed", message: localization?.generalModalFailedInfoImg ?? "Image can't loaded", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: localization?.generalModalFailedDismiss ?? "Dismiss", style: .cancel))
 
             self.present(alert, animated: true)
         }

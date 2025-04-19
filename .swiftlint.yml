@@ -4,3 +4,8 @@ disabled_rules:
   - line_length
   - void_function_in_ternary
   - multiple_closures_with_trailing_closure
+  - force_cast
+
+generic_type_name:
+    min_length: 1
+    max_length: 50

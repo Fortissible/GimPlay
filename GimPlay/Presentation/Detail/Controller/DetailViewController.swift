@@ -7,6 +7,10 @@
 
 import UIKit
 import RxSwift
+import Core
+import GameDetail
+import Genre
+import Common
 
 class DetailViewController: UIViewController {
 
@@ -28,7 +32,9 @@ class DetailViewController: UIViewController {
     var isFavourite: Bool = false
     private var error: String?
 
-    var presenter: DetailPresenter?
+    var localization: LocalizationStringWrapper?
+    var detailPresenter: GameDetailPresenter<GameDetailInteractor>?
+    var genrePresenter: GenresPresenter<GenreInteractor>?
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -58,7 +64,7 @@ class DetailViewController: UIViewController {
             gameDetailStackView.isHidden = true
             gameIndicator.startAnimating()
         } else {
-            presenter?.isGameInLocalStorage(gameDetails?.id)
+            detailPresenter?.execute(request: GameDetailPresenterRequest.checkDetailInLocal(gameDetails?.id ?? 0))
 
             errorText.isHidden = true
             scrollView.isHidden = false
@@ -69,7 +75,10 @@ class DetailViewController: UIViewController {
     }
 
     func bindPresenter() {
-        Observable.combineLatest(presenter?.gameDetail ?? Observable.empty(), presenter?.isFavourite ?? Observable.empty())
+        Observable.combineLatest(
+            detailPresenter?.gameDetail ?? Observable.empty(),
+            detailPresenter?.isFavourite ?? Observable.empty()
+        )
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] gameDetail, isFavourite in
                 self?.gameDetails = gameDetail
@@ -78,7 +87,15 @@ class DetailViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        presenter?.error
+        detailPresenter?.error
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] error in
+                self?.error = error
+                self?.updateUIFromGettingError(error: error)
+            })
+            .disposed(by: disposeBag)
+
+        genrePresenter?.error
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] error in
                 self?.error = error
@@ -88,7 +105,7 @@ class DetailViewController: UIViewController {
     }
 
     func getGameDetail(_ id: String) {
-        presenter?.getGameDetail(id: id)
+        detailPresenter?.execute(request: GameDetailPresenterRequest.fetchDetail(id))
     }
 
     func updateUIFromGettingError(error: String) {
@@ -101,10 +118,10 @@ class DetailViewController: UIViewController {
         self.view.showToast(message: error)
     }
 
-    fileprivate func updateUI(detail: GameDetailModel) {
+    fileprivate func updateUI(detail: Core.GameDetailModel) {
         gamePublisher.text = detail.publisher
-        gameReleasePlaytime.text = "Released: \(detail.released), Total playtime: \(detail.playtime) Hours"
-        gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - Reviews: \(detail.reviewsCount)"
+        gameReleasePlaytime.text = (localization?.detailReleasedPrefix ?? "Released:") + " \(detail.released), " + (localization?.detailPlaytimePrefix ?? "Playtime:") + " \(detail.playtime) " + (localization?.detailHours ?? "Hours")
+        gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - " + (localization?.detailReviewsPrefix ?? "Reviews:") + " \(detail.reviewsCount)"
         gameDesc.text = detail.description
         gameCartBtn.setImage(
             isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"),
@@ -158,7 +175,7 @@ class DetailViewController: UIViewController {
 
     fileprivate func startDownloadImage(
         imageUrl: String?,
-        downloadableImage: DownloadableImage
+        downloadableImage: Core.DownloadableImage
     ) {
         let imageDownloader = ImageDownloader()
 
@@ -168,16 +185,16 @@ class DetailViewController: UIViewController {
                     downloadableImage.state = .downloading
 
                     let image = try await imageDownloader.downloadImage(
-                        url: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
+                        from: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
                     )
 
                     DispatchQueue.main.async {
-                        self.gameImage.image = image
+                        self.gameImage.image = UIImage(data: image)
                         downloadableImage.state = .done
                     }
                 } catch {
                     downloadableImage.state = .failed
-                    downloadableImage.image = UIImage(named: "placeholder")
+                    downloadableImage.image = UIImage(named: "placeholder")?.jpegData(compressionQuality: 1)
                 }
             }
         }
@@ -185,8 +202,11 @@ class DetailViewController: UIViewController {
 
     @IBAction func onClickFavourite(_ sender: Any) {
         gameDetails != nil && !isFavourite
-        ? presenter?.addFavouriteGame(gameDetails!)
-        : presenter?.removeFavouriteGame(gameDetails!.id)
+        ? detailPresenter?.execute(request: GameDetailPresenterRequest.addDetailLocal(gameDetails!))
+        : {
+            detailPresenter?.execute(request: GameDetailPresenterRequest.deleteDetailLocal(gameDetails!.id))
+            genrePresenter?.execute(request: GenrePresenterRequest.deleteGenresLocal)
+        }()
 
         self.updateUI(detail: self.gameDetails!)
     }

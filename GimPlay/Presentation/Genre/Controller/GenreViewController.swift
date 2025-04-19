@@ -7,6 +7,9 @@
 
 import UIKit
 import RxSwift
+import Core
+import Game
+import Common
 
 class GenreViewController: UIViewController {
 
@@ -16,10 +19,11 @@ class GenreViewController: UIViewController {
 
     var searchQueryData: String?
     var genreData: (Int, String)?
-    var games: [GameModel] = []
+    var games: [Core.GameModel] = []
     private var error: String?
 
-    var presenter: GenrePresenter?
+    var localization: LocalizationStringWrapper?
+    var presenter: GamePresenter<GameInteractor>?
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -46,7 +50,7 @@ class GenreViewController: UIViewController {
 
         if let searchQueryResult = searchQueryData {
 
-            self.title = "Search: \(searchQueryResult)"
+            self.title = (localization?.searchResultTitle ?? "Search:") + " \(searchQueryResult)"
 
             if games.isEmpty {
                 getGamesBySearchQuery(searchQueryResult)
@@ -95,11 +99,11 @@ class GenreViewController: UIViewController {
     }
 
     func getGamesByGenre(_ genreId: String) {
-        presenter?.getGameList(query: "lucky", genreId: genreId, searchQuery: nil)
+        presenter?.execute(request: GamePresenterRequest.fetchGames("lucky", genreId, nil))
     }
 
     func getGamesBySearchQuery(_ searchQuery: String?) {
-        presenter?.getGameList(query: "lucky", genreId: nil, searchQuery: searchQuery)
+        presenter?.execute(request: GamePresenterRequest.fetchGames("lucky", nil, searchQuery))
     }
 
     func hideIndicatorUI() {
@@ -150,9 +154,11 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
 
             gameCell.gameGenresView.text = game.genres.map { $0.name }.joined(separator: ", ")
             gameCell.gameTitleView.text = game.name
-            gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
-            gameCell.gameReleasedView.text = (game.released != nil) ? "Released on \(game.released!)" : "Not released yet"
-            gameCell.gameImageView.image = game.image
+            gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : (localization?.detailMetacriticEmpty ?? "No Data"))"
+            gameCell.gameReleasedView.text = game.released != nil ?
+            "\(localization?.detailReleasedPrefix ?? "Released:") \(game.released!)" :
+            (localization?.detailNotReleased ?? "Not released yet")
+            gameCell.gameImageView.image = UIImage(data: game.image ?? Data())
 
             if game.state == .new {
                 gameCell.gameImageLoadingIndicator.isHidden = false
@@ -185,7 +191,7 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
 
     fileprivate func startDownloadImage(
         imageUrl: String?,
-        downloadableImage: DownloadableImage,
+        downloadableImage: Core.DownloadableImage,
         indexPath: IndexPath
     ) {
         let imageDownloader = ImageDownloader()
@@ -196,7 +202,7 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
                     downloadableImage.state = .downloading
 
                     let image = try await imageDownloader.downloadImage(
-                        url: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
+                        from: URL(string: imageUrl ?? "https://placehold.co/600x400.png")!
                     )
 
                     downloadableImage.state = .done
@@ -207,7 +213,7 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                 } catch {
                     downloadableImage.state = .failed
-                    downloadableImage.image = UIImage(named: "placeholder")
+                    downloadableImage.image = UIImage(named: "placeholder")?.jpegData(compressionQuality: 1)
                 }
             }
         }
