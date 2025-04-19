@@ -43,7 +43,6 @@ public class LocalizationStringWrapper {
     public init() {}
 
     public var homeSearchHint: String {
-        print("DEBUG: \(Localization().string(for: "home-search-hint"))")
         return Localization().string(for: "home-search-hint")
     }
     public var homeCategoriesHint: String {

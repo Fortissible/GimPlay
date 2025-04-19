@@ -73,7 +73,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        print(localization?.homeSearchHint ?? "")
+        print(localization?.bottomNavFav)
 
         errorText.isHidden = true
         gameTableIndicator.startAnimating()
