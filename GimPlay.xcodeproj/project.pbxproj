@@ -14,6 +14,7 @@
 		52CE00392DA965DC0023CEDB /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE00382DA965DC0023CEDB /* Game */; };
 		52CE003C2DA966230023CEDB /* GameDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE003B2DA966230023CEDB /* GameDetail */; };
 		52CE003F2DA966310023CEDB /* Genre in Frameworks */ = {isa = PBXBuildFile; productRef = 52CE003E2DA966310023CEDB /* Genre */; };
+		52FE1F702DB418F500382D73 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FE1F6F2DB418F500382D73 /* MainTabBarController.swift */; };
 		A01B24AC2D8A9ADE008D0F74 /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AB2D8A9ADE008D0F74 /* FavouriteViewController.swift */; };
 		A01B24AE2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AD2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift */; };
 		A01B24B02D8AB067008D0F74 /* FavGameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01B24AF2D8AB067008D0F74 /* FavGameCollectionViewCell.swift */; };
@@ -46,6 +47,7 @@
 		529E93842DB0183200767597 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
 		529E93852DB0183200767597 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		52C56E2B2DA937FC00820CEC /* env.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = env.plist; sourceTree = "<group>"; };
+		52FE1F6F2DB418F500382D73 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		A01B24AB2D8A9ADE008D0F74 /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
 		A01B24AD2D8AA0FA008D0F74 /* FavGenreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavGenreCollectionViewCell.swift; sourceTree = "<group>"; };
 		A01B24AF2D8AB067008D0F74 /* FavGameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavGameCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52FE1F6C2DB418AE00382D73 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				52FE1F6F2DB418F500382D73 /* MainTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		A05358292D79A171003A31DF = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +139,7 @@
 		A05358492D79B65E003A31DF /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				52FE1F6C2DB418AE00382D73 /* TabBar */,
 				A065A8792D93860500208C8C /* Favourite */,
 				A065A8782D9385EE00208C8C /* Genre */,
 				A065A8712D93850B00208C8C /* EditProfile */,
@@ -398,6 +409,7 @@
 				A055FB6D2D80EFD00000294F /* GenreViewController.swift in Sources */,
 				A0253DA52D7EC219001D29F5 /* GenreCollectionViewCell.swift in Sources */,
 				A053583A2D79A171003A31DF /* ViewController.swift in Sources */,
+				52FE1F702DB418F500382D73 /* MainTabBarController.swift in Sources */,
 				A05358362D79A171003A31DF /* AppDelegate.swift in Sources */,
 				A038A8AE2D8DBEE400061FFF /* ProfileViewController.swift in Sources */,
 				A01B24B02D8AB067008D0F74 /* FavGameCollectionViewCell.swift in Sources */,

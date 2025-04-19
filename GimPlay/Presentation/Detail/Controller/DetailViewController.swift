@@ -81,7 +81,6 @@ class DetailViewController: UIViewController {
         )
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] gameDetail, isFavourite in
-                print("TRIGGERED BROK")
                 self?.gameDetails = gameDetail
                 self?.isFavourite = isFavourite
                 self?.updateUI(detail: gameDetail)
@@ -121,8 +120,8 @@ class DetailViewController: UIViewController {
 
     fileprivate func updateUI(detail: Core.GameDetailModel) {
         gamePublisher.text = detail.publisher
-        gameReleasePlaytime.text = "Released: \(detail.released), Total playtime: \(detail.playtime) Hours"
-        gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - Reviews: \(detail.reviewsCount)"
+        gameReleasePlaytime.text = (localization?.detailReleasedPrefix ?? "Released:") + " \(detail.released), " + (localization?.detailPlaytimePrefix ?? "Playtime:") + " \(detail.playtime) " + (localization?.detailHours ?? "Hours")
+        gameReviews.text = "\(detail.rating)/\(detail.ratingTop)★ - Metacritic: \(detail.metacritic) - " + (localization?.detailReviewsPrefix ?? "Reviews:") + " \(detail.reviewsCount)"
         gameDesc.text = detail.description
         gameCartBtn.setImage(
             isFavourite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"),

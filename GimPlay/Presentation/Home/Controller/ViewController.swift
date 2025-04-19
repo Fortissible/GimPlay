@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var categoriesTitle: UILabel!
     @IBOutlet weak var gamesTableView: UITableView!
     @IBOutlet weak var filterList: UIStackView!
+    @IBOutlet weak var homeSubtitle: UILabel!
     private var filterButtons: [UIButton] = []
 
     private var searchBarQuery: String?
@@ -73,7 +74,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        print(localization?.bottomNavFav)
+        homeSubtitle.text = localization?.homeCategoriesHint ?? "Browse by categories!"
 
         errorText.isHidden = true
         gameTableIndicator.startAnimating()
@@ -109,7 +110,7 @@ class ViewController: UIViewController {
                 sender as? String
             }
         default:
-            print("Segue not founs")
+            print("Segue not found")
         }
     }
 
@@ -142,7 +143,7 @@ class ViewController: UIViewController {
         let searchBar = UISearchBar()
 
         searchBar.showsCancelButton = false
-        searchBar.placeholder = "Search some fun games..."
+        searchBar.placeholder = localization?.homeSearchHint ?? "Search some fun games..."
         searchBar.delegate = self
 
         self.navigationItem.titleView = searchBar
@@ -287,8 +288,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
             gameCell.gameGenresView.text = game.genres.map { $0.name }.joined(separator: ", ")
             gameCell.gameTitleView.text = game.name
-            gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
-            gameCell.gameReleasedView.text = (game.released != nil) ? "Released on \(game.released!)" : "Not released yet"
+            gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : (localization?.detailMetacriticEmpty ?? "No Data"))"
+            gameCell.gameReleasedView.text = game.released != nil ?
+            "\(localization?.detailReleasedPrefix ?? "Released:") \(game.released!)" :
+            (localization?.detailNotReleased ?? "Not released yet")
+
             gameCell.gameImageView.image = UIImage(data: game.image ?? Data())
 
             if game.state == .new {

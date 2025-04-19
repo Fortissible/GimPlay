@@ -15,7 +15,9 @@ import Common
 
 class FavouriteViewController: UIViewController {
 
+    @IBOutlet weak var favoriteSubtitle: UILabel!
     @IBOutlet weak var mainInfoLabel: UILabel!
+    @IBOutlet weak var favouriteTitle: UINavigationItem!
     @IBOutlet weak var genreLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var gameLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var favGameCollectionView: UICollectionView!
@@ -48,6 +50,9 @@ class FavouriteViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         gameLoadingIndicator.startAnimating()
         genreLoadingIndicator.startAnimating()
+
+        favoriteSubtitle.text = localization?.favoriteTitle ?? "Search your favourite game"
+        favouriteTitle.title = localization?.favoriteTitle ?? "Favourite"
 
         mainInfoLabel.isHidden = true
 
@@ -109,7 +114,7 @@ class FavouriteViewController: UIViewController {
 
     func createSearchBar() {
         searchBar.showsCancelButton = true
-        searchBar.placeholder = "Search your favourite games..."
+        searchBar.placeholder = localization?.favoriteSearchPlaceholder ?? "Search your favourite games..."
         searchBar.delegate = self
 
         self.navigationItem.titleView = searchBar
@@ -141,7 +146,7 @@ class FavouriteViewController: UIViewController {
 
         if games.isEmpty {
             mainInfoLabel.isHidden = false
-            mainInfoLabel.text = "There's no favourite game yet, Browse and add new favourite games now!"
+            mainInfoLabel.text = localization?.favoriteEmptyTitle ?? "There's no favourite game yet, Browse and add new favourite games now!"
         } else {
             mainInfoLabel.isHidden = true
         }
@@ -158,9 +163,9 @@ class FavouriteViewController: UIViewController {
 
         mainInfoLabel.isHidden = false
         mainInfoLabel.textColor = .red
-        mainInfoLabel.text = "Error occured: \(error ?? "Error")"
+        mainInfoLabel.text = (localization?.favoriteErrorTitle ?? "Error occured:") + " \(error ?? "Error")"
 
-        self.view.showToast(message: error ?? "Error happened")
+        self.view.showToast(message: error ?? (localization?.favoriteErrorToast ?? "Error happened"))
     }
 
     fileprivate func startDownloadImage(
@@ -252,7 +257,7 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
                 )
                 gameCell.favGameImageView.image = UIImage(data: game.image ?? Data())
                 gameCell.favGameLabel.text = game.name
-                gameCell.favGameInfo.text = "Released: \(game.released ?? "TBA") Scores: \(game.rating)/\(game.ratingTop) ★"
+                gameCell.favGameInfo.text = (localization?.detailReleasedPrefix ?? "Released:") + " \(game.released ?? "TBA") Scores: \(game.rating)/\(game.ratingTop) ★"
 
                 if game.state == .new {
                     gameCell.favGameImageView.isHidden = false

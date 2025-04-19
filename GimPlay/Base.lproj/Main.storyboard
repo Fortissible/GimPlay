@@ -157,6 +157,7 @@
                         <outlet property="gamesTableView" destination="f8y-zh-hCw" id="7mH-Ug-ZiE"/>
                         <outlet property="genreIndicator" destination="PsA-A6-ShE" id="y1o-23-AXm"/>
                         <outlet property="genresCollectionView" destination="RFj-au-H3w" id="dXv-9h-9e8"/>
+                        <outlet property="homeSubtitle" destination="x4o-q9-NL4" id="p4s-uG-XUM"/>
                         <segue destination="uLO-ky-rri" kind="show" identifier="moveToDetail" id="a3f-ju-l7N"/>
                         <segue destination="1fE-oz-dFG" kind="show" identifier="moveToGenre" id="7m4-bw-axf"/>
                     </connections>
@@ -523,6 +524,8 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                     <connections>
                         <outlet property="favGameCollectionView" destination="RFQ-nI-YD6" id="JEl-uf-oJj"/>
                         <outlet property="favGenreCollectionView" destination="hL0-Pw-lpM" id="QM7-es-v8x"/>
+                        <outlet property="favoriteSubtitle" destination="yJZ-6T-szg" id="Emb-SJ-kUj"/>
+                        <outlet property="favouriteTitle" destination="gCw-X2-WFk" id="XT5-uG-XgU"/>
                         <outlet property="gameLoadingIndicator" destination="E0I-Yi-gUR" id="YHd-Ar-nPD"/>
                         <outlet property="genreLoadingIndicator" destination="23g-4p-K2R" id="lfT-q1-55C"/>
                         <outlet property="mainInfoLabel" destination="ZZR-bh-qFO" id="Ejk-fS-78n"/>
@@ -552,10 +555,10 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
             </objects>
             <point key="canvasLocation" x="1011.4503816793892" y="3.5211267605633805"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="3d3-7K-Fts">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="c4k-I7-NUw" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="c4k-I7-NUw" customClass="MainTabBarController" customModule="GimPlay" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DNn-Gz-BSC">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -563,6 +566,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <outlet property="tabBar" destination="DNn-Gz-BSC" id="vYb-JU-pcK"/>
                         <segue destination="8Xq-pC-W78" kind="relationship" relationship="viewControllers" id="InC-1V-Sm2"/>
                         <segue destination="4MX-jy-dNM" kind="relationship" relationship="viewControllers" id="0Gs-BY-aqC"/>
                         <segue destination="atP-Qy-D9N" kind="relationship" relationship="viewControllers" id="Cwh-r5-2hZ"/>
@@ -706,13 +710,16 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                     </view>
                     <navigationItem key="navigationItem" id="ejI-sO-dfW"/>
                     <connections>
+                        <outlet property="aboutMeTitle" destination="Jen-DH-gzi" id="dsb-4L-RNj"/>
                         <outlet property="editCancelBtn" destination="Q3H-jU-vcZ" id="bit-NX-Uq0"/>
                         <outlet property="editDescEditableTextView" destination="sJF-1G-Btl" id="0TU-fX-atL"/>
                         <outlet property="editJobTextFIeld" destination="nUN-Xs-lxp" id="6vK-Uq-FaK"/>
                         <outlet property="editNameTextField" destination="0aW-A6-2rG" id="fNn-He-HyO"/>
+                        <outlet property="editProfilSubtitle" destination="5dM-ts-uZG" id="juj-bY-Zjk"/>
                         <outlet property="editProfileImage" destination="Qgf-Bb-3dU" id="Sta-zm-WX2"/>
                         <outlet property="editProfileImageBtn" destination="9bF-kT-97Y" id="0LZ-Ob-534"/>
                         <outlet property="editSaveBtn" destination="Sfc-13-K7f" id="v77-Je-aIa"/>
+                        <outlet property="namePrefix" destination="Xaw-HE-PUX" id="CoQ-ev-mMP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9S6-m2-PQA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -810,10 +817,14 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
                     </view>
                     <navigationItem key="navigationItem" title="Profiles" id="LwZ-pq-Sx0"/>
                     <connections>
+                        <outlet property="aboutmeTitle" destination="aRO-2e-Q7x" id="k3D-Bd-Oad"/>
+                        <outlet property="editProfileBtn" destination="Ohq-jo-xjG" id="wIT-8j-k2l"/>
                         <outlet property="profileDesc" destination="9I0-9p-Z3r" id="ep3-kh-2aJ"/>
                         <outlet property="profileImage" destination="DFj-Qx-MPt" id="Wbv-4R-o5L"/>
                         <outlet property="profileJobs" destination="eQj-go-nRW" id="PZq-6K-Ce8"/>
                         <outlet property="profileName" destination="hx6-DV-ao7" id="Wzl-zH-wQf"/>
+                        <outlet property="profileSubtitle" destination="nFy-TT-a34" id="UHb-Ql-Zmn"/>
+                        <outlet property="profileTitle" destination="LwZ-pq-Sx0" id="PFf-Nb-Lcb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3oq-0A-JWO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -910,7 +921,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Y55-zm-nGv"/>
+        <segue reference="Pni-cI-ny5"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="aboutme" width="1080" height="720"/>

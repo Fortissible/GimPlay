@@ -50,7 +50,7 @@ class GenreViewController: UIViewController {
 
         if let searchQueryResult = searchQueryData {
 
-            self.title = "Search: \(searchQueryResult)"
+            self.title = (localization?.searchResultTitle ?? "Search:") + " \(searchQueryResult)"
 
             if games.isEmpty {
                 getGamesBySearchQuery(searchQueryResult)
@@ -154,8 +154,10 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
 
             gameCell.gameGenresView.text = game.genres.map { $0.name }.joined(separator: ", ")
             gameCell.gameTitleView.text = game.name
-            gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : "No Data")"
-            gameCell.gameReleasedView.text = (game.released != nil) ? "Released on \(game.released!)" : "Not released yet"
+            gameCell.gameRatingView.text = "\(game.rating)/\(game.ratingTop)★ - Metacritic: \(game.metacritic != nil ? String(game.metacritic!) : (localization?.detailMetacriticEmpty ?? "No Data"))"
+            gameCell.gameReleasedView.text = game.released != nil ?
+            "\(localization?.detailReleasedPrefix ?? "Released:") \(game.released!)" :
+            (localization?.detailNotReleased ?? "Not released yet")
             gameCell.gameImageView.image = UIImage(data: game.image ?? Data())
 
             if game.state == .new {

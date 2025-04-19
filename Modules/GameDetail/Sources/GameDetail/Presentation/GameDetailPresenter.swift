@@ -61,10 +61,8 @@ GameDetailInteractor.Response == GameDetailRepositoryResponse {
                     if case GameDetailRepositoryResponse.BoolResponse(let isFavorite)
                         = result {
                         if isFavorite {
-                            print("DEBUG: REMOTE DETAIL TRIGGERED")
                             self.detailLocal(id: Int(id) ?? 0)
                         } else {
-                            print("DEBUG: REMOTE DETAIL TRIGGERED")
                             self.detailRemote(id: id)
                         }
                     }
@@ -78,7 +76,6 @@ GameDetailInteractor.Response == GameDetailRepositoryResponse {
             .subscribe(
                 onNext: { res in
                     if case GameDetailRepositoryResponse.ModelResponse(let gameDetailModel) = res {
-                        print("DEBUG: LOCAL DETAIL RETRIEVED \(gameDetailModel.name)")
                         self.gameDetail.onNext(gameDetailModel)
                         self.isFavourite.onNext(true)
                     }
@@ -95,7 +92,6 @@ GameDetailInteractor.Response == GameDetailRepositoryResponse {
             .subscribe(
                 onNext: { res in
                     if case GameDetailRepositoryResponse.ModelResponse(let gameDetailModel) = res {
-                        print("DEBUG: REMOTE DETAIL RETRIEVED \(gameDetailModel.name)")
                         self.gameDetail.onNext(gameDetailModel)
                         self.isFavourite.onNext(false)
                     }

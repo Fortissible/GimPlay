@@ -122,6 +122,9 @@ extension SwinjectStoryboard {
 
     class func setupController(container: Container) {
         // Register ViewController
+        container.storyboardInitCompleted(MainTabBarController.self) { resolver, viewCon in
+            viewCon.localization = resolver.resolve(LocalizationStringWrapper.self)
+        }
         container.storyboardInitCompleted(ViewController.self) { resolver, viewCon in
             viewCon.gamePresenter = resolver.resolve(GamePresenter.self)
             viewCon.genrePresenter = resolver.resolve(GenresPresenter.self)

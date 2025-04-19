@@ -52,6 +52,23 @@
         }
       }
     },
+    "detail-hours" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jam"
+          }
+        }
+      }
+    },
     "detail-metacritic-empty" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -133,6 +150,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ulasan"
+          }
+        }
+      }
+    },
+    "edit-job-placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your job title..."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tulis pekerjaan mu…"
+          }
+        }
+      }
+    },
+    "edit-name-placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your name..."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tulis nama mu…"
           }
         }
       }
@@ -422,6 +473,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cari berdasarkan kategori!"
+          }
+        }
+      }
+    },
+    "home-game-cell-release" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Released on"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rilis pada"
           }
         }
       }
