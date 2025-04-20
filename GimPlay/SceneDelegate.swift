@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Core
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -16,6 +17,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
+
+        if let window = self.window {
+            UserModel.sync()
+            let isDarkMode = UserModel.darkMode
+            window.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -44,5 +51,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+
+    func applyTheme(_ style: UIUserInterfaceStyle) {
+        window?.overrideUserInterfaceStyle = style
     }
 }

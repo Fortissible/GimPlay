@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -137,20 +138,49 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="GimPlay" id="aMQ-Pl-aUP">
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="h4l-7k-XjA">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hF0-WQ-wuh">
-                                <rect key="frame" x="331" y="5.6666666666666679" width="46" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="globe" catalog="system" buttonSize="mini"/>
-                                <connections>
-                                    <action selector="openSteamWebsite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ygo-oh-VpU"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" style="done" id="h4l-7k-XjA">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hF0-WQ-wuh">
+                                    <rect key="frame" x="331" y="5.6666666666666679" width="46" height="33"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="filled" image="globe" catalog="system" buttonSize="mini"/>
+                                    <connections>
+                                        <action selector="openSteamWebsite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ygo-oh-VpU"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="Wc0-Ge-8Cc">
+                                <view key="customView" contentMode="scaleToFill" id="kYY-5b-vG8">
+                                    <rect key="frame" x="236" y="5.6666666666666679" width="87" height="33"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vls-kA-LBp">
+                                            <rect key="frame" x="18" y="1" width="51" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="onTintColor" name="AccentColor"/>
+                                            <connections>
+                                                <action selector="onToggleDarkModeSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="dkm-lb-mlb"/>
+                                            </connections>
+                                        </switch>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Gi-Xc-z7L">
+                                            <rect key="frame" x="51" y="12" width="7" height="9"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" image="moon.fill" catalog="system" buttonSize="mini">
+                                                <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="small"/>
+                                            </buttonConfiguration>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="8" right="8"/>
+                                </view>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="categoriesTitle" destination="x4o-q9-NL4" id="bkk-gV-bUQ"/>
+                        <outlet property="darkModeSwitch" destination="vls-kA-LBp" id="90T-2h-avK"/>
                         <outlet property="errorText" destination="J7N-Tj-dE2" id="8tA-bW-rgB"/>
                         <outlet property="filterList" destination="HZT-Is-NOT" id="CTq-N5-4KW"/>
                         <outlet property="gameTableIndicator" destination="enJ-4E-LCy" id="cPU-J1-2ua"/>
@@ -921,7 +951,7 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Pni-cI-ny5"/>
+        <segue reference="a3f-ju-l7N"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="aboutme" width="1080" height="720"/>
@@ -929,12 +959,16 @@ Nulla a est sed arcu imperdiet cursus. Proin ut vestibulum tellus. Vestibulum ve
         <image name="gamecontroller.fill" catalog="system" width="128" height="79"/>
         <image name="globe" catalog="system" width="128" height="123"/>
         <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="moon.fill" catalog="system" width="128" height="125"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="placeholder" width="128" height="128"/>
         <image name="relink" width="616" height="353"/>
         <image name="star.circle.fill" catalog="system" width="128" height="123"/>
         <image name="trash.fill" catalog="system" width="117" height="128"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

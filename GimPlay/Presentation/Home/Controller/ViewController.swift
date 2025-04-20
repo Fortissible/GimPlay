@@ -14,6 +14,7 @@ import Common
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var darkModeSwitch: UISwitch!
     @IBOutlet weak var genreIndicator: UIActivityIndicatorView!
     @IBOutlet weak var errorText: UILabel!
     @IBOutlet weak var gameTableIndicator: UIActivityIndicatorView!
@@ -74,6 +75,8 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        UserModel.sync()
+
         homeSubtitle.text = localization?.homeCategoriesHint ?? "Browse by categories!"
 
         errorText.isHidden = true
@@ -113,6 +116,13 @@ class ViewController: UIViewController {
             print("Segue not found")
         }
     }
+    @IBAction func onToggleDarkModeSwitch(_ sender: UISwitch) {
+        UserModel.darkMode = sender.isOn
+        if let sceneDeletage = view.window?.windowScene?.delegate as? SceneDelegate {
+            let style: UIUserInterfaceStyle = UserModel.darkMode ? .dark: .light
+            sceneDeletage.applyTheme(style)
+        }
+    }
 
     @IBAction func openSteamWebsite(_ sender: Any) {
         let shopUrl = "https://store.steampowered.com"
@@ -121,6 +131,7 @@ class ViewController: UIViewController {
             UIApplication.shared.open(url)
         }
     }
+
     @objc fileprivate func filterBtnTapped(_ sender: UIButton) {
         let filterValue = GameFilterList.fromIndex(sender.tag)
 
@@ -143,7 +154,7 @@ class ViewController: UIViewController {
         let searchBar = UISearchBar()
 
         searchBar.showsCancelButton = false
-        searchBar.placeholder = localization?.homeSearchHint ?? "Search some fun games..."
+        searchBar.placeholder = localization?.homeSearchHint ?? "Search games..."
         searchBar.delegate = self
 
         self.navigationItem.titleView = searchBar
