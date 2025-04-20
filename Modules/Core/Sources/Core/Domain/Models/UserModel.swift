@@ -12,6 +12,7 @@ public struct UserModel {
     public static let professionKey = "profession"
     public static let descKey = "desc"
     public static let imageKey = "image"
+    public static let darkModeKey = "darkmode"
 
     public static var name: String? {
         get {
@@ -43,6 +44,14 @@ public struct UserModel {
             return UserDefaults.standard.data(forKey: imageKey)
         } set(imageData) {
             UserDefaults.standard.set(imageData, forKey: imageKey)
+        }
+    }
+
+    public static var darkMode: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: darkModeKey)
+        } set(isDarkMode) {
+            UserDefaults.standard.set(isDarkMode, forKey: darkModeKey)
         }
     }
 
