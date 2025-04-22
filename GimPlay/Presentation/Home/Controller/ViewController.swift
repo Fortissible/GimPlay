@@ -305,6 +305,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             (localization?.detailNotReleased ?? "Not released yet")
 
             gameCell.gameImageView.image = UIImage(data: game.image ?? Data())
+            gameCell.gameImageView.layer.cornerRadius = 8
 
             if game.state == .new {
                 gameCell.gameImageLoadingIndicator.isHidden = false
@@ -363,6 +364,8 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
                 genreCell.genreImageLoadingVIew.stopAnimating()
                 genreCell.genreImageLoadingVIew.isHidden = true
             }
+
+            genreCell.layer.cornerRadius = 8
 
             return genreCell
         } else {

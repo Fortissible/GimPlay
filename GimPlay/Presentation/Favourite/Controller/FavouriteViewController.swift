@@ -273,6 +273,8 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
                     gameCell.favGameLoadingIndicator.isHidden = true
                 }
 
+                gameCell.layer.cornerRadius = 8
+
                 return gameCell
             } else {
                 return UICollectionViewCell()
@@ -300,6 +302,8 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
                     genreCell.genreImageIndicatorView.stopAnimating()
                     genreCell.genreImageIndicatorView.isHidden = true
                 }
+
+                genreCell.layer.cornerRadius = 8
 
                 return genreCell
             } else {

@@ -45,5 +45,6 @@ class ProfileViewController: UIViewController {
         profileImage.image = (UserModel.image != nil)
         ? UIImage(data: UserModel.image!)
         : UIImage(named: "aboutme")
+        profileImage.layer.cornerRadius = 8
     }
 }

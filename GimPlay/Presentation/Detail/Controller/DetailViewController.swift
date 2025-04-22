@@ -191,6 +191,7 @@ class DetailViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.gameImage.image = UIImage(data: image)
                         downloadableImage.state = .done
+                        self.gameImage.layer.cornerRadius = 8
                     }
                 } catch {
                     downloadableImage.state = .failed

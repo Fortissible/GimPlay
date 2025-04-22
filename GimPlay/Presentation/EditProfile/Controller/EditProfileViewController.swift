@@ -43,6 +43,7 @@ class EditProfileViewController: UIViewController {
         editProfileImage.image = (UserModel.image != nil)
         ? UIImage(data: UserModel.image!)
         : UIImage(named: "placeholder")
+        editProfileImage.layer.cornerRadius = 8
     }
 
     override func viewWillAppear(_ animated: Bool) {

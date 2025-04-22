@@ -159,6 +159,7 @@ extension GenreViewController: UITableViewDataSource, UITableViewDelegate {
             "\(localization?.detailReleasedPrefix ?? "Released:") \(game.released!)" :
             (localization?.detailNotReleased ?? "Not released yet")
             gameCell.gameImageView.image = UIImage(data: game.image ?? Data())
+            gameCell.gameImageView.layer.cornerRadius = 8
 
             if game.state == .new {
                 gameCell.gameImageLoadingIndicator.isHidden = false
